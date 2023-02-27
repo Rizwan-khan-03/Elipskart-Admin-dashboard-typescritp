@@ -3,14 +3,14 @@ import apiEndPoints from "./apiEndPoints";
 
 
 export const AppConfig = {
-  baseURL: "https://transportapi.urja360.com/",
+  baseURL: "https://",
   headers: {
     "Content-Type": "application/json; charset=utf-8",
     Accept: "application/json",
     "Accept-Language": "en",
   },
 };
-export const restAuthPost = async (url: string, data: any) => {
+export const AuthPost = async (url: string, data: any) => {
   const token: any = getToken();
   try {
     const response = await fetch(AppConfig.baseURL + url, {
@@ -31,7 +31,7 @@ export const restAuthPost = async (url: string, data: any) => {
 };
 
 
-export const restGetApi = async (url: string) => {
+export const GetApi = async (url: string) => {
   const token: any = getToken();
   const headers = {
     "Content-Type": "application/json; charset=utf-8",

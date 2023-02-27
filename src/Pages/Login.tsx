@@ -29,17 +29,19 @@ try {
       setErrorMessage((prevState) => ({
         value: "Empty username/password field",
       }));
-    } else if (userData.username === "superadmin" && userData.password === "Nishant@123") {
+    } else if (userData.username === "admin" && userData.password === "jack@123") {
       setErrorMessage((prevState) => ({
         value: "",
       }));
-      const res: any = await loginAdmin({ username: userData?.username, password: userData.password })
-      console.log('res super admin', res?.data?.token)
-      if (res?.responseCode === 200) {
-        setToken(res?.data?.token)
-        navigate('/dashboard')
-        toast.success('Login Successfull');
-      }
+      toast.success('Login Successfull');
+      navigate('/dashboard')
+      // const res: any = await loginAdmin({ username: userData?.username, password: userData.password })
+      // console.log('res super admin', res?.data?.token)
+      // if (res?.responseCode === 200) {
+      //   setToken(res?.data?.token)
+      //   navigate('/dashboard')
+      //   toast.success('Login Successfull');
+      // }
     } else {
       setErrorMessage((prevState) => ({ value: "Invalid username/password" }));
     }
@@ -64,7 +66,7 @@ try {
                   </div>
                   <div className="form-outline mb-4">
                     <input
-                      type="password" id="typePasswordX-2" className="form-control form-control-lg" placeholder="Password"
+                      type="password" id="typePasswordX-2" className="form-control form-control-lg" placeholder="jack@123"
                       name="password"
                       onChange={(e) => handleInputChange(e)}
                     />

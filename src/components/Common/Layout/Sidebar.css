@@ -1,0 +1,48 @@
+.sidebar aside.ps-sidebar-root.anvSidebar_lg {
+    background-color: #1E1E1E;
+    height: 100%;
+}
+
+.sidebar aside.ps-sidebar-root.anvSidebar_lg .ps-sidebar-container {
+    background-color: transparent;
+}
+
+.anvDashOuter {
+    display: flex;
+    height: 100%;
+    min-height: 100vh;
+    /* min-width: 100vw; */
+}
+
+.anvAdm_header {
+    border-bottom: 1px solid #efeff8;
+}
+
+.anvAdm_header button#openNav {
+    border: 0;
+}
+
+.sidebar aside.ps-sidebar-root.anvSidebar_lg nav.ps-menu-root ul {
+    padding: 0 1em;
+}
+
+.sidebar aside.ps-sidebar-root.anvSidebar_lg nav.ps-menu-root ul li a.active {
+    background-color: #1D2E8A;
+}
+
+.sidebar aside.ps-sidebar-root.anvSidebar_lg nav.ps-menu-root ul li a {
+    width: 100%;
+    display: block;
+    padding: 0.55em 1.6em;
+    color: #fff;
+    margin-bottom: 0.3em;
+    font-size: 14px;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all .3s;
+    border-radius: 5px;
+}
+
+.sidebar aside.ps-sidebar-root.anvSidebar_lg nav.ps-menu-root ul li a:hover {
+    background-color: #1D2E8A;
+}

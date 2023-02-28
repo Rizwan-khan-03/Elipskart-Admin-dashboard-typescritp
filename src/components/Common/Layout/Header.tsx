@@ -1,14 +1,14 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { clearStorage } from '../../../App/Service/Service';
-import SideBaar from './SideBaar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 function Header(props: any) {
     const navigate = useNavigate()
@@ -16,33 +16,25 @@ function Header(props: any) {
         clearStorage();
         navigate('/')
         console.log("logout Success");
-
     };
     return (
         <>
             <div>
-                
-                    <Col>
-                        <Navbar expand="lg" className='anvAdm_header'>
-                            <Container fluid>
-                                <Navbar.Brand href="#"> <button id="openNav"
-                                    onClick={props.calback} className="w3-button w3-teal w3-xlarge"
-                                    style={{
-                                        // background:
-                                        //     'linear-gradient(180deg, rgba(166,240,255,1) 0%, rgba(220,250,255,1) 49%, rgba(230,252,255,1) 100%)',
-                                        // paddingLeft: '12px', paddingRight: '12px'
-                                    }}>&#9776;</button></Navbar.Brand>
-                                <Button variant="outline-success" onClick={handlelogOut}
-                                    style={{
-                                        // background:
-                                        //     'linear-gradient(180deg, rgba(166,240,255,1) 0%, rgba(220 ,250,255,1) 49%, rgba(230,252,255,1) 100%)',
-                                        marginRight: '18px'
-                                    }}
-                                >Logout</Button>
-                            </Container>
-                        </Navbar>
-                    </Col>
-                
+
+                <Col>
+                    <Navbar expand="lg" className='anvAdm_header'>
+                        <Container fluid>
+                            <Navbar.Brand href="#"> <button id="openNav"
+                                onClick={props.calback} className="w3-button w3-teal w3-xlarge">&#9776;</button></Navbar.Brand>
+                            <DropdownButton id="dropdown-button-drop" drop='start' size="sm"
+                                variant="secondary" title="Menu" >
+                                <Dropdown.Item as="button">Update Profile</Dropdown.Item>
+                                <Dropdown.Item as="button" onClick={handlelogOut}>Logout</Dropdown.Item>
+                            </DropdownButton>
+                        </Container>
+                    </Navbar>
+                </Col>
+
 
             </div>
         </>

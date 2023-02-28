@@ -34,6 +34,7 @@ try {
         value: "",
       }));
       toast.success('Login Successfull');
+      setToken(true)
       navigate('/dashboard')
       // const res: any = await loginAdmin({ username: userData?.username, password: userData.password })
       // console.log('res super admin', res?.data?.token)

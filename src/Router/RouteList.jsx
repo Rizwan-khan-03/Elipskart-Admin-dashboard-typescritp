@@ -2,12 +2,13 @@
 import Login from "../Pages/Login";
 import Dashboard from "../components/Maincomponent/Dashboard/Dashboard";
 import Layout from "../components/Common/Layout/Layout";
-import Company from "../components/Maincomponent/Company/Company";
-import MaterialCategory from "../components/Maincomponent/MaterialCategory/MaterialCategory";
-import Users from "../components/Maincomponent/Users/Users";
-import VehicleType from "../components/Maincomponent/VehicleType/VehicleType";
+import Grocery from "../components/Maincomponent/Grocery/Grocery";
+import Mobile from "../components/Maincomponent/Mobile/Mobile";
+import Fashion from "../components/Maincomponent/Fashion/Fashion";
+import Electronics from "../components/Maincomponent/Electronics/Electronics";
 import NoteFound from "../components/Common/Layout/NoteFound";
-
+import Buety from "../components/Maincomponent/Buety/Buety";
+import Appliances from "../components/Maincomponent/Appliances/Appliances";
 export const routepath = [
   {
     path: "/",
@@ -15,31 +16,42 @@ export const routepath = [
     private: false,
   },
   {
-    path: "/dashboard",
+    path: "/Dashboard",
     Element: Dashboard,
     private: true,
   },
   {
-    path: "/company",
-    Element: Company,
+    path: "/Grocery",
+    Element: Grocery,
+    private: true,
+  },
+
+  {
+    path: "/Mobile",
+    Element: Mobile,
     private: true,
   },
   {
-    path: "/materialCategory",
-    Element: MaterialCategory,
+    path: "/Fashion",
+    Element: Fashion,
+    private: true,
+  },
+  
+  {
+    path: "/Buety",
+    Element: Buety,
     private: true,
   },
   {
-    path: "/users",
-    Element: Users,
+    path: "/Electronic",
+    Element: Electronics,
     private: true,
   },
   {
-    path: "/vehicleType",
-    Element: VehicleType,
+    path: "/Appliances",
+    Element: Appliances,
     private: true,
   },
- 
 
 ];
 

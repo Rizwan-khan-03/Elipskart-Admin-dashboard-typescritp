@@ -29,22 +29,33 @@ try {
       setErrorMessage((prevState) => ({
         value: "Empty username/password field",
       }));
-    } else if (userData.username === "admin" && userData.password === "jack@123") {
-      setErrorMessage((prevState) => ({
-        value: "",
-      }));
-      toast.success('Login Successfull');
-      setToken(true)
-      navigate('/dashboard')
-      // const res: any = await loginAdmin({ username: userData?.username, password: userData.password })
-      // console.log('res super admin', res?.data?.token)
-      // if (res?.responseCode === 200) {
-      //   setToken(res?.data?.token)
-      //   navigate('/dashboard')
-      //   toast.success('Login Successfull');
-      // }
-    } else {
-      setErrorMessage((prevState) => ({ value: "Invalid username/password" }));
+    }
+    //  else if (userData.username === "admin" && userData.password === "jack@123") {
+    //   setErrorMessage((prevState) => ({
+    //     value: "",
+    //   }));
+    //   toast.success('Login Successfull');
+    //   setToken(true)
+    //   navigate('/dashboard')
+    //   // const res: any = await loginAdmin({ username: userData?.username, password: userData.password })
+    //   // console.log('res super admin', res?.data?.token)
+    //   // if (res?.responseCode === 200) {
+    //   //   setToken(res?.data?.token)
+    //   //   navigate('/dashboard')
+    //   //   toast.success('Login Successfull');
+    //   // }
+    // }
+     else {
+        const res: any = await loginAdmin({ email: userData?.username, password: userData.password })
+      console.log('res super admin', res)
+      if(res?.success && res?.payload?.isAdmin){
+        setToken(res?.accesToken)
+        navigate('/dashboard')
+        toast.success('Login Successfull')
+      }else{
+        toast.error('User Not Admin');
+      }
+      // setErrorMessage((prevState) => ({ value: "Invalid username/password" }));
     }
   };
 

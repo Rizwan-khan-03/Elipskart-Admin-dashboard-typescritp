@@ -8,7 +8,7 @@ const apiEndPoints = {
   },
 
   //OnBoarding-------
-  Login: "sadmin/login",
+  Login: "user/login",
 
 };
 

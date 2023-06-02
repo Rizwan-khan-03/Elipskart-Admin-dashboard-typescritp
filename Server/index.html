@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>JS Bin</title>
+  </head>
+  <style>
+    .main {
+      display: flex;
+      border: 2px solid red;
+      height: 100vh;
+      padding: 10px;
+    }
+    .l {
+      width: 10vw;
+      border: 2px solid green;
+    }
+    .m {
+      border: 2px solid orange;
+      width: 300px;
+    }
+
+    .mio {
+      width: 300px;
+      border: 2px solid black;
+    }
+    .ab {
+      border: 2px solid red;
+      width: 800px;
+      transform: scale(0.375);
+      transform-origin: top left;
+    }
+
+    .r {
+      border: 2px solid blue;
+      flex: 1;
+    }
+  </style>
+  <body>
+    <div class="main">
+      <div class="l"></div>
+      <div class="m">
+        <div class="mio">
+          <div class="ab">1</div>
+        </div>
+        <div class="mio">
+          <div class="ab">2</div>
+        </div>
+      </div>
+      <div class="r"></div>
+    </div>
+  </body>
+  <script>
+    document.querySelectorAll(".mio").forEach((el) => {
+      el.style.height = el.clientHeight * 0.375 + "px";
+    });
+  </script>
+</html>

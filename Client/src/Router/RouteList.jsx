@@ -1,15 +1,20 @@
-
 import Login from "../Pages/Login";
-import Dashboard from "../components/Maincomponent/Dashboard/Dashboard";
-import Layout from "../components/Common/Layout/Layout";
+import Dashboard from "../components/Maincomponent/Dashboard";
 import Grocery from "../components/Maincomponent/Grocery/Grocery";
-import Mobile from "../components/Maincomponent/Mobile/Mobile";
 import Fashion from "../components/Maincomponent/Fashion/Fashion";
 import Electronics from "../components/Maincomponent/Electronics/Electronics";
-import NoteFound from "../components/Common/Layout/NoteFound";
 import Buety from "../components/Maincomponent/Buety/Buety";
 import Appliances from "../components/Maincomponent/Appliances/Appliances";
 import MobileIndex from '../components/Maincomponent/Mobile/'
+
+///icon
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PeopleIcon from '@mui/icons-material/People';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import LayersIcon from '@mui/icons-material/Layers';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+
 export const routepath = [
   {
     path: "/",
@@ -56,4 +61,38 @@ export const routepath = [
 
 ];
 
+///link
+export const routLinks = [
+  {
+    link: "Dashboard",
+    Element: <DashboardIcon />,
+  },
+  {
+    link: "Grocery",
+    Element:  <ShoppingCartIcon />,
+  },
+
+  {
+    link: "Mobile",
+    Element: <PeopleIcon />,
+  },
+  {
+    link: "Fashion",
+    Element:  <BarChartIcon />,
+  },
+  
+  {
+    link: "Buety",
+    Element: <LayersIcon />,
+  },
+  {
+    link: "Electronic",
+    Element: <AssignmentIcon />,
+  },
+  {
+    link: "Appliances",
+    Element:  <DashboardIcon />,
+  },
+
+];
 

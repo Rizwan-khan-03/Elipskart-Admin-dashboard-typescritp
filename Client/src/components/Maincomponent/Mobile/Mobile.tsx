@@ -13,7 +13,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddProduct from './AddProduct';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
-import axios from 'axios';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import { addMobileDetails } from '../../../App/Service/MobileService';
 function Copyright() {
   return (
@@ -57,7 +58,7 @@ const initialData: any = {
     totalReviews: 0,
   },
 }
-export default function Mobile({setOpen}:any) {
+export default function Mobile({ setOpen }: any) {
   const [formData, setFormData] = useState<any>({ ...initialData });
   const [activeStep, setActiveStep] = React.useState(0);
   const [selectedFile, setSelectedFile] = useState<any>("")
@@ -83,7 +84,7 @@ export default function Mobile({setOpen}:any) {
           selectedFile={selectedFile}
         />;
       case 1:
-        return <Review formData={formData}/>;
+        return <Review formData={formData} />;
       case 2:
         return <PaymentForm />;
       default:
@@ -142,16 +143,28 @@ export default function Mobile({setOpen}:any) {
     }
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <Typography component="h1" variant="h4" align="center">
-            Add Mobile
-          </Typography>
-          <img src={file?.img} alt='img' />
-          <p>{file?.price}</p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', marginLeft: '15px' }}>
+            <Typography component="h1" variant="h4" align="center">
+              Add Mobile
+            </Typography>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+              size='large'
+            >
+              <CloseIcon />
+            </IconButton>
+          </div>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (
               <Step key={label}>

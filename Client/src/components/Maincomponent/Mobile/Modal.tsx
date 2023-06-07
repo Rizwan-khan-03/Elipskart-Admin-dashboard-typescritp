@@ -44,17 +44,7 @@ export default function Modal({ content ,open,setOpen}: ModalProps) {
                 TransitionComponent={Transition}
             >
                 
-                <div style={{ display: 'flex', alignItems:'start', marginLeft:'15px'}}>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label="close"
-                        size='large'
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                </div>
+               
                 {content}
             </Dialog>
         </div>

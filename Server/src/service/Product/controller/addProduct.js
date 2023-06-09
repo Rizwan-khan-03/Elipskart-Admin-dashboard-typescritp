@@ -4,7 +4,7 @@ const logger = require("../../../utils/logger");
 const fs = require("fs");
 module.exports = async (req, res) => {
 	try {
-		const { isAdmin, title, brand, available, desc, categories, price, productCode, discountPercentage } = req.body;
+		const { isAdmin, title, brand, available, desc, categories, price, productCode, discountPercentage,userId } = req.body;
 		const features = {
 			ram: req.body.ram,
 			rom: req.body.rom,
@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
 			totalRatings: req.body.totalRatings,
 			totalReviews: req.body.totalReviews,
 		}
-		let product = { isAdmin, title, brand, desc, available, categories, price, productCode, features, ratings, discountPercentage };
+		let product = { isAdmin, title, brand, desc, available, categories, price, productCode, features, ratings, discountPercentage,userId };
 
 		const sameProductExist = await ProductModal.exists({ productCode });
 		if (sameProductExist) {

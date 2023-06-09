@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginAdmin, setToken } from '../App/Service/Service'
 import toast from 'react-hot-toast';
-import './Style.css'
+import './Style.css';
+import { Dispatch } from "redux";
+import { useAppDispatch } from "../App/Redux/hooks";
+import { loginUser } from "../App/Service/service.commondata";
+
 function Login() {
   const [userData, setUserData] = useState({ username: "", password: "" });
-  const [errorMessage, setErrorMessage] = useState({ value: "" });
-  console.log("auth", localStorage.getItem("isAuthenticated"));
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useAppDispatch();
 
   const handleInputChange = async (e: any) => {
     await setUserData((prevState) => {
@@ -18,44 +22,25 @@ function Login() {
     });
   };
 
+
   const handleSubmit = async (e: any) => {
-try {
-  
-} catch (error) {
-  
-}
     e.preventDefault();
-    if (userData.username === "" || userData.password === "") {
-      setErrorMessage((prevState) => ({
-        value: "Empty username/password field",
-      }));
-    }
-    //  else if (userData.username === "admin" && userData.password === "jack@123") {
-    //   setErrorMessage((prevState) => ({
-    //     value: "",
-    //   }));
-    //   toast.success('Login Successfull');
-    //   setToken(true)
-    //   navigate('/dashboard')
-    //   // const res: any = await loginAdmin({ username: userData?.username, password: userData.password })
-    //   // console.log('res super admin', res?.data?.token)
-    //   // if (res?.responseCode === 200) {
-    //   //   setToken(res?.data?.token)
-    //   //   navigate('/dashboard')
-    //   //   toast.success('Login Successfull');
-    //   // }
-    // }
-     else {
-        const res: any = await loginAdmin({ email: userData?.username, password: userData.password })
-      console.log('res super admin', res)
-      if(res?.success && res?.payload?.isAdmin){
-        setToken(res?.accesToken)
+    try {
+      if (userData.username === "" || userData.password === "") {
+        setErrorMessage("Empty username/password field")
+      }
+      const res: any = await dispatch(loginUser({ email: userData?.username, password: userData.password }))
+      console.log('rtk res', res)
+      if (res?.payload?.status === 200 && res?.payload?.data?.success && res?.payload?.data?.payload?.isAdmin) {
+        setToken(res?.data?.accesToken)
         navigate('/dashboard')
-        toast.success('Login Successfull')
-      }else{
+        toast.success(res?.payload?.data?.message);
+      } else {
         toast.error('User Not Admin');
       }
-      // setErrorMessage((prevState) => ({ value: "Invalid username/password" }));
+    } catch (error) {
+      console.log('error', error);
+
     }
   };
 
@@ -89,8 +74,8 @@ try {
                     <input className="form-check-input" type="checkbox" value="" id="form1Example3" />
                     <label className="form-check-label" htmlFor="form1Example3"> Remember Me </label>
                   </div>
-                  {errorMessage.value && (
-                    <p className="text-danger"> {errorMessage.value} </p>
+                  {errorMessage && (
+                    <p className="text-danger"> {errorMessage} </p>
                   )}
                   <div>
                     <button className="btn btn-primary btn-lg btn-block login_btn" type="submit">

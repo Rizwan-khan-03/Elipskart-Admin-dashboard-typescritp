@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SecurityUpdateGoodIcon from '@mui/icons-material/SecurityUpdateGood';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, Button } from '@mui/material';
@@ -8,34 +8,20 @@ import Tooltip from '@mui/material/Tooltip';
 import TablePagination from '@mui/material/TablePagination';
 import Modal from './Modal';
 import Mobile from './Mobile';
-const StyledTableHeadRow = styled(TableRow)({
-  backgroundColor: '#f5f5f5',
-  fontWeight: 'bold',
-});
-const StyledTableCellRow = styled(TableRow)(({ theme }) => ({
+import Title from '../Dashboard/Title';
+import { Dispatch } from "redux";
+import { useAppDispatch } from "../../../App/Redux/hooks";
+import { getUserList, updateProductById } from '../../../App/Service/service.commondata';
+import { setUpdate } from '../../../App/Service/Service';
 
-  '&:hover': {
-    backgroundColor: "#f5f5f5",
-  },
-}));
-const rows = [
-  { name: 'Product 1', price: '10', category: 'Category 1', size: 'Small', isAvailable: true, image: 'image1.jpg' },
-  { name: 'Product 2', price: '20', category: 'Category 2', size: 'Medium', isAvailable: true, image: 'image2.jpg' },
-  { name: 'Product 3', price: '30', category: 'Category 1', size: 'Large', isAvailable: false, image: 'image3.jpg' },
-  { name: 'Product 4', price: '30', category: 'Category 1', size: 'Large', isAvailable: false, image: 'image3.jpg' },
-  { name: 'Product 5', price: '30', category: 'Category 1', size: 'Large', isAvailable: false, image: 'image3.jpg' },
-  { name: 'Product 6', price: '30', category: 'Category 1', size: 'Large', isAvailable: false, image: 'image3.jpg' },
-  { name: 'Product 7', price: '30', category: 'Category 1', size: 'Large', isAvailable: false, image: 'image3.jpg' },
-  { name: 'Product 8', price: '30', category: 'Category 1', size: 'Large', isAvailable: false, image: 'image3.jpg' },
-  { name: 'Product 9', price: '30', category: 'Category 1', size: 'Large', isAvailable: false, image: 'image3.jpg' },
-  { name: 'Product 10', price: '30', category: 'Category 1', size: 'Large', isAvailable: false, image: 'image3.jpg' },
-  { name: 'Product 11', price: '30', category: 'Category 1', size: 'Large', isAvailable: false, image: 'image3.jpg' },
-];
 
 const TableExample = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
+  const [tableData, setTableData] = React.useState<any>([]);
+  const dispatch: Dispatch<any> = useAppDispatch();
+  const [productUpdate, setProductUpdate] = React.useState({});
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -45,73 +31,105 @@ const TableExample = () => {
     setPage(0);
   };
 
-  const handleDelete = (id: any) => {
+  const handleDelete = (e: any, id: any) => {
     console.log('handleDelete id', id)
   }
-  const handleUpdate = (id: any) => {
-    console.log('handleUpdate id', id)
+  const handleUpdate = async (e: any, item: any) => {
+    await setUpdate(JSON.stringify(item));
+    setOpen(true)
+    console.log('handleUpdate id', item?._id)
+    // const res: any = await dispatch(updateProductById({id:item?._id,title:"F25 black"}))
+    // console.log('updateProductById res', res)
+    // if(res?.payload?.data?.responseCode===200){
+    // }else{
+    //   setUpdate(null)
+    // }
   }
+  useEffect(() => {
+    handlGetProductList()
+  }, [productUpdate])
+
+  const handlGetProductList = async () => {
+    try {
+
+      const res: any = await dispatch(getUserList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true }))
+      if (res?.payload?.data?.responseCode === 200 && res?.payload?.data?.success) {
+        await setTableData(res?.payload?.data?.payload)
+      }
+    } catch (error) {
+      console.log('error', error);
+
+    }
+  };
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <>
       <Box sx={{ display: 'flex', justifyContent: "space-between", marginBottom: '10px' }}>
-        <Typography variant='h4'>Mobile Indent</Typography>
-        <Button variant='outlined' onClick={()=>setOpen(true)}>Add Mobile</Button>
+        <Title>Mobile Indent</Title>
+        <Button variant='outlined' onClick={() => setOpen(true)}>Add Mobile</Button>
       </Box>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <StyledTableHeadRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>Size</TableCell>
-              <TableCell>Availability</TableCell>
-              <TableCell>Image</TableCell>
-              <TableCell>Actions</TableCell>
-            </StyledTableHeadRow>
-          </TableHead>
-          <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-              <StyledTableCellRow key={index}>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.price}</TableCell>
-                <TableCell>{row.category}</TableCell>
-                <TableCell>{row.size}</TableCell>
-                <TableCell>{row.isAvailable ? 'Available' : 'Not Available'}</TableCell>
-                <TableCell>
-                  <img src={row.image} alt="Product" width="50" height="50" />
-                </TableCell>
-                <TableCell>
-                  <Tooltip title="Update">
-                    <IconButton>
-                      <SecurityUpdateGoodIcon onClick={() => handleUpdate(row.name)} />
-                    </IconButton>
-                  </Tooltip>
-                  {" "}
-                  <Tooltip title="Delete">
-                    <IconButton>
-                      <DeleteIcon onClick={() => handleDelete(row.name)} />
-                    </IconButton>
-                  </Tooltip>
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer component={Paper}>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell>Category</TableCell>
+                <TableCell>Product Code</TableCell>
+                <TableCell>Availability</TableCell>
+                <TableCell>Image</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
+                <TableRow key={index}>
+                  <TableCell>{row.title}</TableCell>
+                  <TableCell>{row.price}</TableCell>
+                  <TableCell>{row.categories}</TableCell>
+                  <TableCell>{row.productCode}</TableCell>
+                  <TableCell>{row.available ? 'Available' : 'Not Available'}</TableCell>
+                  <TableCell>
+                    <img src={row.image} alt="Product" width="50" height="50" />
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip title="Update">
+                      <IconButton>
+                        <SecurityUpdateGoodIcon onClick={(e) => handleUpdate(e, row)} />
+                      </IconButton>
+                    </Tooltip>
+                    {" "}
+                    <Tooltip title="Delete">
+                      <IconButton>
+                        <DeleteIcon onClick={(e) => handleDelete(e, row?._id)} />
+                      </IconButton>
+                    </Tooltip>
 
-                </TableCell>
-              </StyledTableCellRow>
+                  </TableCell>
+                </TableRow>
 
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-      <Modal  content={<Mobile setOpen={setOpen}/>} open={open} setOpen={setOpen}/>
-    </Paper >
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={tableData.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+        <Modal
+          content={<Mobile setOpen={setOpen} setTableData={setTableData} tableData={tableData}/>}
+          open={open}
+          setOpen={setOpen}
+          
+        />
+      </Paper >
+    </>
+
   );
 };
 

@@ -9,6 +9,9 @@ const apiEndPoints = {
 
   //OnBoarding-------
   Login: "user/login",
+  GetList: "product/adminList",
+  updateProduct: "product/update",
+  addProduct:'product/addproduct'
 
 };
 

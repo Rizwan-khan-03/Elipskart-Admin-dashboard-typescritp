@@ -1,5 +1,6 @@
 # Ignore node_modules directory
 node_modules/
+images
 .env
 # Ignore any files or directories that begin with a dot
 .*.swp

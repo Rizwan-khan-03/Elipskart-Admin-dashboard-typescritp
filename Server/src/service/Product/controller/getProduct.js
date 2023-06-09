@@ -14,8 +14,8 @@ module.exports = async (req, res) => {
 	} catch (err) {
 		res.status(400).send({
 			payload: {},
-			message: "some thing is wrong",
-			responseCode: 40,
+			message: "some thing is wrong get product by id",
+			responseCode: 400,
 			success:false
 		});
 	}

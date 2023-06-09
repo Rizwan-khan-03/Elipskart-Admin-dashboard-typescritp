@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     const updatedUser = await ProductModal.findByIdAndUpdate(
       req.body.id,
       {
-        $set: req.body,
+        $set: req.body.formData,
       },
       { new: true }
     );

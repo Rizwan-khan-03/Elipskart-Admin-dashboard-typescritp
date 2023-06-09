@@ -2,13 +2,15 @@ const Router = require("express").Router();
 const multer = require("multer");
 const path = require("path");
 const { verifyTokenAndAdmin ,verifyTokenAndAuthorization,verifyToken } = require("../Auth/AuthMiddlewares");
+
 const {
     addProduct,
     getAllProducts,
     getProduct,
     productByFilters,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    adminGetAllProduct
 } = require("./controller/index");
 
 
@@ -26,12 +28,14 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage });
 // add product 
 Router.post("/addproduct", verifyTokenAndAdmin, upload.single("img"), addProduct);
+Router.get("/adminList", verifyTokenAndAdmin,adminGetAllProduct);
 // get product
 Router.get("/:id", verifyToken,getProduct);
 //update product
 Router.put("/update", verifyTokenAndAdmin,updateProduct);
-// get all user
+// get all product for user
 Router.get("/", verifyToken,getAllProducts);
+// get all product for admin
 // get  product by dates filter
 Router.get("/filter", verifyToken,productByFilters);
 Router.delete("/:id", verifyTokenAndAdmin,deleteProduct);

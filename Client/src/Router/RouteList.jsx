@@ -14,11 +14,17 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import LoginNew from "../Pages/LoginNew";
 
 export const routepath = [
+  // {
+  //   path: "/",
+  //   Element: Login,
+  //   private: false,
+  // },
   {
     path: "/",
-    Element: Login,
+    Element: LoginNew,
     private: false,
   },
   {

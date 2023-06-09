@@ -2,10 +2,12 @@
 const mongoose = require('mongoose');
 const ProductSchema = new mongoose.Schema(
   {
+
     isAdmin: {
       type: Boolean,
       default: false
   },
+  userId: { type: String, required: true},
     title: { type: String, required: true},
     desc: { type: String, required: true },
     brand: { type: String, required: true },

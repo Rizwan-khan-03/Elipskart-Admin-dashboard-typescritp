@@ -16,6 +16,11 @@ import Review from './Review';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { addMobileDetails } from '../../../App/Service/MobileService';
+import { useAppSelector } from '../../../App/Redux/hooks';
+import { getUpdate, setUpdate } from '../../../App/Service/Service';
+import { addProduct, updateProductById } from '../../../App/Service/service.commondata';
+import { Dispatch } from "redux";
+import { useAppDispatch } from "../../../App/Redux/hooks";
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -33,6 +38,7 @@ const steps = ['Product details', 'Review your Product'];
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 const initialData: any = {
+  userId: '',
   isAdmin: true,
   title: '',
   desc: '',
@@ -58,19 +64,30 @@ const initialData: any = {
     totalReviews: 0,
   },
 }
-export default function Mobile({ setOpen }: any) {
+export default function Mobile({setTableData, tableData,setOpen }: any) {
   const [formData, setFormData] = useState<any>({ ...initialData });
   const [activeStep, setActiveStep] = React.useState(0);
   const [selectedFile, setSelectedFile] = useState<any>("")
   const [file, setFile] = useState<any>("")
+  const [endPoint, setEndPoint] = useState<any>("addproduct")
+  const dispatch: Dispatch<any> = useAppDispatch();
+  const user: any = useAppSelector(state => state?.commonDataSlice?.user)
+  const product:any =getUpdate();
+  const item:any=JSON.parse(product)
   const handleNext = (value: any) => {
     setActiveStep(activeStep + 1);
     if (value === "Place order") {
       handleSubmit()
-      setOpen(false)
     }
   };
-
+  const handleGetProductFromLocalStorage = () => {
+   if(item && typeof item==="object"){
+    setEndPoint("update")
+     console.log('product',JSON.parse(product));
+     setFormData(item)
+   }
+   
+  }
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
@@ -92,12 +109,14 @@ export default function Mobile({ setOpen }: any) {
     }
   }
   React.useEffect(() => {
-    console.log('formData.img', formData.img);
-
+    handleGetProductFromLocalStorage()
     return () => {
-      console.log('formData.img', formData.img);
-    }
-  }, [formData.img])
+      handleGetProductFromLocalStorage()
+      setFormData(initialData)
+      setEndPoint("update")
+      // localStorage.removeItem("product")
+    } 
+  }, [user])
   const handleSubmit = async () => {
     // Check if all fields are not null
     for (const key in formData) {
@@ -115,14 +134,15 @@ export default function Mobile({ setOpen }: any) {
         }
       }
     }
-
     // Create FormData object
     const formDataFormat = new FormData();
     for (const key in formData) {
       if (key === "img") {
-        console.log('key', key);
         formDataFormat.append(key, formData[key]);
-      } else {
+      } else if (key === "userId") {
+        formDataFormat.append(key, user?._id);
+      }
+      else {
         if (typeof formData[key] === 'object' && formData[key] !== null && formData[key] !== 'img') {
           for (const subKey in formData[key]) {
             formDataFormat.append(`${subKey}`, formData[key][subKey]);
@@ -134,10 +154,24 @@ export default function Mobile({ setOpen }: any) {
     }
 
     try {
-      const response = await addMobileDetails("addproduct", formDataFormat);
-      console.log("response.data", response.data);
-      setFile(response.data.newProduct)
-      // await setFormData({ ...formData, initialData });
+      const id:any=(item && typeof item==="object")?item._id:'';
+      if(endPoint==="update"){
+        const res: any = await dispatch(updateProductById({id:id,formData}))
+        console.log("update", res);
+        if(res?.payload?.data?.responseCode===200){
+          let responsed :any=res?.payload?.data?.payload;
+          let oldObjectIndex = tableData?.findIndex((obj:any) => obj._id === responsed?._id);
+          let newArray = [...tableData];
+          newArray[oldObjectIndex] = responsed;
+          setTableData(newArray)
+          console.log("oldObjectIndex", oldObjectIndex,"newArray",newArray);
+          setOpen(false)
+          localStorage.removeItem("product")
+        }
+      }else{
+        const res:any=await dispatch(addProduct(formDataFormat))
+        console.log("update", res);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -145,13 +179,14 @@ export default function Mobile({ setOpen }: any) {
 
   const handleClose = () => {
     setOpen(false);
+    localStorage.removeItem("product")
   };
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', marginLeft: '15px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginLeft: '15px' }}>
             <Typography component="h1" variant="h4" align="center">
               Add Mobile
             </Typography>

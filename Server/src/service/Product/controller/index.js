@@ -4,5 +4,6 @@ module.exports = {
 	getProduct:require("./getProduct"),
 	updateProduct:require("./updateProduct"),
 	productByFilters:require('./productByFilters'),
-	deleteProduct:require("./deleteProduct")
+	deleteProduct:require("./deleteProduct"),
+	adminGetAllProduct:require('./adminGetAllProduct')
 };

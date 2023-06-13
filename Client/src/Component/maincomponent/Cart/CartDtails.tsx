@@ -1,0 +1,238 @@
+import React, { useEffect, useState } from 'react';
+import './cart.css';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import CartItems from './CartItems';
+import { Typography, Divider } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import * as action from './Reduxx/cartActions';
+const Item = styled(Paper)(({ theme }) => ({
+    // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    boxShadow: 'none',
+    backgroundColor: '#fff',
+    marginBottom: theme.spacing(1),
+
+}));
+const PlaceOrder = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    marginBottom: theme.spacing(2),
+    border: '2px solid #f1f2f6'
+
+}));
+const MobilePercent = styled("span")(({ theme }) => ({
+    textAlign: 'start',
+    color: 'green',
+    fontWeight: 1000,
+    padding: "10px"
+
+}));
+const TotalTText = styled("span")(({ theme }) => ({
+    textAlign: 'start',
+    color: '#000',
+    fontWeight: 1000,
+    padding: "10px",
+    fontSize: '16px'
+
+}));
+const FilterContainer = styled(Box)({
+    height: "100vh",
+    overflowY: "scroll",
+    "&::-webkit-scrollbar": {
+        width: "0.3em"
+    },
+    "&::-webkit-scrollbar-thumb": {
+        backgroundColor: "#888"
+    }
+});
+const initialData = {
+    userId: "",
+    products: [],
+    amount: 0,
+    address: "indore",
+    status: "pending"
+}
+function CartDtails() {
+    const dispatch = useDispatch();
+    const cartItems: any = useSelector((state: any) => state?.cart)
+    const [cardData, setCardData] = useState<any>({
+        totalDiscount: '',
+        totalDeliveryCharges: '',
+        fee: 140,
+        totalAmount: '',
+        totalItemsPrice: '',
+        saving: ''
+    });
+    const [order, setOrder] = useState<any>({ ...initialData })
+    const [isOrderPlaced, setIsOrderPlaced] = useState<any>({})
+    useEffect(() => {
+        cartHandler()
+        let itemIds: any = []
+        let amount = 0
+        cartItems?.cart?.filter((item: any) => {
+            if (item?._id) {
+                itemIds.push({ productId: item?._id, quantity: 1 })
+                amount += item?.price
+            } else if (item?.price) {
+                
+            }
+        });
+        console.log("amount",amount)
+         setOrder((prev: any) => ({
+            ...prev,
+            userId: "6454fa649b0ffa5392ed86ba",
+            products: itemIds,
+            amount: amount,
+        }))
+    }, [cartItems])
+    const cartHandler = async () => {
+        const filteredItems = cartItems?.cart?.filter((item: any) => {
+            if (item?.price && item.discountPercentage) return item
+        });
+
+        const totalDiscount = filteredItems.reduce((acc: number, item: any) => {
+            return acc + item?.discountPercentage;
+        }, 0);
+        const totalAmount = filteredItems.reduce((acc: number, item: any) => {
+
+            return acc + item?.price;
+        }, 0);
+        const savings = totalAmount * (totalDiscount / 100)
+
+        setCardData((prevData: any) => {
+            return {
+                ...prevData,
+                totalDiscount: totalDiscount,
+                totalItemsPrice: totalAmount,
+                totalAmount: totalAmount + prevData?.fee,
+                saving: savings
+            };
+        });
+    };
+    const placeOrder = async (id: any) => {
+        if (order.userId && order.products.length && order.amount && order.address && order.status) {
+            const res: any = await dispatch(action.placeOrderRequest({ order: order, callback: setIsOrderPlaced }));
+        } else {
+            console.log('place order ', order);
+        }
+    }
+
+
+
+    return (
+        <div className='cart_container'>
+            <Container maxWidth="xl" sx={{ overflow: 'hidden' }}>
+                <Box sx={{ flexGrow: 1 }} >
+                    <Grid container spacing={1} >
+                        <Grid item xs={12} md={8}>
+                            <Grid item xs={12} md={12}>
+                                <Item>
+                                    <Stack spacing={2} direction="row"
+                                        justifyContent="space-between"
+                                        alignItems="baseline">
+                                        <div>
+                                            <span>Deliver To : </span><span><strong>{"City"}{" "}</strong></span> - <span>{"pincode"}</span>
+                                        </div>
+                                        <div><Button variant="outlined" size={"small"}>change</Button></div>
+                                    </Stack>
+                                </Item>
+                            </Grid>
+                            <Grid item xs={12} md={12} >
+                                <FilterContainer>
+                                    <Item>
+                                        {cartItems?.cart?.map((item: any) => (
+                                            <Item>
+                                                <CartItems data={item} />
+                                                <Divider />
+                                            </Item>
+                                        ))}
+                                    </Item>
+                                </FilterContainer>
+                            </Grid>
+                            <Grid xs={12} md={12}>
+                                <PlaceOrder sx={{ marginBottom: '0', marginTop: '5px' }}>
+                                    <Box sx={{ display: 'flex', justifyContent: "flex-end", marginTop: '5px', }}>
+                                        <Button size="large" sx={{
+                                            backgroundColor: "#fb641b",
+                                            color: "#fff",
+                                            marginRight: '5px',
+                                            '&:hover': {
+                                                backgroundColor: "#fff",
+                                                color: "#fb641b",
+                                                border: '1px solid #fb641b'
+                                            }
+                                        }}
+                                            onClick={placeOrder}
+                                        >Place Order</Button>
+                                    </Box>
+                                </PlaceOrder>
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <Item>
+                                <Stack spacing={2} direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="baseline" >
+                                    <Typography sx={{ padding: '10px 0 10px 10px' }}>{`Price (${cartItems?.cart?.length} Items)`}</Typography>
+                                    <Typography ><i className="fa fa-inr"></i>{cardData?.totalItemsPrice}</Typography>
+                                </Stack>
+                                <Stack spacing={2} direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="baseline" >
+                                    <Typography sx={{ padding: '10px 0 10px 10px' }}>{"Discounts"}</Typography>
+                                    <Typography ><MobilePercent>{cardData?.totalDiscount} % </MobilePercent></Typography>
+                                </Stack>
+                                <Stack spacing={2} direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="baseline" >
+                                    <Typography sx={{ padding: '10px 0 10px 10px' }}>{"Delivery Charges"}</Typography>
+                                    <Typography ><MobilePercent>Free </MobilePercent></Typography>
+                                </Stack>
+                                <Stack spacing={2} direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="baseline" >
+                                    <Typography sx={{ padding: '10px 0 10px 10px' }}>{"Secured Packaging Fee"}</Typography>
+                                    <Typography ><i className="fa fa-inr"></i>{cardData?.fee}</Typography>
+                                </Stack>
+                                <Divider />
+                                <Stack spacing={2} direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="baseline" >
+                                    <TotalTText sx={{ padding: '10px 0 10px 10px' }}>{"Total Amount"}</TotalTText>
+                                    <TotalTText ><i className="fa fa-inr"></i>{cardData?.totalAmount}</TotalTText>
+                                </Stack>
+                                <Divider />
+                                <Stack spacing={2} direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="baseline" >
+                                    <MobilePercent>
+                                        {"You will Save "}
+                                        <span>Extra</span>
+                                        <span> <i className="fa fa-inr"></i>{cardData?.saving} on this order</span>
+                                    </MobilePercent>
+                                </Stack>
+                            </Item>
+                        </Grid>
+
+                    </Grid>
+
+                </Box>
+            </Container >
+
+        </div >
+    )
+}
+
+export default CartDtails

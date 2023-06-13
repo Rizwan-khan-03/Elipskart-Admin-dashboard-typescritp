@@ -16,6 +16,7 @@ import Drawer from '@mui/material/Drawer';
 import SideBar from './SideBar';
 // import { mobileData ,groceryData} from "../../../Config/data";
  import { data} from "../../../Config/data";
+import { useSelector } from 'react-redux';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -67,14 +68,14 @@ const drawerWidth = 240;
 
 export default function Layout(props: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [sideBarData, setSideBarData] = React.useState([]);
   const param=useParams();
   const url = param["*"];
-  // console.log("data",data);
+  const cartItems: any = useSelector((state: any) => state?.cart);
+  
   let newUrl:any;
 useEffect(() => {
   for (const key in data) {
@@ -160,7 +161,7 @@ useEffect(() => {
       <MenuItem>
         <Link to="cart">
           <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="error">
+            <Badge badgeContent={cartItems?.cart?.length} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
@@ -230,7 +231,7 @@ useEffect(() => {
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <Link to="cart" style={{ color: "#fff" }}>
                   <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
+                    <Badge badgeContent={cartItems?.cart?.length} color="error">
                       <ShoppingCartIcon />
                     </Badge>
                   </IconButton>

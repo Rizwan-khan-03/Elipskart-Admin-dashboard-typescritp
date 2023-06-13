@@ -94,7 +94,6 @@ type CustomButtonProps = {
     to: string;
 };
 export default function MobileList({ data ,}: any) {
-    console.log("img",data.img);
     
     return (
         <>

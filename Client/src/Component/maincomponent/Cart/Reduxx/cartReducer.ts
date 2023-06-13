@@ -4,6 +4,7 @@ interface AuthenticationState {
   loading: boolean;
   redirect: boolean;
   cart: any[];
+  order: any[];
   error?: string;
 }
 
@@ -11,6 +12,7 @@ const initialState: AuthenticationState = {
   loading: false,
   redirect: true,
   cart: [],
+  order:[],
 };
 
 export const cartReducer = (
@@ -52,6 +54,24 @@ export const cartReducer = (
         cart: [...state.cart.filter((item) => item._id !== itemId)]
       };
     case action_type.REMOVE_FROM_CART_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+        // PLACE ORDER
+    case action_type.PLACE_ORDER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case action_type.PLACE_ORDER_SUCCESS:      
+      return {
+        ...state,
+        loading: false,
+        order: [...state.order, action.data]
+      };
+    case action_type.PLACE_ORDER_FAILURE:
       return {
         ...state,
         loading: false,

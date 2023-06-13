@@ -1,0 +1,10 @@
+:root {
+    --bg: #f1f2f6;
+    --white: #ffffff;
+  }
+
+  .cart_container {
+    background-color: var(--bg);
+    /* height: 100vh; */
+    overflow: hidden !important;
+  }

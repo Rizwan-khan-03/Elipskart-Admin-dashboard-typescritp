@@ -1,95 +1,126 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { loginAdmin, setToken } from '../App/Service/Service'
-import toast from 'react-hot-toast';
-import './Style.css';
-import { Dispatch } from "redux";
-import { useAppDispatch } from "../App/Redux/hooks";
-import { loginUser } from "../App/Service/service.commondata";
-
-function Login() {
-  const [userData, setUserData] = useState({ username: "", password: "" });
-  const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
-  const dispatch: Dispatch<any> = useAppDispatch();
-
-  const handleInputChange = async (e: any) => {
-    await setUserData((prevState) => {
-      return {
-        ...prevState,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
-
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    try {
-      if (userData.username === "" || userData.password === "") {
-        setErrorMessage("Empty username/password field")
-      }
-      const res: any = await dispatch(loginUser({ email: userData?.username, password: userData.password }))
-      console.log('rtk res', res)
-      if (res?.payload?.status === 200 && res?.payload?.data?.success && res?.payload?.data?.payload?.isAdmin) {
-        setToken(res?.data?.accesToken)
-        navigate('/dashboard')
-        toast.success(res?.payload?.data?.message);
-      } else {
-        toast.error('User Not Admin');
-      }
-    } catch (error) {
-      console.log('error', error);
-
-    }
-  };
-
+import  React,{useEffect,useState} from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { loginUser, setToken } from '../Config/Service/Service';
+import { useNavigate, Link } from 'react-router-dom';
+import * as action from '../store/Auth/AuthAction';
+import { useSelector, useDispatch } from 'react-redux'
+function Copyright(props: any) {
   return (
-
-    <section className="vh-100 login_main_container" >
-      <div className="d-flex align-items-center justify-content-center  vh-100">
-        <div className="row justify-content-center ">
-          <div className="col-12 col-md-12 col-lg-12 col-xl-12">
-            <div className="card shadow-2-strong login_cont" style={{ borderRadius: "1rem" }}>
-              <div className="card-body p-5 text-center">
-                <form onSubmit={handleSubmit}>
-                  <h3 className="mb-5">Sign in</h3>
-                  <div className="form-outline mb-4">
-                    <input
-                      type="tex" id="typeEmailX-2" className="form-control form-control-lg" placeholder="user name"
-                      name="username"
-                      onChange={(e) => handleInputChange(e)}
-                    />
-                  </div>
-                  <div className="form-outline mb-4">
-                    <input
-                      type="password" id="typePasswordX-2" className="form-control form-control-lg" placeholder="jack@123"
-                      name="password"
-                      onChange={(e) => handleInputChange(e)}
-                    />
-                  </div>
-
-
-                  <div className="form-check d-flex justify-content-start mb-4">
-                    <input className="form-check-input" type="checkbox" value="" id="form1Example3" />
-                    <label className="form-check-label" htmlFor="form1Example3"> Remember Me </label>
-                  </div>
-                  {errorMessage && (
-                    <p className="text-danger"> {errorMessage} </p>
-                  )}
-                  <div>
-                    <button className="btn btn-primary btn-lg btn-block login_btn" type="submit">
-                      Login</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" to="">
+        Fashoin Bazar
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
   );
 }
 
-export default Login;
+const theme = createTheme();
+
+export default function SignIn() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const loginSuccess=useSelector((state:any)=>state?.authentication)
+  // Wait for the loginSuccess state to update
+  useEffect(() => {
+    if (loginSuccess?.data?.success) {
+      setToken(loginSuccess?.data?.accesToken);
+      navigate("/home");
+    } else {
+      console.log("loginSuccess", loginSuccess?.data?.message);
+    }
+  }, [loginSuccess]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const payload: any = {
+      email: data.get('email'),
+      password: data.get('password'),
+    };
+    dispatch(action.getLogin(payload));
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link to="#" >
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to="/register" >
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </Container>
+    </ThemeProvider>
+  );
+}

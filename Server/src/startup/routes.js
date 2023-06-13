@@ -1,8 +1,9 @@
 const {
   userRoutes,
-  productRoutes,
+  mobileRoutes,
   CartRoutes,
   orderRoutes,
+  groceryRoutes,
   // projectRoutes,
   // renderxRoutes,
   // consumerRoutes,
@@ -14,9 +15,10 @@ const express = require('express');
 
 module.exports = async (app) => {
   app.use("/api/user", userRoutes);
-  app.use("/api/product", productRoutes);
   app.use("/api/cart", CartRoutes);
   app.use("/api/order", orderRoutes);
+  app.use("/api/product", mobileRoutes);
+  app.use("/api/grocery", groceryRoutes);
   app.use(express.static(path.join(__dirname, "../../Client/build")))
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../../Client/build/index.html"));

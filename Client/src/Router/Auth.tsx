@@ -1,20 +1,15 @@
 import React, {useEffect} from 'react'
-import { useNavigate } from "react-router-dom";
-import { getToken } from '../App/Service/Service';
-import toast from 'react-hot-toast';
-const isAuthenticated = getToken();
+import { useNavigate } from 'react-router-dom';
+import { getToken } from '../Config/Service/Service';
+
 const AuthPoint = ({Component}:any) => {
     const navigate = useNavigate()
     useEffect(()=>{
+        const isAuthenticated = getToken();
         if (isAuthenticated){
-          console.log('if isAuthenticated',isAuthenticated)
             navigate('/dashboard')
-        }else{
-          console.log('else isAuthenticated',isAuthenticated)
-          toast.error('You Are Not Authorised');
-          navigate('/')
         }
-      }, [isAuthenticated])
+      }, [])
 
   return (
     <>

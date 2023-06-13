@@ -2,28 +2,36 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import store from './store/Store';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
-import { ProSidebarProvider } from 'react-pro-sidebar';
-import store, { persistor } from "../src/App/Redux/store";
-import { PersistGate } from 'redux-persist/integration/react'
-import { Provider } from "react-redux";
+import { createTheme, ThemeProvider } from '@mui/material';
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 350,
+      md: 650,
+      lg: 900,
+      xl: 1200,
+    },
+  },
+});
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-    <ProSidebarProvider>
-    <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <App />
-        </PersistGate>
+      {/* <ProSidebarProvider> */}
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <App /> {/* Replace App with your root component */}
+        </ThemeProvider>
       </Provider>
-      <Toaster />
-      </ProSidebarProvider>
+      {/* <Toaster /> */}
+      {/* </ProSidebarProvider> */}
     </BrowserRouter>
   </React.StrictMode>
 );
-reportWebVitals();

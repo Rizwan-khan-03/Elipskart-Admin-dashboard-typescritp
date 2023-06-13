@@ -1,0 +1,28 @@
+.css-ztrqiq-MuiImageListItemBar-root {
+  background: none !important;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-field {
+  border: none;
+  border-bottom: 2px solid blue;
+  outline: none;
+  padding: 5px 0;
+  transition: border-color 0.2s;
+}
+
+.input-field.with-value {
+  border-bottom-color: blue;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.loacation_containe {
+  display: flex;
+}

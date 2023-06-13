@@ -1,104 +1,115 @@
+
+import Appliances from "../Component/maincomponent/Apliances/Appliances";
+import Beauty from "../Component/maincomponent/Beauty/Beauty";
+import Groceriess from "../Component/maincomponent/Grocery";
+import Mobiles from "../Component/maincomponent/Mobiless/Mobiles";
 import Login from "../Pages/Login";
-import Dashboard from "../components/Maincomponent/Dashboard";
-import Grocery from "../components/Maincomponent/Grocery/Grocery";
-import Fashion from "../components/Maincomponent/Fashion/Fashion";
-import Electronics from "../components/Maincomponent/Electronics/Electronics";
-import Buety from "../components/Maincomponent/Buety/Buety";
-import Appliances from "../components/Maincomponent/Appliances/Appliances";
-import MobileIndex from '../components/Maincomponent/Mobile/'
+import electronics from './img/elec.jpg'
+import fashion from './img/fashion.jpg'
+import furniture from './img/furniture.jpg'
+import groce from './img/Groceriess.jpg'
+import moblies from './img/moblies.jpg'
+import beauty from './img/beauty.jpg'
+import home from './img/home.jpg'
+import Home from "../Component/maincomponent/Home/Home";
+import Fashion from "../Component/maincomponent/Fashion/Fashion";
+import Electronics from "../Component/maincomponent/Electronics/Electronics";
+import SelectedMobileDetails from "../Component/maincomponent/Mobiless/SelectedMobileDetails";
+import CartDtails from "../Component/maincomponent/Cart/Index";
 
-///icon
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import LoginNew from "../Pages/LoginNew";
 
+//UserDetails
 export const routepath = [
-  // {
-  //   path: "/",
-  //   Element: Login,
-  //   private: false,
-  // },
   {
     path: "/",
-    Element: LoginNew,
+    Element: Login,
     private: false,
   },
   {
-    path: "/Dashboard",
-    Element: Dashboard,
+    path: "/home",
+    Element: Home,
     private: true,
   },
   {
-    path: "/Grocery",
-    Element: Grocery,
-    private: true,
-  },
-
-  {
-    path: "/Mobile",
-    Element: MobileIndex,
+    path: "/grocery",
+    Element: Groceriess,
     private: true,
   },
   {
-    path: "/Fashion",
+    path: "/mobiles",
+    Element: Mobiles,
+    private: true,
+  }, 
+  {
+    path: "/mobiles/:id",
+    Element: SelectedMobileDetails,
+    private: true,
+  }, 
+  {
+    path: "/fashion",
     Element: Fashion,
     private: true,
   },
-  
   {
-    path: "/Buety",
-    Element: Buety,
-    private: true,
-  },
-  {
-    path: "/Electronic",
+    path: "/electronics",
     Element: Electronics,
     private: true,
   },
+ 
+ 
   {
-    path: "/Appliances",
+    path: "/applances",
     Element: Appliances,
     private: true,
   },
-
+  {
+    path: "/beauty",
+    Element: Beauty,
+    private: true,
+  },
+  {
+    path: "/cart",
+    Element: CartDtails,
+    private: true,
+  },
 ];
-
-///link
-export const routLinks = [
+export const routeLink = [
   {
-    link: "Dashboard",
-    Element: <DashboardIcon />,
+    link:'home',
+    name:'Home',
+    img: home
   },
   {
-    link: "Grocery",
-    Element:  <ShoppingCartIcon />,
-  },
-
-  {
-    link: "Mobile",
-    Element: <PeopleIcon />,
+    link:"grocery",
+    name:'Grocery',
+    img: groce,
   },
   {
-    link: "Fashion",
-    Element:  <BarChartIcon />,
-  },
-  
-  {
-    link: "Buety",
-    Element: <LayersIcon />,
+    link:'mobiles',
+    name:'Mobiles',
+    img: moblies
   },
   {
-    link: "Electronic",
-    Element: <AssignmentIcon />,
+    link:'fashion',
+    name:'fashion ',
+    img: fashion
   },
   {
-    link: "Appliances",
-    Element:  <DashboardIcon />,
+    link:'electronics',
+    name:'Electronics',
+    img: electronics
   },
-
-];
+ 
+  {
+    link:'applances',
+    name:'Applances',
+    img: furniture
+  },
+  {
+    link:'beauty',
+    name:'Beauty',
+    img: beauty
+  },
+ 
+]
 

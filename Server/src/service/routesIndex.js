@@ -1,6 +1,7 @@
 module.exports = {
 	userRoutes: require("./User/routes"),
-	productRoutes: require("./Product/routes"),
 	CartRoutes:require("./Cart/routes"),
-	orderRoutes:require("./Order/routes")
+	orderRoutes:require("./Order/routes"),
+	mobileRoutes: require("./Product/routes"),
+	groceryRoutes:require("./Grocery/routes")
 };

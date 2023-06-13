@@ -22,5 +22,13 @@
   },
   "include": [
     "src"
-  ]
+  ],
+    "types": [
+      "@mui/material",
+      "@mui/icons-material",
+      "@mui/styles",
+      "react", 
+      "react-dom", 
+      "react-redux"
+    ]
 }

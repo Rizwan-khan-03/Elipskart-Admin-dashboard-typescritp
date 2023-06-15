@@ -17,7 +17,6 @@ import Electronics from "../Component/maincomponent/Electronics/Electronics";
 import SelectedMobileDetails from "../Component/maincomponent/Mobiless/SelectedMobileDetails";
 import CartDtails from "../Component/maincomponent/Cart/Index";
 
-
 //UserDetails
 export const routepath = [
   {
@@ -35,6 +34,7 @@ export const routepath = [
     Element: Groceriess,
     private: true,
   },
+  
   {
     path: "/mobiles",
     Element: Mobiles,

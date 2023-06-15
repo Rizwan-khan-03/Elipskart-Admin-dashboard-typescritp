@@ -21,7 +21,7 @@ export const cartReducer = (
 ): AuthenticationState => {
   switch (action.type) {
     //ADD TO CART
-    case action_type.ADD_TO_CART_REQUEST:
+    case action_type.ADD_TO_CART_REQUEST_MOBILE ||action_type.ADD_TO_CART_REQUEST_GROCERY:
       return {
         ...state,
         loading: true,

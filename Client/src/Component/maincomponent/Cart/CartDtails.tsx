@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as action from './Reduxx/cartActions';
 import NavigateTo from '../../../Helper/NavigateTo';
 import { useNavigate } from 'react-router-dom';
+import SkeletonCart from './Skelton';
 
 const Item = styled(Paper)(({ theme }) => ({
     // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -51,7 +52,7 @@ const TotalTText = styled("span")(({ theme }) => ({
 
 }));
 const FilterContainer = styled(Box)({
-    height: "100vh",
+    height: "80vh",
     overflowY: "scroll",
     "&::-webkit-scrollbar": {
         width: "0.3em"
@@ -71,16 +72,15 @@ function CartDtails() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const cartItems: any = useSelector((state: any) => state?.cart)
+    const [order, setOrder] = useState<any>({ ...initialData })
     const [cardData, setCardData] = useState<any>({
         totalDiscount: '',
         totalDeliveryCharges: '',
-        fee: 140,
+        fee:  0,
         totalAmount: '',
         totalItemsPrice: '',
         saving: ''
     });
-    const [order, setOrder] = useState<any>({ ...initialData })
-    const [isOrderPlaced, setIsOrderPlaced] = useState<any>({})
     useEffect(() => {
         cartHandler()
         let itemIds: any = []
@@ -120,7 +120,8 @@ function CartDtails() {
                 totalDiscount: totalDiscount,
                 totalItemsPrice: totalAmount,
                 totalAmount: totalAmount + prevData?.fee,
-                saving: savings
+                saving: savings,
+               fee: order.products.length? 140 : 0,
             };
         });
     };
@@ -142,7 +143,7 @@ function CartDtails() {
     return (
         <div className='cart_container'>
             <Container maxWidth="xl" sx={{ overflow: 'hidden' }}>
-                <Box sx={{ flexGrow: 1 }} >
+                <Box sx={{ flexGrow: 1, height: '86vh' }} >
                     <Grid container spacing={1} >
                         <Grid item xs={12} md={8}>
                             <Grid item xs={12} md={12}>
@@ -160,12 +161,16 @@ function CartDtails() {
                             <Grid item xs={12} md={12} >
                                 <FilterContainer>
                                     <Item>
-                                        {cartItems?.cart?.map((item: any) => (
-                                            <Item>
-                                                <CartItems data={item} />
-                                                <Divider />
-                                            </Item>
-                                        ))}
+                                       {
+                                         order.products.length?
+                                            cartItems?.cart?.map((item: any) => (
+                                                <Item>
+                                                    <CartItems data={item} />
+                                                    <Divider />
+                                                </Item>
+                                            )):<SkeletonCart />
+                                     
+                                        }
                                     </Item>
                                 </FilterContainer>
                             </Grid>
@@ -214,24 +219,21 @@ function CartDtails() {
                                         <span> <i className="fa fa-inr"></i>{cardData?.saving} on this order</span>
                                     </MobilePercent>
                                 </Stack>
-                                {/* <Grid xs={12} md={12}> */}
-                                    {/* <PlaceOrder sx={{ marginBottom: '0', marginTop: '5px' }}> */}
-                                        <Box sx={{ display: 'flex', justifyContent: "flex-end", marginTop: '5px', }}>
-                                            <Button size="large" sx={{
-                                                backgroundColor: "#fb641b",
-                                                color: "#fff",
-                                                marginRight: '5px',
-                                                '&:hover': {
-                                                    backgroundColor: "#fff",
-                                                    color: "#fb641b",
-                                                    border: '1px solid #fb641b'
-                                                }
-                                            }}
-                                                onClick={placeOrder}
-                                            >Place Order</Button>
-                                        </Box>
-                                    {/* </PlaceOrder> */}
-                                {/* </Grid> */}
+                                <Box sx={{ display: 'flex', justifyContent: "flex-end", marginTop: '5px', }}>
+                                    <Button size="large" sx={{
+                                        backgroundColor: "#fb641b",
+                                        color: "#fff",
+                                        marginRight: '5px',
+                                        '&:hover': {
+                                            backgroundColor: "#fff",
+                                            color: "#fb641b",
+                                            border: '1px solid #fb641b'
+                                        }
+                                    }}
+                                        disabled={!order.userId || !order.products.length || !order.amount || !order.address || !order.status}
+                                        onClick={placeOrder}
+                                    >Place Order</Button>
+                                </Box>
                             </Item>
                         </Grid>
 

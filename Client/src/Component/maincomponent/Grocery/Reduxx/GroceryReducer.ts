@@ -13,23 +13,23 @@ const initialState: AuthenticationState = {
   data: null,
 };
 
-export  const mobileListReducer = (
+export  const groceryReducer = (
   state: AuthenticationState = initialState,
   action: any
 ): AuthenticationState => {
   switch (action.type) {
-    case action_type.MOBILELIST_REQUEST:
+    case action_type.GROCERY_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case action_type.MOBILELIST_SUCCESS:
+    case action_type.GROCERY_SUCCESS:
       return {
         ...state,
         loading: false,
         data: action.data,
       };
-    case action_type.MOBILELIST_FAILURE:
+    case action_type.GROCERY_FAILURE:
       return {
         ...state,
         loading: false,

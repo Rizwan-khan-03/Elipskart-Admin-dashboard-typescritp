@@ -28,6 +28,12 @@ const FilterContainer = styled(Box)({
     backgroundColor: "#888"
   }
 });
+const CenteredLoader = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100%"
+});
 
 export default function Moblie() {
   const [mobileList, setMobileList] = useState<any>([])
@@ -65,14 +71,15 @@ export default function Moblie() {
         </Grid>
         <Grid item xs={12} sm={12} md={10}>
           <FilterContainer>
-            {loading ? (<div className='loader'>
-              <Loader />
-            </div>) : (
+            {loading ? (
+              <CenteredLoader>
+                <Loader />
+              </CenteredLoader>
+            ) : (
               mobileList?.map((item: any, index: any) => (
                 <Item key={index + 1} ><MobileList data={item} /></Item>
               ))
             )
-
             }
           </FilterContainer>
         </Grid>

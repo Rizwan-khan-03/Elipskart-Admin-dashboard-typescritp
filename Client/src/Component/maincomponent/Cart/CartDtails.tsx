@@ -11,6 +11,9 @@ import CartItems from './CartItems';
 import { Typography, Divider } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import * as action from './Reduxx/cartActions';
+import NavigateTo from '../../../Helper/NavigateTo';
+import { useNavigate } from 'react-router-dom';
+
 const Item = styled(Paper)(({ theme }) => ({
     // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -66,6 +69,7 @@ const initialData = {
 }
 function CartDtails() {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const cartItems: any = useSelector((state: any) => state?.cart)
     const [cardData, setCardData] = useState<any>({
         totalDiscount: '',
@@ -86,11 +90,10 @@ function CartDtails() {
                 itemIds.push({ productId: item?._id, quantity: 1 })
                 amount += item?.price
             } else if (item?.price) {
-                
+
             }
         });
-        console.log("amount",amount)
-         setOrder((prev: any) => ({
+        setOrder((prev: any) => ({
             ...prev,
             userId: "6454fa649b0ffa5392ed86ba",
             products: itemIds,
@@ -123,12 +126,17 @@ function CartDtails() {
     };
     const placeOrder = async (id: any) => {
         if (order.userId && order.products.length && order.amount && order.address && order.status) {
-            const res: any = await dispatch(action.placeOrderRequest({ order: order, callback: setIsOrderPlaced }));
+            const res: any = await dispatch(action.placeOrderRequest({ order: order, callback: orderCallBack }));
         } else {
             console.log('place order ', order);
         }
     }
-
+    const orderCallBack = (value: any) => {
+        if (value?.success) {
+            dispatch(action.removeCartRequest("empty"));
+            navigate('/home')
+        }
+    }
 
 
     return (
@@ -161,24 +169,7 @@ function CartDtails() {
                                     </Item>
                                 </FilterContainer>
                             </Grid>
-                            <Grid xs={12} md={12}>
-                                <PlaceOrder sx={{ marginBottom: '0', marginTop: '5px' }}>
-                                    <Box sx={{ display: 'flex', justifyContent: "flex-end", marginTop: '5px', }}>
-                                        <Button size="large" sx={{
-                                            backgroundColor: "#fb641b",
-                                            color: "#fff",
-                                            marginRight: '5px',
-                                            '&:hover': {
-                                                backgroundColor: "#fff",
-                                                color: "#fb641b",
-                                                border: '1px solid #fb641b'
-                                            }
-                                        }}
-                                            onClick={placeOrder}
-                                        >Place Order</Button>
-                                    </Box>
-                                </PlaceOrder>
-                            </Grid>
+
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <Item>
@@ -223,6 +214,24 @@ function CartDtails() {
                                         <span> <i className="fa fa-inr"></i>{cardData?.saving} on this order</span>
                                     </MobilePercent>
                                 </Stack>
+                                {/* <Grid xs={12} md={12}> */}
+                                    {/* <PlaceOrder sx={{ marginBottom: '0', marginTop: '5px' }}> */}
+                                        <Box sx={{ display: 'flex', justifyContent: "flex-end", marginTop: '5px', }}>
+                                            <Button size="large" sx={{
+                                                backgroundColor: "#fb641b",
+                                                color: "#fff",
+                                                marginRight: '5px',
+                                                '&:hover': {
+                                                    backgroundColor: "#fff",
+                                                    color: "#fb641b",
+                                                    border: '1px solid #fb641b'
+                                                }
+                                            }}
+                                                onClick={placeOrder}
+                                            >Place Order</Button>
+                                        </Box>
+                                    {/* </PlaceOrder> */}
+                                {/* </Grid> */}
                             </Item>
                         </Grid>
 

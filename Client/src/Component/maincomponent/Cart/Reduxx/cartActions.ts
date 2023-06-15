@@ -29,3 +29,29 @@ export const removeCartFailure = (error: string): Action<string> => {
     payload: error
   };
 };
+
+
+//place order  actions
+export const  placeOrderRequest = (item:any)=> {
+  return {
+    type: action_type.PLACE_ORDER_REQUEST,
+    item,
+    
+  };
+};
+
+
+// call inside mobilesaga 
+export const placeOrderSuccess = (payload:any): Action<undefined> => {
+  return {
+    type: action_type.PLACE_ORDER_SUCCESS,
+    payload: payload,
+  };
+};
+// call inside MOBILELISTsaga 
+export const placeOrderFailure = (error: string): Action<string> => {
+  return {
+    type: action_type.PLACE_ORDER_FAILURE,
+    payload: error
+  };
+};

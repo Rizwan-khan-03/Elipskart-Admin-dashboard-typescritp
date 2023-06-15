@@ -5,9 +5,10 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import FilterSideBar from './FilterSideBar';
 import MobileList from './List';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as action from './Reduxx/MobileAction';
 import { useMediaQuery } from '@mui/material';
+import Loader from '../../../Helper/Loader';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -27,19 +28,25 @@ const FilterContainer = styled(Box)({
     backgroundColor: "#888"
   }
 });
+const CenteredLoader = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100%"
+});
 
 export default function Moblie() {
   const [mobileList, setMobileList] = useState<any>([])
   const dispatch = useDispatch();
-
+  const store: any = useSelector((state: any) => state?.mobileList);
+  const loading: boolean = store?.loading
   React.useEffect(() => {
+    setMobileList(store?.data?.payload)
     dispatch(action.getMobileListRequest(getListOfAllMobile));
   }, [])
-  const getListOfAllMobile = (callbackData:any) => {
+  const getListOfAllMobile = (callbackData: any) => {
     try {
-      // setMobileList( callbackData?.payload)
-     
-      const transformedProducts = callbackData?.payload?.map((product:any) => {
+      const transformedProducts = callbackData?.payload?.map((product: any) => {
         const base64Image = product.img.data.toString("base64");
         const imageSrc = `data:image/png;base64,${base64Image}`;
         return { ...product, img: imageSrc };
@@ -49,7 +56,7 @@ export default function Moblie() {
       console.log(error);
     }
   };
-  
+
   const isXsScreen = useMediaQuery((theme: any) => theme.breakpoints.down('md'));
   return (
 
@@ -64,10 +71,15 @@ export default function Moblie() {
         </Grid>
         <Grid item xs={12} sm={12} md={10}>
           <FilterContainer>
-            {
-              mobileList?.map((item:any, index:any) => (
+            {loading ? (
+              <CenteredLoader>
+                <Loader />
+              </CenteredLoader>
+            ) : (
+              mobileList?.map((item: any, index: any) => (
                 <Item key={index + 1} ><MobileList data={item} /></Item>
               ))
+            )
             }
           </FilterContainer>
         </Grid>

@@ -39,12 +39,13 @@ export function* mobileDetailsSaga(payload: any): Generator<any, any, any> {
   }
 }
 
-export function* cartSaga(payload: any): Generator<any, any, any> {
+export function* mobileCartSaga(payload: any): Generator<any, any, any> {
   try {
+    console.log("cartSaga payload",payload)
     const result = yield getMobileDetails(payload?.itemId); // Assuming getAllMobileList returns a promise
     if(result?.data?.success){
       // Dispatch getMobileDetails success action
-      yield put({ type: action_type.ADD_TO_CART_SUCCESS ,data:result?.data?.payload});
+      yield put({ type: action_type.ADD_TO_CART_SUCCESS,data:result?.data?.payload});
       return result; // Return the result
     }else{
       console.log(result?.message)

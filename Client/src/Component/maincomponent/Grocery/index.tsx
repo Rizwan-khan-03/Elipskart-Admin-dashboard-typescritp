@@ -7,7 +7,7 @@ import FilterSideBar from './FilterSideBar';
 import GroceriesList from './List';
 import { getAllMobileList } from '../../../Config/Service/mobileService';
 import { useSelector, useDispatch } from 'react-redux';
-import * as action from './Reduxx/MobileAction';
+import * as action from './Reduxx/GroceryAction';
 import { useMediaQuery } from '@mui/material';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -35,7 +35,7 @@ export default function Grocery() {
   const [mobileList, setMobileList] = useState([])
   const dispatch = useDispatch();
   React.useEffect(() => {
-    dispatch(action.getMobileListRequest(getListOfAllMobile));
+    dispatch(action.getGroceryListRequest(getListOfAllMobile));
   }, [])
   const getListOfAllMobile = async (callbackdata: any) => {
     try {
@@ -45,7 +45,6 @@ export default function Grocery() {
     }
   }
   const isXsScreen = useMediaQuery((theme:any) => theme.breakpoints.down('md'));
-console.log('isXsScreen',isXsScreen);
 
   const Container = styled(Grid)({
     flexGrow: 1,

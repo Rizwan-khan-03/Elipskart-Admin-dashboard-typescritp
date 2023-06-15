@@ -60,25 +60,7 @@ export const mobileListReducer = (
         loading: false,
         error: action.error,
       };
-    //MOBILE DETAILS START
-// //ADD TO CART
-// case action_type.ADD_TO_CART_REQUEST:
-//   return {
-//     ...state,
-//     loading: true,
-//   };
-// case action_type.ADD_TO_CART_SUCCESS:
-//   return {
-//     ...state,
-//     loading: false,
-//     cart: action.data,
-//   };
-// case action_type.ADD_TO_CART_FAILURE:
-//   return {
-//     ...state,
-//     loading: false,
-//     error: action.error,
-//   };
+  
     default:
       return state;
   }

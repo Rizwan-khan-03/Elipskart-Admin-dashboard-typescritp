@@ -4,6 +4,7 @@ interface AuthenticationState {
   loading: boolean;
   redirect: boolean;
   cart: any[];
+  order: any[];
   error?: string;
 }
 
@@ -11,6 +12,7 @@ const initialState: AuthenticationState = {
   loading: false,
   redirect: true,
   cart: [],
+  order:[],
 };
 
 export const cartReducer = (
@@ -19,7 +21,7 @@ export const cartReducer = (
 ): AuthenticationState => {
   switch (action.type) {
     //ADD TO CART
-    case action_type.ADD_TO_CART_REQUEST:
+    case action_type.ADD_TO_CART_REQUEST_MOBILE ||action_type.ADD_TO_CART_REQUEST_GROCERY:
       return {
         ...state,
         loading: true,
@@ -45,13 +47,39 @@ export const cartReducer = (
     case action_type.REMOVE_FROM_CART_SUCCESS:
       const itemId = action.data;
       console.log('cart reducer itemId',itemId,action);
-      
+      if (itemId==="empty") {
+        return {
+          ...state,
+          loading: false,
+          cart: []
+        };
+      } else {
+        return {
+          ...state,
+          loading: false,
+          cart: [...state.cart.filter((item) => item._id !== itemId)]
+        };
+      }
+     
+    case action_type.REMOVE_FROM_CART_FAILURE:
       return {
         ...state,
         loading: false,
-        cart: [...state.cart.filter((item) => item._id !== itemId)]
+        error: action.error,
       };
-    case action_type.REMOVE_FROM_CART_FAILURE:
+        // PLACE ORDER
+    case action_type.PLACE_ORDER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case action_type.PLACE_ORDER_SUCCESS:      
+      return {
+        ...state,
+        loading: false,
+        order: [...state.order, action.data]
+      };
+    case action_type.PLACE_ORDER_FAILURE:
       return {
         ...state,
         loading: false,

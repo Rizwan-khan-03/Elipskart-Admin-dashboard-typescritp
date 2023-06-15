@@ -1,4 +1,9 @@
-import * as React from "react";
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Skeleton from '@mui/material/Skeleton';
+
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -102,77 +107,91 @@ const TotalTText = styled("p")(({ theme }) => ({
     margin: 0
 
 }));
-type CustomButtonProps = {
-    component?: React.ElementType;
-    to: string;
-};
-export default function CartItems({ data }: any) {
-    const dispatch = useDispatch();
-    const removeToCart = async (id: any) => {
-        dispatch(action.removeCartRequest(id));
-        console.log("removeToCart id", id);
-    }
+interface MediaProps {
+    loading?: boolean;
+}
+
+export default function SkeletonCart(props: MediaProps) {
+    const { loading = false } = props;
+
     return (
         <>
+            {/* <Card sx={{ maxWidth: 345, m: 2 }}>
+            <CardHeader
+                avatar={<Skeleton animation="wave" variant="circular" width={40} height={40} />}
+                action={null}
+                title={
+                    <Skeleton
+                        animation="wave"
+                        height={10}
+                        width="80%"
+                        style={{ marginBottom: 6 }}
+                    />
+                }
+                subheader={<Skeleton animation="wave" height={10} width="40%" />}
+            />
+            {<Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />}
+            <CardContent>
+                {
+                    <React.Fragment>
+                        <Skeleton animation="wave" height={10} style={{ marginBottom: 6 }} />
+                        <Skeleton animation="wave" height={10} width="80%" />
+                    </React.Fragment>
+                }
+            </CardContent>
+        </Card> */}
             <Box sx={{ flexGrow: 1 }}>
                 <Box >
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={3}>
                             <Item>
-                                <img src={mobileImg} alt="mobile" />
+                                {<Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />}
+
                             </Item>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <Item>
-                                <MobileName>{data?.title.toUpperCase()} {" "} ({" "} {data?.features?.ram + " | " + data?.features?.rom}{" "} )
+                                <MobileName>
+                                    <Skeleton
+                                        animation="wave"
+                                        height={10}
+                                        width="80%"
+                                        style={{ marginBottom: 6 }}
+                                    />
                                 </MobileName>
-                                <Rating>
-                                    <span>{data?.ratings?.overallRating}*
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
-                                            <path d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M12 16.3l-5.83 3.54 1.69-6.18L3.56 9.16l6.22-.54L12 3l2.22 5.62 6.22.54-4.3 3.53 1.69 6.18L12 16.3z" />
-                                        </svg>
+                                <FeatureList>
+                                    <span>
+                                        {<Skeleton animation="wave" height={10} width="40%" />}
                                     </span>
-                                    <p>{data?.ratings?.totalRatings} Rating &amp; {data?.ratings?.totalReviews}  Reviews</p>
-                                </Rating>
+                                    {<Skeleton animation="wave" height={10} width="40%" />}
+                                </FeatureList>
                                 <TotalTText>
-                                    < i className="fa fa-inr"></i>{data?.price}
+                                    {/* <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" /> */}
                                 </TotalTText>
                                 <FeatureList>
-                                    <FeatureItem> <span>{data?.features?.ram} {" "}</span>{" "} | {" "} <span>{data?.features?.rom}</span> | <span>Upto</span> | </FeatureItem>
-                                    <FeatureItem> <span>{data?.features?.screenSize}</span> </FeatureItem>
-                                    <FeatureItem> <span>{data?.features?.secondaryCamera}</span>| <span>{data?.features?.primaryCamera}</span> </FeatureItem>
-                                    <FeatureItem> <span> {data?.features?.batteryCapacity}</span> </FeatureItem>
-                                    <FeatureItem> <span> {data?.features?.warranty}</span> </FeatureItem>
+                                    {<Skeleton animation="wave" height={10} width="40%" />}
+                                    {<Skeleton animation="wave" height={10} width="40%" />}
+                                    {<Skeleton animation="wave" height={10} width="40%" />}
+                                    {<Skeleton animation="wave" height={10} width="40%" />}
+                                    {<Skeleton animation="wave" height={10} width="40%" />}
                                 </FeatureList>
                             </Item>
                         </Grid>
                         <Grid item xs={12} md={3}>
                             <Item>
-                                <MobilePrice>Delivery in {"2 days"} ,{"wed"} |  <MobilePercent>Free </MobilePercent></MobilePrice>
+                                {<Skeleton animation="wave" height={10} width="40%" />}
+                                <p>No Item In Cart</p>
                             </Item>
                         </Grid>
                     </Grid>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: "space-between", }}>
-                    <CounterComponent />
-                    <Button size="small" sx={{
-                        backgroundColor: "#e2232e",
-                        color: "#fff",
-                        width: 'auto',
-                        padding: "0 10px",
-                        // padding:'10px',
-                        margin: '10px',
-                        '&:hover': {
-                            backgroundColor: "#fff",
-                            color: "#fb641b",
-                            border: '1px solid #fb641b'
-                        }
-                    }} onClick={() => removeToCart(data?._id)}>Remove</Button>
+                <Box sx={{ display: 'flex', justifyContent: "flex-end", }}>
+                    <Skeleton animation="wave" variant="circular" width={40} height={40} />
                 </Box>
             </Box>
         </>
-
-    );
-
+    )
 }
+
+
+

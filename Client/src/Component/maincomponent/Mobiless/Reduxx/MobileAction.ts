@@ -60,7 +60,7 @@ export interface GetLoginAction extends Action<unknown> {
 }
 export const  adCartRequest = (itemId:any)=> {
   return {
-    type: action_type.ADD_TO_CART_REQUEST,
+    type: action_type.ADD_TO_CART_REQUEST_MOBILE,
     itemId,
     
   };

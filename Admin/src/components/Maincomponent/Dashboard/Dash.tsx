@@ -81,6 +81,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
+  const orderList:any=useAppSelector((state:any)=>state?.commonDataSlice?.order);
   const [open, setOpen] = React.useState(true);
   const dispatch: Dispatch<any> = useAppDispatch();
   const [tableData, setTableData] = React.useState<any>([]);
@@ -146,7 +147,7 @@ export default function Dashboard() {
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
+                  <Orders orderList={orderList}/>
                 </Paper>
               </Grid>
             </Grid>

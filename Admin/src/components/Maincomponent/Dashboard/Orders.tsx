@@ -6,7 +6,6 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import { useAppDispatch ,useAppSelector} from "../../../App/Redux/hooks";
 import TablePagination from '@mui/material/TablePagination';
 
 // Generate Order Data
@@ -61,14 +60,12 @@ function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
 }
 
-export default function Orders() {
+export default function Orders({orderList}:any) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const orderList:any=useAppSelector((state:any)=>state?.commonDataSlice?.order);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
-  
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -103,7 +100,7 @@ export default function Orders() {
       <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={orderList.length}
+          count={orderList?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

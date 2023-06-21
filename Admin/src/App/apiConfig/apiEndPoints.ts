@@ -16,11 +16,14 @@ const apiEndPoints = {
   updateProduct: "product/update",
   addProduct:'product/addproduct',
   //
-   /// product
+   /// grocery
    grocery:"grocery",
    groceryList: "grocery/adminList",
    updateGroceryProduct: "grocery/update",
-   addGroceryProduct:'grocery/addproduct'
+   addGroceryProduct:'grocery/addproduct',
+     /// grocery
+     order:"order",
+    
 
 };
 

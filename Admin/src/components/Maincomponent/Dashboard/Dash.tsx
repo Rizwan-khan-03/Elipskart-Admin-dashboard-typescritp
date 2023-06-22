@@ -12,7 +12,7 @@ import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import { Dispatch } from "redux";
-import { useAppDispatch ,useAppSelector} from "../../../App/Redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../App/Redux/hooks";
 import { getOrderList } from '../../../App/Service/service.dashboard';
 function Copyright(props: any) {
   return (
@@ -81,17 +81,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
-  const orderList:any=useAppSelector((state:any)=>state?.commonDataSlice?.order);
-  const [open, setOpen] = React.useState(true);
+  const orderList: any = useAppSelector((state: any) => state?.commonDataSlice?.order);
+  const [amount, setAmount] = React.useState({ amount: 0 });
   const dispatch: Dispatch<any> = useAppDispatch();
-  const [tableData, setTableData] = React.useState<any>([]);
-
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+ 
   React.useEffect(() => {
     handlGetProductList()
-    
+    totalAmount()
   }, [])
 
   const handlGetProductList = async () => {
@@ -101,59 +97,80 @@ export default function Dashboard() {
       console.log('error', error);
     }
   };
+  const totalAmount = () => {
+    const amountt = orderList?.reduce((acc: any, value: any) => {
+      if (value?.amount) {
+        if (acc.amount === undefined) {
+          acc.amount = 0
+        } else {
+          acc.amount += value.amount
+        }
+      }
+      return acc
+    }, {})
+    setAmount(amountt)
+    let amounts = 0;
+    let len = 0;
+    while (len < orderList?.length - 1) {
+      amounts += orderList[len]?.amount
+      len++;
+    }
+  };
+ 
+
   return (
     <ThemeProvider theme={defaultTheme}>
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            // flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
-           
-          }}
-        >
-          <Container maxWidth="xl" sx={{ mt: 1, mb: 1 ,ml:0,mr:0,width:"100%"}}>
-            <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Chart />
-                </Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Deposits />
-                </Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders orderList={orderList}/>
-                </Paper>
-              </Grid>
+      <Box
+        component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'light'
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          // flexGrow: 1,
+          height: '100vh',
+          overflow: 'auto',
+
+        }}
+      >
+        <Container maxWidth="xl" sx={{ mt: 1, mb: 1, ml: 0, mr: 0, width: "100%" }}>
+          <Grid container spacing={3}>
+            {/* Chart */}
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: 240,
+                }}
+              >
+                <Chart />
+              </Paper>
             </Grid>
-            <Copyright sx={{ pt: 4 }} />
-          </Container>
-        </Box>
+            {/* Recent Deposits */}
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: 240,
+                }}
+              >
+                <Deposits amount={amount?.amount} />
+              </Paper>
+            </Grid>
+            {/* Recent Orders */}
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                <Orders orderList={orderList} />
+              </Paper>
+            </Grid>
+          </Grid>
+          <Copyright sx={{ pt: 4 }} />
+        </Container>
+      </Box>
     </ThemeProvider>
   );
 }

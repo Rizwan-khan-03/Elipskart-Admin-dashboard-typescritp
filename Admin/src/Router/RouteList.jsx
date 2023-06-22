@@ -1,10 +1,10 @@
 import Login from "../Pages/Login";
 import Dashboard from "../components/Maincomponent/Dashboard";
 import Grocery from "../components/Maincomponent/Grocery";
-import Fashion from "../components/Maincomponent/Fashion/Fashion";
-import Electronics from "../components/Maincomponent/Electronics/Electronics";
-import Buety from "../components/Maincomponent/Buety/Buety";
-import Appliances from "../components/Maincomponent/Appliances/Appliances";
+import Fashion from "../components/Maincomponent/Fashion";
+import Electronics from "../components/Maincomponent/Electronics";
+import Buety from "../components/Maincomponent/Buety";
+import Appliances from "../components/Maincomponent/Appliances";
 import MobileIndex from '../components/Maincomponent/Mobile/'
 
 ///icon

@@ -7,12 +7,12 @@ function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
 }
 
-export default function Deposits() {
+export default function Deposits({amount}:any) {
   return (
     <React.Fragment>
       <Title>Recent Deposits</Title>
       <Typography component="p" variant="h4">
-        $3,024.00
+        ${amount}
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
         on 15 March, 2019

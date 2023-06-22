@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import TablePagination from '@mui/material/TablePagination';
 import Modal from './Modal';
-import Grocery from './Grocery';
+import ElectronicsForm from './ElectronicsForm';
 import Title from '../Dashboard/Title';
 import { Dispatch } from "redux";
 import { useAppDispatch } from "../../../App/Redux/hooks";
@@ -69,7 +69,7 @@ const TableExample = () => {
   const handlGetProductList = async () => {
     try {
 
-      const res: any = await dispatch(getProductList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true ,categories:'grocery'}))
+      const res: any = await dispatch(getProductList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true ,categories:'fashion'}))
       if (res?.payload?.data?.responseCode === 200 && res?.payload?.data?.success) {
         await setTableData(res?.payload?.data?.payload)
       }
@@ -81,8 +81,8 @@ const TableExample = () => {
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: "space-between", marginBottom: '10px' }}>
-        <Title>Grocery Indent</Title>
-        <Button variant='outlined' onClick={() => setOpen(true)}>Add Grocery</Button>
+        <Title>Electronics Indent</Title>
+        <Button variant='outlined' onClick={() => setOpen(true)}>Add Electronics</Button>
       </Box>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer component={Paper}>
@@ -146,7 +146,7 @@ const TableExample = () => {
         </Paper>
       </div>
       <Modal
-          content={<Grocery setOpen={setOpen} setTableData={setTableData} tableData={tableData} />}
+          content={<ElectronicsForm setOpen={setOpen} setTableData={setTableData} tableData={tableData} />}
           open={open}
           setOpen={setOpen}
 

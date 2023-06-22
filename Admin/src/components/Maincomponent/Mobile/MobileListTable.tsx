@@ -22,7 +22,7 @@ const TableExample = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
   const [tableData, setTableData] = React.useState<any>([]);
-  const [deleteConfirm, setDeleteConfirm]=React.useState(false);
+  const [deleteConfirm, setDeleteConfirm] = React.useState(false);
   const [confirm, setConfirm] = React.useState({
     open: false,
     confirm: false,
@@ -71,7 +71,7 @@ const TableExample = () => {
   const handlGetProductList = async () => {
     try {
 
-      const res: any = await dispatch(getProductList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true ,categories:'mobile'}))
+      const res: any = await dispatch(getProductList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true, categories: 'mobile' }))
       if (res?.payload?.data?.responseCode === 200 && res?.payload?.data?.success) {
         await setTableData(res?.payload?.data?.payload)
       }
@@ -131,23 +131,30 @@ const TableExample = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={tableData.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-        <Modal
-          content={<Mobile setOpen={setOpen} setTableData={setTableData} tableData={tableData} />}
-          open={open}
-          setOpen={setOpen}
 
-        />
+
       </Paper >
-      <ConfirmDialog confirm={confirm} setConfirm={setConfirm} setDeleteConfirm={setDeleteConfirm}/>
+      <div className='custom_pagination'>
+        <Paper >
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={tableData.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+      </div>
+
+      <Modal
+        content={<Mobile setOpen={setOpen} setTableData={setTableData} tableData={tableData} />}
+        open={open}
+        setOpen={setOpen}
+
+      />
+      <ConfirmDialog confirm={confirm} setConfirm={setConfirm} setDeleteConfirm={setDeleteConfirm} />
     </>
 
   );

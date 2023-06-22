@@ -89,7 +89,7 @@ export default function Orders({orderList}:any) {
             <TableRow key={row?.id}>
               <TableCell>{index+1}</TableCell>
               <TableCell>{row?.createdAt}</TableCell>
-              <TableCell>{row?.userId}</TableCell>
+              <TableCell>{row?.userName}</TableCell>
               <TableCell>{row?.address}</TableCell>
               <TableCell>{row?.status}</TableCell>
               <TableCell align="right">{`$${row?.amount}`}</TableCell>

@@ -3,37 +3,37 @@ import { commonPostRequest ,deleteRequest,getRequest, getRequestForData, postReq
 import apiEndPoints from "../apiConfig/apiEndPoints";
 
 
-export const addGroceryProduct = createAsyncThunk(
+export const addBuetyProduct = createAsyncThunk(
   "addd Product    ",
   (payload: any) => {
-    return  postRequest(apiEndPoints.addGroceryProduct, payload).then(
+    return  postRequest(apiEndPoints.addbuetyProduct, payload).then(
       (response:any) => response
     );
   }
 )
   // get product list  
-  export const getGroceryList = createAsyncThunk(
+  export const getBuetyList = createAsyncThunk(
     "get product list ",
     (payload: any) => {
-      return  getRequestForData(apiEndPoints.groceryList, payload).then(
+      return  getRequestForData(apiEndPoints.buetyList, payload).then(
         (response:any) => response
       );
     }
   );
    //  update Product  ById  
-   export const updateGroceryProductById = createAsyncThunk(
+   export const updateBuetyProductById = createAsyncThunk(
     "update Product  ById  ",
     (payload: any) => {
-      return  putRequest(apiEndPoints.updateGroceryProduct, payload).then(
+      return  putRequest(apiEndPoints.updateBuetyProduct, payload).then(
         (response:any) => response
       );
     }
   );
   // delete product
-  export const deleteGroceryProduct = createAsyncThunk(
+  export const deleteBuetyProduct = createAsyncThunk(
     "delete Product    ",
     (payload: any) => {
-      return  deleteRequest(apiEndPoints.grocery, payload).then(
+      return  deleteRequest(apiEndPoints.buety, payload).then(
         (response:any) => response
       );
     }

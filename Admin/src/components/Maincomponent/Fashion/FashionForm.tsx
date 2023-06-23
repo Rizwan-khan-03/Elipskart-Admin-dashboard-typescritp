@@ -19,7 +19,7 @@ import { useAppSelector } from '../../../App/Redux/hooks';
 import { getUpdate } from '../../../App/Service/Service';
 import { Dispatch } from "redux";
 import { useAppDispatch } from "../../../App/Redux/hooks";
-import { addGroceryProduct, updateGroceryProductById } from '../../../App/Service/service.grocery';
+import { addFasionProduct, updateFashionProductById } from '../../../App/Service/service.fashion';
 // function Copyright() {
 //   return (
 //     <Typography variant="body2" color="text.secondary" align="center">
@@ -46,9 +46,7 @@ const initialData: any = {
   categories: '',
   price: 0,
   discountPercentage: 0,
-  productCode: 0,
-  weight: 0,
-  
+  productCode: 0, 
 }
 export default function Mobile({ setTableData, tableData, setOpen }: any) {
   const [formData, setFormData] = useState<any>({ ...initialData });
@@ -69,7 +67,6 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
   const handleGetProductFromLocalStorage = () => {
     if (item && typeof item === "object") {
       setEndPoint("update")
-      console.log('product', JSON.parse(product));
       setFormData(item)
     }
 
@@ -142,7 +139,7 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
       const id: any = (item && typeof item === "object") ? item._id : '';
       if (endPoint === "update") {
         console.log("endpoint", endPoint);
-        const res: any = await dispatch(updateGroceryProductById({ id: id, formData }))
+        const res: any = await dispatch(updateFashionProductById({ id: id, formData }))
         console.log("update", res);
         if (res?.payload?.data?.responseCode === 200) {
           let responsed: any = res?.payload?.data?.payload;
@@ -156,7 +153,7 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
         }
       } else {
         console.log("endpoint", endPoint);
-        const res: any = await dispatch(addGroceryProduct(formDataFormat));
+        const res: any = await dispatch(addFasionProduct(formDataFormat));
         console.log("addProduct res", res);
         if (res?.payload?.data?.success && res?.payload?.data?.newProduct) {
           await setNewProduct(res?.payload?.data?.newProduct)

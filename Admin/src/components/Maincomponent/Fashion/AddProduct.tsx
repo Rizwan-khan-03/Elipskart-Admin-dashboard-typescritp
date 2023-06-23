@@ -119,16 +119,7 @@ const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: an
                             variant="standard"
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            name="weight"
-                            label="Weight"
-                            value={formData?.weight}
-                            onChange={handleChange}
-                            required
-                            variant="standard"
-                        />
-                    </Grid>
+                   
                     <Grid item xs={12} sm={6}>
                         <TextField
                             name="productCode"

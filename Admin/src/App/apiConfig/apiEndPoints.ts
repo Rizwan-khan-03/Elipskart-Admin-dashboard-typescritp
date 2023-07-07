@@ -21,8 +21,34 @@ const apiEndPoints = {
    groceryList: "grocery/adminList",
    updateGroceryProduct: "grocery/update",
    addGroceryProduct:'grocery/addproduct',
-     /// grocery
+
+     /// order
      order:"order",
+
+  // fasoin
+  fashion:"fashion",
+  fashionList:"fashion/adminList",
+  updateFashoinProduct:"fashion/update",
+  addFashoinProduct:"fashion/addproduct",
+
+  //buety
+  buety:"buety",
+  buetyList:"buety/adminList",
+  updateBuetyProduct:"buety/update",
+  addbuetyProduct:"buety/addproduct",
+
+  // electronics
+  electronics:"electronics",
+  electronicsList:"electronics/adminList",
+  updateElectronicsProduct:"electronics/update",
+  addElectronicsProduct:"electronics/addproduct",
+
+
+  // appliances
+  appliances:"appliances",
+  appliancesList:"appliances/adminList",
+  updateAppliancesProduct:"appliances/update",
+  addAppliancesProduct:"appliances/addproduct",
     
 
 };

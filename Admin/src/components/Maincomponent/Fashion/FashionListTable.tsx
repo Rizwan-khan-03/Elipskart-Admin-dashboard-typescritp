@@ -10,9 +10,10 @@ import FashionForm from './FashionForm';
 import Title from '../Dashboard/Title';
 import { Dispatch } from "redux";
 import { useAppDispatch } from "../../../App/Redux/hooks";
-import { deleteProduct, getProductList } from '../../../App/Service/service.commondata';
+// import { deleteProduct, getProductList } from '../../../App/Service/service.commondata';
 import { setUpdate } from '../../../App/Service/Service';
 import ConfirmDialog from './ConfirmDialog';
+import { getFasionList, deleteProduct } from '../../../App/Service/service.fashion';
 
 
 const TableExample = () => {
@@ -21,12 +22,13 @@ const TableExample = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
   const [tableData, setTableData] = React.useState<any>([]);
-  const [deleteConfirm, setDeleteConfirm]=React.useState(false);
+  const [deleteConfirm, setDeleteConfirm] = React.useState(false);
   const [confirm, setConfirm] = React.useState({
     open: false,
     confirm: false,
     message: "",
-    title: ""
+    title: "",
+    id:''
   })
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -37,16 +39,8 @@ const TableExample = () => {
     setPage(0);
   };
 
-  const handleDelete = async (e: any, id: any) => {
-    await setConfirm((prev) => ({
-      ...prev,
-      open: true,
-      message: 'Do You Really Want To Delete',
-      title: 'Delete'
-
-    }))
-    if (deleteConfirm) {
-      const res: any = await dispatch(deleteProduct(id));
+  const handleDelete = async () => {
+      const res: any = await dispatch(deleteProduct(confirm?.id));
       if (res?.payload?.data?.responseCode === 200) {
         let array = [...tableData];
         let responsed = res?.payload?.data?.payload;
@@ -55,8 +49,6 @@ const TableExample = () => {
         setTableData(array)
         await setDeleteConfirm(false)
       }
-    }
-
   }
   const handleUpdate = async (e: any, item: any) => {
     await setUpdate(JSON.stringify(item));
@@ -69,7 +61,7 @@ const TableExample = () => {
   const handlGetProductList = async () => {
     try {
 
-      const res: any = await dispatch(getProductList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true ,categories:'fashion'}))
+      const res: any = await dispatch(getFasionList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true, categories: 'fashion' }))
       if (res?.payload?.data?.responseCode === 200 && res?.payload?.data?.success) {
         await setTableData(res?.payload?.data?.payload)
       }
@@ -118,21 +110,25 @@ const TableExample = () => {
                     {" "}
                     <Tooltip title="Delete">
                       <IconButton>
-                        <DeleteIcon onClick={(e) => handleDelete(e, row?._id)} />
+                        <DeleteIcon onClick={(e) => setConfirm((prev) => ({
+                          ...prev,
+                          open: true,
+                          message: 'Do You Really Want To Delete',
+                          title: 'Delete',
+                          id:row?._id
+                        }))} />
                       </IconButton>
                     </Tooltip>
-
                   </TableCell>
                 </TableRow>
-
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-      
-      
+
+
       </Paper >
-        <div className='custom_pagination'>
+      <div className='custom_pagination'>
         <Paper >
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
@@ -146,12 +142,12 @@ const TableExample = () => {
         </Paper>
       </div>
       <Modal
-          content={<FashionForm setOpen={setOpen} setTableData={setTableData} tableData={tableData} />}
-          open={open}
-          setOpen={setOpen}
+        content={<FashionForm setOpen={setOpen} setTableData={setTableData} tableData={tableData} />}
+        open={open}
+        setOpen={setOpen}
 
-        />
-      <ConfirmDialog confirm={confirm} setConfirm={setConfirm} setDeleteConfirm={setDeleteConfirm}/>
+      />
+      <ConfirmDialog confirm={confirm} setConfirm={setConfirm}  handleDelete={handleDelete}/>
     </>
 
   );

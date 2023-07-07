@@ -20,6 +20,7 @@ import { getUpdate } from '../../../App/Service/Service';
 import { Dispatch } from "redux";
 import { useAppDispatch } from "../../../App/Redux/hooks";
 import { addGroceryProduct, updateGroceryProductById } from '../../../App/Service/service.grocery';
+import { addAppliancesProduct, updateAppliancesProductById } from '../../../App/Service/service.appliances';
 // function Copyright() {
 //   return (
 //     <Typography variant="body2" color="text.secondary" align="center">
@@ -47,7 +48,6 @@ const initialData: any = {
   price: 0,
   discountPercentage: 0,
   productCode: 0,
-  weight: 0,
   
 }
 export default function Mobile({ setTableData, tableData, setOpen }: any) {
@@ -141,9 +141,7 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
     try {
       const id: any = (item && typeof item === "object") ? item._id : '';
       if (endPoint === "update") {
-        console.log("endpoint", endPoint);
-        const res: any = await dispatch(updateGroceryProductById({ id: id, formData }))
-        console.log("update", res);
+        const res: any = await dispatch(updateAppliancesProductById({ id: id, formData }))
         if (res?.payload?.data?.responseCode === 200) {
           let responsed: any = res?.payload?.data?.payload;
           let oldObjectIndex = tableData?.findIndex((obj: any) => obj._id === responsed?._id);
@@ -155,9 +153,7 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
           setEndPoint("product")
         }
       } else {
-        console.log("endpoint", endPoint);
-        const res: any = await dispatch(addGroceryProduct(formDataFormat));
-        console.log("addProduct res", res);
+        const res: any = await dispatch(addAppliancesProduct(formDataFormat));
         if (res?.payload?.data?.success && res?.payload?.data?.newProduct) {
           await setNewProduct(res?.payload?.data?.newProduct)
           let newArray = [...tableData];

@@ -13,6 +13,7 @@ import { useAppDispatch } from "../../../App/Redux/hooks";
 import { deleteProduct, getProductList } from '../../../App/Service/service.commondata';
 import { setUpdate } from '../../../App/Service/Service';
 import ConfirmDialog from './ConfirmDialog';
+import { getElectronicsList } from '../../../App/Service/service.electronics';
 
 
 const TableExample = () => {
@@ -69,7 +70,7 @@ const TableExample = () => {
   const handlGetProductList = async () => {
     try {
 
-      const res: any = await dispatch(getProductList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true ,categories:'fashion'}))
+      const res: any = await dispatch(getElectronicsList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true ,categories:'electronics'}))
       if (res?.payload?.data?.responseCode === 200 && res?.payload?.data?.success) {
         await setTableData(res?.payload?.data?.payload)
       }

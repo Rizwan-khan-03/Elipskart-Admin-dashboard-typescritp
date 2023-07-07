@@ -29,7 +29,6 @@ export const addGroceryProduct = createAsyncThunk(
       );
     }
   );
-
   // delete product
   export const deleteGroceryProduct = createAsyncThunk(
     "delete Product    ",

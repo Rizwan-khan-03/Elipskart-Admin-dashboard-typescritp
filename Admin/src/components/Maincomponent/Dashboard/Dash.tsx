@@ -128,7 +128,7 @@ export default function Dashboard() {
               ? theme.palette.grey[100]
               : theme.palette.grey[900],
           // flexGrow: 1,
-          height: '100vh',
+          height: '86vh',
           overflow: 'auto',
 
         }}
@@ -168,7 +168,7 @@ export default function Dashboard() {
               </Paper>
             </Grid>
           </Grid>
-          <Copyright sx={{ pt: 4 }} />
+          {/* <Copyright sx={{ pt: 4 }} /> */}
         </Container>
       </Box>
     </ThemeProvider>

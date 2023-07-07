@@ -2,38 +2,41 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { commonPostRequest ,deleteRequest,getRequest, getRequestForData, postRequest, putRequest} from "./axios/axios";
 import apiEndPoints from "../apiConfig/apiEndPoints";
 
-
-export const addGroceryProduct = createAsyncThunk(
+// appliances:"appliances",
+//   appliancesList:"appliances/adminList",
+//   updateAppliancesProduct:"appliances/update",
+//   addAppliancesProduct:"appliances/addproduct",
+export const addAppliancesProduct = createAsyncThunk(
   "addd Product    ",
   (payload: any) => {
-    return  postRequest(apiEndPoints.addGroceryProduct, payload).then(
+    return  postRequest(apiEndPoints.addAppliancesProduct, payload).then(
       (response:any) => response
     );
   }
 )
   // get product list  
-  export const getGroceryList = createAsyncThunk(
+  export const getAppliancesList = createAsyncThunk(
     "get product list ",
     (payload: any) => {
-      return  getRequestForData(apiEndPoints.groceryList, payload).then(
+      return  getRequestForData(apiEndPoints.appliancesList, payload).then(
         (response:any) => response
       );
     }
   );
    //  update Product  ById  
-   export const updateGroceryProductById = createAsyncThunk(
+   export const updateAppliancesProductById = createAsyncThunk(
     "update Product  ById  ",
     (payload: any) => {
-      return  putRequest(apiEndPoints.updateGroceryProduct, payload).then(
+      return  putRequest(apiEndPoints.updateAppliancesProduct, payload).then(
         (response:any) => response
       );
     }
   );
   // delete product
-  export const deleteGroceryProduct = createAsyncThunk(
+  export const deleteAppliancesProduct = createAsyncThunk(
     "delete Product    ",
     (payload: any) => {
-      return  deleteRequest(apiEndPoints.grocery, payload).then(
+      return  deleteRequest(apiEndPoints.appliances, payload).then(
         (response:any) => response
       );
     }

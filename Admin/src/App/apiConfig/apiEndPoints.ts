@@ -44,7 +44,7 @@ const apiEndPoints = {
   addElectronicsProduct:"electronics/addproduct",
 
 
-  // electronics
+  // appliances
   appliances:"appliances",
   appliancesList:"appliances/adminList",
   updateAppliancesProduct:"appliances/update",

@@ -8,4 +8,5 @@ module.exports = {
 	buetyRoutes:require('./Buety/routes'),
 	electronicsRoutes:require('./Electronincs/routes'),
 	appliancesRoutes:require('./Appliances/routes'),
+	paymentRoutes:require("./Payment/routes")
 };

@@ -7,7 +7,8 @@ const {
   fashionRoutes,
    buetyRoutes,
   electronicsRoutes,
-  appliancesRoutes
+  appliancesRoutes,
+  paymentRoutes
 } = require("../service/routesIndex");
 const path = require("path");
 const getBasePath = require("../../getBasePath");
@@ -24,6 +25,7 @@ module.exports = async (app) => {
   app.use("/api/buety", buetyRoutes);
   app.use("/api/electronics", electronicsRoutes);
   app.use("/api/appliances", appliancesRoutes);
+  app.use("/api/payment", paymentRoutes);
   app.use(express.static(path.join(__dirname, "../../Client/build")))
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../../Client/build/index.html"));

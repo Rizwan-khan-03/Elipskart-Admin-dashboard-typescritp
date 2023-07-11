@@ -11,10 +11,10 @@ import CartItems from './CartItems';
 import { Typography, Divider } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import * as action from './Reduxx/cartActions';
-import NavigateTo from '../../../Helper/NavigateTo';
 import { useNavigate } from 'react-router-dom';
 import SkeletonCart from './Skelton';
-
+import StripeCheckout from 'react-stripe-checkout';
+import { toast } from "react-toastify";
 const Item = styled(Paper)(({ theme }) => ({
     // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -76,11 +76,19 @@ function CartDtails() {
     const [cardData, setCardData] = useState<any>({
         totalDiscount: '',
         totalDeliveryCharges: '',
-        fee:  0,
+        fee: 0,
         totalAmount: '',
         totalItemsPrice: '',
         saving: ''
     });
+    const [product, setProduct] = useState({
+        price: 10,
+        name: "Payment Details",
+        description:'Address and Card Details',
+        currency: 'USD',
+        projectId: '',
+    })
+    // const user :any= JSON.parse(localStorage.getItem("user"))
     useEffect(() => {
         cartHandler()
         let itemIds: any = []
@@ -121,7 +129,7 @@ function CartDtails() {
                 totalItemsPrice: totalAmount,
                 totalAmount: totalAmount + prevData?.fee,
                 saving: savings,
-               fee: order.products.length? 140 : 0,
+                fee: order.products.length ? 140 : 0,
             };
         });
     };
@@ -138,7 +146,43 @@ function CartDtails() {
             navigate('/home')
         }
     }
-
+    const makePayment = async (token:any) => {
+        try {
+            const body = {
+                token,
+                product
+            };
+            const response = await fetch('http://localhost:5000/api/payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+            if (response.ok) {
+                toast.success("Payment succeeded");
+            } else {
+                toast.error("Payment failed");
+            }
+        } catch (error) {
+            toast.error("An error occurred");
+        }
+    };
+    const stripe = (
+        <StripeCheckout
+            token={makePayment}
+            stripeKey={process.env.REACT_APP_KEY || ""}
+            name="Payment Details"
+            email={product?.name}
+            currency="USD"
+            description={product?.description}
+            amount={product?.price * 100}
+            shippingAddress
+            billingAddress
+            panelLabel="Place Order"
+            allowRememberMe
+        />   
+    )
 
     return (
         <div className='cart_container'>
@@ -161,15 +205,15 @@ function CartDtails() {
                             <Grid item xs={12} md={12} >
                                 <FilterContainer>
                                     <Item>
-                                       {
-                                         order.products.length?
-                                            cartItems?.cart?.map((item: any) => (
-                                                <Item>
-                                                    <CartItems data={item} />
-                                                    <Divider />
-                                                </Item>
-                                            )):<SkeletonCart />
-                                     
+                                        {
+                                            order.products.length ?
+                                                cartItems?.cart?.map((item: any) => (
+                                                    <Item>
+                                                        <CartItems data={item} />
+                                                        <Divider />
+                                                    </Item>
+                                                )) : <SkeletonCart />
+
                                         }
                                     </Item>
                                 </FilterContainer>
@@ -220,7 +264,7 @@ function CartDtails() {
                                     </MobilePercent>
                                 </Stack>
                                 <Box sx={{ display: 'flex', justifyContent: "flex-end", marginTop: '5px', }}>
-                                    <Button size="large" sx={{
+                                    {/* <Button size="large" sx={{
                                         backgroundColor: "#fb641b",
                                         color: "#fff",
                                         marginRight: '5px',
@@ -232,7 +276,8 @@ function CartDtails() {
                                     }}
                                         disabled={!order.userId || !order.products.length || !order.amount || !order.address || !order.status}
                                         onClick={placeOrder}
-                                    >Place Order</Button>
+                                    >Place Order</Button> */}
+                                    {stripe}
                                 </Box>
                             </Item>
                         </Grid>

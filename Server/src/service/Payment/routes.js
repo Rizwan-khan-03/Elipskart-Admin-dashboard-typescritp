@@ -1,7 +1,11 @@
 const Router = require("express").Router();
 const {  verifyToken } = require("../Auth/AuthMiddlewares");
 const {
-    payment
+    payment,
+    razorpay,
+    verifypayment
 } = require("./controller/index");
-Router.post("/payment", verifyToken, payment);
+Router.post("/", verifyToken, payment);
+Router.post("/creatorder", verifyToken, razorpay);
+Router.post("/verifyorder", verifyToken, verifypayment);
 module.exports = Router;

@@ -25,8 +25,6 @@ export function getRequest(URL:string) {
 }
 
 export function postRequest(URL:string, payload:{}) {
-  console.log('postRequest',payload);
-  
   return axiosClient
     .post(`${AppConfig?.baseURL}${URL}`, payload, AUTH_HEADERS())
     .then((response:any) => response);

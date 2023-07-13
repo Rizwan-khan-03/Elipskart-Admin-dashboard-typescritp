@@ -7,7 +7,7 @@ const AuthPoint = ({Component}:any) => {
     useEffect(()=>{
         const isAuthenticated = getToken();
         if (isAuthenticated){
-            navigate('/dashboard')
+            navigate('/home')
         }
       }, [])
 

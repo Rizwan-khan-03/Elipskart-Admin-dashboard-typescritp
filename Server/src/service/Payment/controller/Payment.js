@@ -6,13 +6,14 @@ const { v4: uuid } = require('uuid');
     const idempontencyKey = uuid();
   
     try {
+
       const customer = await stripe.customers.create({
         email: token?.email,
         source: token?.id
       });
   
       const charge = await stripe.charges.create({
-        amount: parseInt(process.env.PROJECT_RENDER_USD,10) * 100,
+        amount: parseInt(product.price),
         currency: process.env.PROJECT_RENDER_CURRENCY || "USD",
         customer: customer.id,
         receipt_email: token.email,

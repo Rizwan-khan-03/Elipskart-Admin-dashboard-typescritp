@@ -15,6 +15,9 @@ import { useNavigate } from 'react-router-dom';
 import SkeletonCart from './Skelton';
 import StripeCheckout from 'react-stripe-checkout';
 import { toast } from "react-toastify";
+import { makePayment } from '../../../Config/Service/service.cart';
+import axios from 'axios';
+import { getToken } from '../../../Config/Service/Service';
 const Item = styled(Paper)(({ theme }) => ({
     // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -68,11 +71,17 @@ const initialData = {
     address: "indore",
     status: "pending"
 }
+declare global {
+    interface Window {
+        Razorpay: any;
+    }
+}
 function CartDtails() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const cartItems: any = useSelector((state: any) => state?.cart)
     const [order, setOrder] = useState<any>({ ...initialData })
+    const [orderId, setOrderId] = useState('');
     const [cardData, setCardData] = useState<any>({
         totalDiscount: '',
         totalDeliveryCharges: '',
@@ -82,12 +91,19 @@ function CartDtails() {
         saving: ''
     });
     const [product, setProduct] = useState({
-        price: 10,
+        price: 10 * 100,
         name: "Payment Details",
-        description:'Address and Card Details',
+        description: 'Address and Card Details',
         currency: 'USD',
         projectId: '',
     })
+    //razorpay
+    const [book, setBook] = useState({
+        name: "The Fault In Our Stars",
+        author: "John Green",
+        img: "https://images-na.ssl-images-amazon.com/images/I/817tHNcyAgL.jpg",
+        price: 250,
+    });
     // const user :any= JSON.parse(localStorage.getItem("user"))
     useEffect(() => {
         cartHandler()
@@ -108,6 +124,19 @@ function CartDtails() {
             amount: amount,
         }))
     }, [cartItems])
+    useEffect(() => {
+        const loadRazorpay = async () => {
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.async = true;
+            script.onload = () => {
+                console.log('Razorpay loaded');
+            };
+            document.body.appendChild(script);
+        };
+
+        loadRazorpay();
+    }, []);
     const cartHandler = async () => {
         const filteredItems = cartItems?.cart?.filter((item: any) => {
             if (item?.price && item.discountPercentage) return item
@@ -134,11 +163,12 @@ function CartDtails() {
         });
     };
     const placeOrder = async (id: any) => {
-        if (order.userId && order.products.length && order.amount && order.address && order.status) {
-            const res: any = await dispatch(action.placeOrderRequest({ order: order, callback: orderCallBack }));
-        } else {
-            console.log('place order ', order);
-        }
+        handlePayment()
+        // if (order.userId && order.products.length && order.amount && order.address && order.status) {
+        //     const res: any = await dispatch(action.placeOrderRequest({ order: order, callback: orderCallBack }));
+        // } else {
+        //     console.log('place order ', order);
+        // }
     }
     const orderCallBack = (value: any) => {
         if (value?.success) {
@@ -146,19 +176,16 @@ function CartDtails() {
             navigate('/home')
         }
     }
-    const makePayment = async (token:any) => {
+    const makePaymentHandler = async (token: any) => {
+
         try {
             const body = {
                 token,
                 product
             };
-            const response = await fetch('http://localhost:5000/api/payment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            });
+            const response: any = await makePayment(body)
+            console.log("response", response)
+
             if (response.ok) {
                 toast.success("Payment succeeded");
             } else {
@@ -170,7 +197,7 @@ function CartDtails() {
     };
     const stripe = (
         <StripeCheckout
-            token={makePayment}
+            token={makePaymentHandler}
             stripeKey={process.env.REACT_APP_KEY || ""}
             name="Payment Details"
             email={product?.name}
@@ -181,8 +208,86 @@ function CartDtails() {
             billingAddress
             panelLabel="Place Order"
             allowRememberMe
-        />   
+        />
     )
+    //rozarpay
+    // const createOrder = async () => {
+    //     try {
+    //         const response: any = await axios.post()
+    //         console.log("response", response)
+    //         const { order } = response.data;
+    //         setOrderId(order.id);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+    // const handlePayment = () => {
+    //     const options = {
+    //         key: 'YOUR_KEY_ID',
+    //         amount: 1000,
+    //         currency: 'INR',
+    //         name: 'Your Company',
+    //         description: 'Payment for Product',
+    //         order_id: orderId,
+    //         handler: function (response: any) {
+    //             // Handle the payment success response
+    //             console.log(response);
+    //         },
+    //         prefill: {
+    //             name: 'John Doe',
+    //             email: 'john@example.com',
+    //             contact: '9876543210',
+    //         },
+    //     };
+
+    //     const razorpayInstance = new window.Razorpay(options);
+    //     razorpayInstance.open();
+    // };
+    const AUTH_HEADERS = () => {
+        return {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: "application/json",
+            token: `Bearer ${getToken()}`,
+          }
+        }
+      }
+    const initPayment = (data: any) => {
+        const options = {
+            key: "YOUR_RAZORPAY_KEY",
+            amount: data.amount,
+            currency: data.currency,
+            name: book.name,
+            description: "Test Transaction",
+            image: book.img,
+            order_id: data.id,
+            handler: async (response: any) => {
+                try {
+                    const verifyUrl = "http://localhost:5000/api/payment/verifyorder";
+                    const { data } = await axios.post(verifyUrl,  response,AUTH_HEADERS() );
+                    console.log(data);
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+            theme: {
+                color: "#3399cc",
+            },
+        };
+        const rzp1 = new window.Razorpay(options);
+        rzp1.open();
+    };
+
+    const handlePayment = async () => {
+		try {
+			const orderUrl = "http://localhost:5000/api/payment/creatorder";
+			const { data } = await axios.post(orderUrl, { amount: book.price } ,AUTH_HEADERS());
+			console.log(data);
+			initPayment(data.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
     return (
         <div className='cart_container'>
@@ -264,7 +369,7 @@ function CartDtails() {
                                     </MobilePercent>
                                 </Stack>
                                 <Box sx={{ display: 'flex', justifyContent: "flex-end", marginTop: '5px', }}>
-                                    {/* <Button size="large" sx={{
+                                    <Button size="large" sx={{
                                         backgroundColor: "#fb641b",
                                         color: "#fff",
                                         marginRight: '5px',
@@ -276,8 +381,8 @@ function CartDtails() {
                                     }}
                                         disabled={!order.userId || !order.products.length || !order.amount || !order.address || !order.status}
                                         onClick={placeOrder}
-                                    >Place Order</Button> */}
-                                    {stripe}
+                                    >Place Order</Button>
+                                    {/* {stripe} */}
                                 </Box>
                             </Item>
                         </Grid>

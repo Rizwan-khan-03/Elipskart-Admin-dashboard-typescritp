@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -20,6 +20,18 @@ import { getUpdate } from '../../../App/Service/Service';
 import { Dispatch } from "redux";
 import { useAppDispatch } from "../../../App/Redux/hooks";
 import { addGroceryProduct, updateGroceryProductById } from '../../../App/Service/service.grocery';
+//firebase
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
+import { storage } from "../../../firebase";
+import { v4 } from "uuid";
+
+
 // function Copyright() {
 //   return (
 //     <Typography variant="body2" color="text.secondary" align="center">
@@ -53,13 +65,31 @@ const initialData: any = {
 export default function Mobile({ setTableData, tableData, setOpen }: any) {
   const [formData, setFormData] = useState<any>({ ...initialData });
   const [activeStep, setActiveStep] = React.useState(0);
-  const [selectedFile, setSelectedFile] = useState<any>("")
+  const [selectedFile, setSelectedFile] = useState<any>(null)
   const [endPoint, setEndPoint] = useState<any>("addproduct")
   const [newProduct, setNewProduct] = useState<any>({})
   const dispatch: Dispatch<any> = useAppDispatch();
   const user: any = useAppSelector(state => state?.commonDataSlice?.user)
   const product: any = getUpdate();
   const item: any = JSON.parse(product)
+  const [imageUpload, setImageUpload] = useState<any>(null);
+  const [imageUrls, setImageUrls] = useState<any>("");
+
+  const uploadFile = async() => {
+    if (formData?.img == null) return;
+    const imageRef = ref(storage, `images/${formData?.img?.name + v4()}`);
+    uploadBytes(imageRef, formData?.img).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        console.log("url",url)
+        // setImageUrls(url);
+         setFormData((prevFormData: any) => ({
+          ...prevFormData,
+          img: url
+      }));
+      });
+    });
+  };
+ 
   const handleNext = (value: any) => {
     setActiveStep(activeStep + 1);
     if (value === "Place order") {
@@ -102,8 +132,12 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
       setEndPoint("product")
     }
   }, [user])
+
+
   const handleSubmit = async () => {
     // Check if all fields are not null
+     await uploadFile() 
+    if (formData?.img== null ) return;
     for (const key in formData) {
       if (typeof formData[key] === 'object' && formData[key] !== null) {
         for (const subKey in formData[key]) {
@@ -122,10 +156,10 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
     // Create FormData object
     const formDataFormat = new FormData();
     for (const key in formData) {
-      if (key === "img") {
-        formDataFormat.append(key, formData[key]);
-      } else if (key === "userId") {
+       if (key === "userId") {
         formDataFormat.append(key, user?._id);
+      }  else if (key === "img") {
+        formDataFormat.append(key, formData[key]);
       }
       else {
         if (typeof formData[key] === 'object' && formData[key] !== null && formData[key] !== 'img') {
@@ -141,7 +175,7 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
     try {
       const id: any = (item && typeof item === "object") ? item._id : '';
       if (endPoint === "update") {
-        console.log("endpoint", endPoint);
+        
         const res: any = await dispatch(updateGroceryProductById({ id: id, formData }))
         console.log("update", res);
         if (res?.payload?.data?.responseCode === 200) {
@@ -155,7 +189,7 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
           setEndPoint("product")
         }
       } else {
-        console.log("endpoint", endPoint);
+        
         const res: any = await dispatch(addGroceryProduct(formDataFormat));
         console.log("addProduct res", res);
         if (res?.payload?.data?.success && res?.payload?.data?.newProduct) {
@@ -176,6 +210,8 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
     setOpen(false);
     localStorage.removeItem("product")
   };
+  console.log("formData?.img",formData?.img);
+  
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />

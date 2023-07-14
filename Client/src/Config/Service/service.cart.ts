@@ -23,7 +23,9 @@ export const makePayment = async (payload:any) => {
                     'Content-Type': 'application/json',
                     token: `Bearer ${getToken()}`,
                 },
-                body: JSON.stringify(payload)
+                 body: JSON.stringify(payload)
+                
+               
             });
       // const response = await postRequest(`payment`,payload);
       console.log("makePayment response",response)

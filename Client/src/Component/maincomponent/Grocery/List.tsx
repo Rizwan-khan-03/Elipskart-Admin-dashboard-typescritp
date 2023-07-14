@@ -37,7 +37,7 @@ export default function GroceriesList(data: any) {
     dispatch(action.adCartRequest(id));
     navigate('/cart')
   }
-
+console.log("data",data)
   return (
     <Link to={''} style={{ textDecoration: 'none', }}>
       <Box sx={{ width: "100%" }}>
@@ -46,11 +46,12 @@ export default function GroceriesList(data: any) {
             <Grid item xs={12} sm={6} md={3} key={item}>
               <Card sx={cardStyles}>
                 <ImageWrapper>
-                  <CardMedia
+                  {/* <CardMedia
                     component="img"
                     alt={item?.title}
                     image={item?.img}
-                  />
+                  /> */}
+                  <img src={item?.img} alt="img"/>
                 </ImageWrapper>
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="div">

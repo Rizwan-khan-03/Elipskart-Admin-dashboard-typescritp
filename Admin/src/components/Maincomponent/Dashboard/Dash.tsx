@@ -170,7 +170,6 @@ export default function Dashboard() {
             </Grid>
           </Grid>
           {/* <Copyright sx={{ pt: 4 }} /> */}
-      <FireBase />
         </Container>
       </Box>
     </ThemeProvider>

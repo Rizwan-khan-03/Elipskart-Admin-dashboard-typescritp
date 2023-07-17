@@ -4,9 +4,10 @@ const logger = require("../../../utils/logger");
 module.exports = async (req, res) => {
   try {
     const { isAdmin, userId ,categories} = req.query;
-    logger.info(`userId ${userId} isAdmin${isAdmin}`);
+      logger.info(`userId ${userId} isAdmin ${isAdmin} categories ${categories}`);
 
-    const products = await ProductModal.find({ userId: userId.trim(), isAdmin: isAdmin,categories:categories });
+    const products = await ProductModal.find({ userId: userId.trim(),isAdmin:isAdmin});
+    logger.info(`products ${products}`);
     res.status(200).send({
       payload: products,
       success: true,

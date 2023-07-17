@@ -25,19 +25,28 @@ const ImageWrapper = styled("div")({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  height: "50%",
+  height: "40%",
+  width:"50%",
   margin: "30px 30px 0 30px"
 });
+// const ImageWrapper = styled("div")({
+//   display: "flex",
+//   justifyContent: "center",
+//   alignItems: "center",
+//   height: "150px", // Adjust the desired height
+//   width: "200px", // Adjust the desired width
+//   margin: "30px 30px 0px 30px"
+// });
 
 export default function GroceriesList(data: any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const gotToCart = async (event :any,id: any) => {
+  const gotToCart = async (event: any, id: any) => {
     event.preventDefault()
     dispatch(action.adCartRequest(id));
     navigate('/cart')
   }
-console.log("data",data)
+  console.log("data", data)
   return (
     <Link to={''} style={{ textDecoration: 'none', }}>
       <Box sx={{ width: "100%" }}>
@@ -45,13 +54,20 @@ console.log("data",data)
           {data?.data?.map((item: any) => (
             <Grid item xs={12} sm={6} md={3} key={item}>
               <Card sx={cardStyles}>
-                <ImageWrapper>
-                  {/* <CardMedia
+                {/* <ImageWrapper>
+                  <CardMedia
                     component="img"
                     alt={item?.title}
                     image={item?.img}
-                  /> */}
-                  <img src={item?.img} alt="img"/>
+                  />
+                </ImageWrapper> */}
+                <ImageWrapper>
+                  <CardMedia
+                    component="img"
+                    alt={item?.title}
+                    image={item?.img}
+                    style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                  />
                 </ImageWrapper>
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="div">
@@ -71,7 +87,7 @@ console.log("data",data)
                     fontSize: '16px',
                     textTransform: "capitalize"
                   }}
-                    onClick={(e) => gotToCart(e,item?._id)}
+                    onClick={(e) => gotToCart(e, item?._id)}
                     size="small" variant="outlined">
                     Add Item
                   </Button>

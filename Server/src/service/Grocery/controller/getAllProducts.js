@@ -48,41 +48,8 @@ module.exports = async (req, res) => {
     } else {
       products = await ProductModal.find();
     }
-
-    // Extract the image data from the products
-    const productsWithImageData = products.map(product => {
-      const { _id, isAdmin, userId, title, available, brand, categories, createdAt, desc, discountPercentage, img, price, productCode, updatedAt, weight, __v } = product._doc;
-
-      if (!img || !img.buffer) {
-        // Handle the case when img is not available
-        // Set a default image URL or skip the product
-        return null;
-      }
-      const imgData = arrayBufferToBase64(img)
-      const imgSrc = `data:${img.contentType || 'image/jpeg'};base64,${imgData}`;
-
-      return {
-        _id,
-        isAdmin,
-        userId,
-        title,
-        available,
-        brand,
-        categories,
-        createdAt,
-        desc,
-        discountPercentage,
-        img: imgSrc,
-        price,
-        productCode,
-        updatedAt,
-        weight,
-        __v
-      };
-    }).filter(Boolean); // Remove null values
-
     res.status(200).json({
-      payload: productsWithImageData,
+      payload: products,
       success: true,
       message: "Product list retrieved successfully.",
       responseCode: 200,

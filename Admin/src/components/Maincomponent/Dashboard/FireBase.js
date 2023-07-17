@@ -33,7 +33,6 @@ function FireBase() {
         });
       });
     });
-    console.log(imageUrls)
   }, []);
 
   return (

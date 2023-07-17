@@ -12,7 +12,7 @@ const ProductModal = new mongoose.Schema(
     desc: { type: String, required: true },
     brand: { type: String, required: true },
     available: { type: Boolean, required: true },
-    img: { type: Buffer, required: true },
+    img: { type: String, required: true },
     categories: { type: String, required: true },
     price: { type: Number, required: true },
     discountPercentage: { type: Number, required: true },

@@ -12,7 +12,7 @@ const ProductSchema = new mongoose.Schema(
     desc: { type: String, required: true },
     brand: { type: String, required: true },
     available: { type: Boolean, required: true },
-    img: { type: Buffer, required: true },
+    img: { type: String, required: true },
     categories: { type: String, required: true },
     features: {
       ram: { type: String, required: true },

@@ -13,7 +13,7 @@ import { useAppDispatch } from "../../../App/Redux/hooks";
 import { deleteProduct, getProductList } from '../../../App/Service/service.commondata';
 import { setUpdate } from '../../../App/Service/Service';
 import ConfirmDialog from './ConfirmDialog';
-
+import { useAppSelector } from '../../../App/Redux/hooks';
 
 const TableExample = () => {
   const dispatch: Dispatch<any> = useAppDispatch();
@@ -28,6 +28,9 @@ const TableExample = () => {
     message: "",
     title: ""
   })
+  const user: any = useAppSelector(state => state?.commonDataSlice?.user)
+  console.log('user',user);
+  
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -69,7 +72,7 @@ const TableExample = () => {
   const handlGetProductList = async () => {
     try {
 
-      const res: any = await dispatch(getProductList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true ,categories:'grocery'}))
+      const res: any = await dispatch(getProductList({ userId: user?._id, isAdmin: true ,categories:'grocery'}))
       if (res?.payload?.data?.responseCode === 200 && res?.payload?.data?.success) {
         await setTableData(res?.payload?.data?.payload)
       }
@@ -107,7 +110,7 @@ const TableExample = () => {
                   <TableCell>{row.productCode}</TableCell>
                   <TableCell>{row.available ? 'Available' : 'Not Available'}</TableCell>
                   <TableCell>
-                    <img src={row.image} alt="Product" width="50" height="50" />
+                    <img src={row.img} alt="Product" width="50" height="50" />
                   </TableCell>
                   <TableCell>
                     <Tooltip title="Update">

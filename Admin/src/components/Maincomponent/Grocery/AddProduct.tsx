@@ -3,8 +3,38 @@ import { TextField } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { useAppSelector } from '../../../App/Redux/hooks';
+import {
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    listAll,
+    list,
+  } from "firebase/storage";
+  import { storage } from "../../../firebase";
+  import { v4 } from "uuid";
+const AddProduct = ({ formData, setFormData }: any) => {
+    const user: any = useAppSelector(state => state?.commonDataSlice?.user)
+    const [loading,setLoaading]=useState<any>({
+        isLoading:false,
+        errorMessage:'loading'
 
-const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: any) => {
+    })
+    const uploadFile = async (file:any) => {
+        if (file == null) return;
+        try {
+          const imageRef = ref(storage, `grocerImage/${file?.img?.name + v4()}`);
+          const snapshot = await uploadBytes(imageRef, file?.img);
+          const url = await getDownloadURL(snapshot.ref);
+          console.log("url", url);
+      
+          return url;
+        } catch (error) {
+          // Handle any potential errors
+          console.error(error);
+        }
+      };
+
     const handleChange =async (e: any) => {
         const name = e.target?.name
         const value = e.target?.value ? e.target?.value : ''
@@ -13,10 +43,34 @@ const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: an
      
          if (name === 'img' && files && files.length > 0) {
             const filesImg: any = files[0];
-            setFormData((prevFormData: any) => ({
-                ...prevFormData,
-                img: filesImg
-            }));
+            console.log('filesImg',filesImg);
+            const imgurl:any = await uploadFile(filesImg)
+            console.log('imgurl',imgurl);
+            
+            setLoaading((pre:any)=>({
+                ...pre,
+                isLoading:true
+            }))
+            if(imgurl){
+                await setFormData((prevFormData: any) => ({
+                    ...prevFormData,
+                    img: imgurl,
+                    userId:user?._id
+                }));
+                await setLoaading((pre:any)=>({
+                    ...pre,
+                    isLoading:false,
+                    errorMessage:'image uploaded'
+                }))
+            
+            }else{
+                await  setLoaading((pre:any)=>({
+                    ...pre,
+                    isLoading:false,
+                    errorMessage:'image not uploaded'
+                }))
+            }
+           
           }
           else if (name === 'available' ) {
             setFormData((prevFormData: any) => ({
@@ -89,6 +143,7 @@ const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: an
                             variant="standard"
                         />
                     </Grid>
+                    {loading?.isLoading && loading?.errorMessage}
                     <Grid item xs={12} sm={6}>
                         <TextField
                             name="categories"

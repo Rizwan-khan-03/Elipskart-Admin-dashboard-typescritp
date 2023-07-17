@@ -14,7 +14,7 @@ const verifyToken = (req, res, next) => {
       }
     });
   } else {
-    return res.status(401).send("You are not authenticated!");
+    return res.status(401).send("Token Is Not Available!");
   }
 };
 const verifyTokenAndAuthorization = (req, res, next) => {

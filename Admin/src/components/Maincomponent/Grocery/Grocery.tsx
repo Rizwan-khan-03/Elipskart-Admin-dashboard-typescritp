@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -20,6 +20,18 @@ import { getUpdate } from '../../../App/Service/Service';
 import { Dispatch } from "redux";
 import { useAppDispatch } from "../../../App/Redux/hooks";
 import { addGroceryProduct, updateGroceryProductById } from '../../../App/Service/service.grocery';
+//firebase
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
+import { storage } from "../../../firebase";
+import { v4 } from "uuid";
+
+
 // function Copyright() {
 //   return (
 //     <Typography variant="body2" color="text.secondary" align="center">
@@ -48,18 +60,54 @@ const initialData: any = {
   discountPercentage: 0,
   productCode: 0,
   weight: 0,
-  
+
 }
 export default function Mobile({ setTableData, tableData, setOpen }: any) {
   const [formData, setFormData] = useState<any>({ ...initialData });
   const [activeStep, setActiveStep] = React.useState(0);
-  const [selectedFile, setSelectedFile] = useState<any>("")
+  const [selectedFile, setSelectedFile] = useState<any>(null)
   const [endPoint, setEndPoint] = useState<any>("addproduct")
   const [newProduct, setNewProduct] = useState<any>({})
   const dispatch: Dispatch<any> = useAppDispatch();
   const user: any = useAppSelector(state => state?.commonDataSlice?.user)
   const product: any = getUpdate();
   const item: any = JSON.parse(product)
+  const [imageUpload, setImageUpload] = useState<any>(null);
+  const [imageUrls, setImageUrls] = useState<any>("");
+
+  // const uploadFile = async () => {
+  //   let imgUrl
+  //   if (formData?.img == null) return;
+  //   const imageRef = ref(storage, `grocerImage/${formData?.img?.name + v4()}`);
+  //   uploadBytes(imageRef, formData?.img).then((snapshot) => {
+  //     getDownloadURL(snapshot.ref).then((url) => {
+  //       console.log("url", url)
+  //       // setImageUrls(url);
+  //       setFormData((prevFormData: any) => ({
+  //         ...prevFormData,
+  //         img: url
+  //       }));
+  //       imgUrl = url
+
+  //     });
+  //   });
+  //   return imgUrl
+  // };
+  const uploadFile = async (img:any) => {
+    if (formData?.img == null) return;
+    try {
+      const imageRef = ref(storage, `grocerImage/${formData?.img?.name + v4()}`);
+      const snapshot = await uploadBytes(imageRef, formData?.img);
+      const url = await getDownloadURL(snapshot.ref);
+      console.log("url", url);  
+      return url;
+    } catch (error) {
+      // Handle any potential errors
+      console.error(error);
+    }
+  };
+  
+
   const handleNext = (value: any) => {
     setActiveStep(activeStep + 1);
     if (value === "Place order") {
@@ -83,8 +131,6 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
         return <AddProduct
           formData={formData}
           setFormData={setFormData}
-          setSelectedFile={setSelectedFile}
-          selectedFile={selectedFile}
         />;
       case 1:
         return <Review formData={formData} />;
@@ -96,52 +142,20 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
   }
   React.useEffect(() => {
     handleGetProductFromLocalStorage();
-    return () => {  
+    return () => {
       handleGetProductFromLocalStorage()
       setFormData(initialData)
       setEndPoint("product")
     }
   }, [user])
-  const handleSubmit = async () => {
-    // Check if all fields are not null
-    for (const key in formData) {
-      if (typeof formData[key] === 'object' && formData[key] !== null) {
-        for (const subKey in formData[key]) {
-          if (formData[key][subKey] === null) {
-            console.error("Missing fields");
-            return;
-          }
-        }
-      } else {
-        if (formData[key] === null) {
-          console.error("Missing fields");
-          return;
-        }
-      }
-    }
-    // Create FormData object
-    const formDataFormat = new FormData();
-    for (const key in formData) {
-      if (key === "img") {
-        formDataFormat.append(key, formData[key]);
-      } else if (key === "userId") {
-        formDataFormat.append(key, user?._id);
-      }
-      else {
-        if (typeof formData[key] === 'object' && formData[key] !== null && formData[key] !== 'img') {
-          for (const subKey in formData[key]) {
-            formDataFormat.append(`${subKey}`, formData[key][subKey]);
-          }
-        } else {
-          formDataFormat.append(key, formData[key]);
-        }
-      }
-    }
 
+
+  const handleSubmit = async () => {
+  
+    if (formData?.img == null) return;
     try {
       const id: any = (item && typeof item === "object") ? item._id : '';
       if (endPoint === "update") {
-        console.log("endpoint", endPoint);
         const res: any = await dispatch(updateGroceryProductById({ id: id, formData }))
         console.log("update", res);
         if (res?.payload?.data?.responseCode === 200) {
@@ -155,8 +169,8 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
           setEndPoint("product")
         }
       } else {
-        console.log("endpoint", endPoint);
-        const res: any = await dispatch(addGroceryProduct(formDataFormat));
+
+        const res: any = await dispatch(addGroceryProduct(formData));
         console.log("addProduct res", res);
         if (res?.payload?.data?.success && res?.payload?.data?.newProduct) {
           await setNewProduct(res?.payload?.data?.newProduct)
@@ -176,6 +190,7 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
     setOpen(false);
     localStorage.removeItem("product")
   };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
@@ -212,13 +227,13 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
                 confirmation,
               </Typography>
               {
-                newProduct?._id?(null):(
+                newProduct?._id ? (null) : (
                   <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                  Back
-                </Button>
+                    Back
+                  </Button>
                 )
               }
-             
+
             </React.Fragment>
           ) : (
             <React.Fragment>

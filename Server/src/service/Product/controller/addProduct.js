@@ -25,13 +25,11 @@ module.exports = async (req, res) => {
 		if (sameProductExist) {
 			throw new Error(`Product with title(${title}) and productCode(${productCode}) already exists.`);
 		}
-		const imageUrl = req.file ? req.file.path : null;
-		product.img = imageUrl;
-		logger.info(`product.img- ${product.img}`)
-		let newProduct = await new ProductModal(product).save();
+	
+		const newProduct = await new ProductModal(product).save();
 		res.status(200).send({
 			success: true,
-			newProduct: { ...newProduct._doc, img: imageUrl },
+			newProduct: newProduct,
 			message: "Product added successfully",
 		});
 

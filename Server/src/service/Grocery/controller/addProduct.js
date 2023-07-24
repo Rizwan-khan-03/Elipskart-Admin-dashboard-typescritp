@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
 		if (sameProductExist) {
 			throw new Error(`Product with title(${title}) and productCode(${productCode}) already exists.`);
 		}
-		let newProduct = await new ProductModal(product).save();
+		const newProduct = await new ProductModal(product).save();
 		res.status(200).send({
 			success: true,
 			newProduct: newProduct,

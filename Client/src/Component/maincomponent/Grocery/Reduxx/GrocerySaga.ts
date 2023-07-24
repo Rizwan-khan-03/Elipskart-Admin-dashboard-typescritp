@@ -23,7 +23,6 @@ export function* groceryListSaga(payload: any): Generator<any, any, any> {
 
 export function* groceryCartSaga(payload: any): Generator<any, any, any> {
   try {
-    console.log("groceryCartSaga payload",payload)
     const result = yield getAllGroceryItemDetails(payload?.itemId); // Assuming getAllMobileList returns a promise
     if(result?.data?.success){
       // Dispatch getMobileDetails success action

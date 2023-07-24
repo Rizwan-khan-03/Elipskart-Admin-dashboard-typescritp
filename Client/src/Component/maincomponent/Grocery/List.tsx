@@ -25,8 +25,6 @@ const ImageWrapper = styled("div")({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  height: "40%",
-  width:"50%",
   margin: "30px 30px 0 30px"
 });
 // const ImageWrapper = styled("div")({

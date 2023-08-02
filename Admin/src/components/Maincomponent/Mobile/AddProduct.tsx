@@ -3,31 +3,20 @@ import { TextField } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
+import { uploadFile } from '../../../utills/firebaseUpload';
+import { getUserId } from '../../../utills/helper';
 const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: any) => {
-    function change_image(e: any) {
-        let file = e.target.files[0]
-        if (!file) {
-            return
-        }
-         let url = URL.createObjectURL(file)
-        // setSelectedFile({
-        //     file: file,
-        //     url: url
-        // })
-        setFormData((prevFormData: any) => ({
-            ...prevFormData,
-            img: file
-        }));
-        console.log('file', file);
-    }
-    const handleChange =async (e: any) => {
+    const [loading, setLoaading] = useState<any>({
+        isLoading: false,
+        errorMessage: 'loading'
+    })
+    const handleChange = async (e: any) => {
         // const { name, value,files } = e.target;
         const name = e.target?.name
         const value = e.target?.value ? e.target?.value : ''
         const files = e.target?.files
-        console.log('value',e.target.checked,value,name);
-        
+        console.log('value', e.target.checked, value, name);
+
         if (name.startsWith('features.')) {
             const featureField = name.split('.')[1];
             setFormData((prevFormData: any) => ({
@@ -38,19 +27,40 @@ const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: an
                 },
             }));
         }
-        else if (name === 'img' && files && files.length > 0) {
+        else  if (name === 'img' && files && files.length > 0) {
             const filesImg: any = files[0];
-            setFormData((prevFormData: any) => ({
-                ...prevFormData,
-                img: filesImg
-            }));
+            setLoaading((pre:any)=>({
+                ...pre,
+                isLoading:true
+            }))
+            const imgurl:any = await uploadFile(filesImg)
+            if(imgurl){
+                await setFormData((prevFormData: any) => ({
+                    ...prevFormData,
+                    img: imgurl,
+                    userId:getUserId()
+                }));
+                await setLoaading((pre:any)=>({
+                    ...pre,
+                    isLoading:false,
+                    errorMessage:'image uploaded'
+                }))
+            
+            }else{
+                await  setLoaading((pre:any)=>({
+                    ...pre,
+                    isLoading:false,
+                    errorMessage:'image not uploaded'
+                }))
+            }
+           
           }
-          else if (name === 'available' ) {
+        else if (name === 'available') {
             setFormData((prevFormData: any) => ({
                 ...prevFormData,
                 available: e.target.checked
             }));
-          }
+        }
         else if (name.startsWith('ratings.')) {
             const featureField = name.split('.')[1];
             setFormData((prevFormData: any) => ({
@@ -111,14 +121,14 @@ const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: an
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField  
+                        <TextField
                             type="file"
                             name="img"
                             label="Image"
                             // value={formData?.img?.name}
                             inputProps={{
                                 accept: 'image/*',
-                              }}
+                            }}
                             onChange={handleChange}
                             // onChange={(e) => change_image(e)}
                             required
@@ -239,7 +249,7 @@ const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: an
                         <TextField
                             name="ratings.overallRating"
                             label="Overall Rating"
-                            value={formData?.ratings.overallRating}
+                            value={formData?.ratings?.overallRating}
                             onChange={handleChange}
                             required
                             variant="standard"
@@ -249,7 +259,7 @@ const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: an
                         <TextField
                             name="ratings.totalRatings"
                             label="Total Ratings"
-                            value={formData?.ratings.totalRatings}
+                            value={formData?.ratings?.totalRatings}
                             onChange={handleChange}
                             required
                             variant="standard"
@@ -259,7 +269,7 @@ const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: an
                         <TextField
                             name="ratings.totalReviews"
                             label="Total Reviews"
-                            value={formData?.ratings.totalReviews}
+                            value={formData?.ratings?.totalReviews}
                             onChange={handleChange}
                             required
                             variant="standard"

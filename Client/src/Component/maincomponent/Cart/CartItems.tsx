@@ -119,7 +119,7 @@ export default function CartItems({ data }: any) {
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={3}>
                             <Item>
-                                <img src={mobileImg} alt="mobile" />
+                                <img src={data?.img} alt="mobile" />
                             </Item>
                         </Grid>
                         <Grid item xs={12} md={6}>

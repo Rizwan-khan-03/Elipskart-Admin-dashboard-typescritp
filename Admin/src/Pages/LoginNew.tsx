@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginAdmin, setToken } from '../App/Service/Service'
+import { setToken,setUserId } from '../App/Service/Service'
 import toast from 'react-hot-toast';
 import './Style.css';
 import { Dispatch } from "redux";
@@ -64,6 +64,7 @@ const handleSubmit = async (e: any) => {
       if (res?.payload?.status === 200 && res?.payload?.data?.success) {
         if(res?.payload?.data?.payload?.isAdmin){
             setToken(res?.payload?.data?.accesToken)
+            setUserId(res?.payload?.data?.payload?._id)
             navigate('/dashboard')
             toast.success(res?.payload?.data?.message);
         }else{

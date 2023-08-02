@@ -3,58 +3,56 @@ import { TextField } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { useAppSelector } from '../../../App/Redux/hooks';
 import { uploadFile } from '../../../utills/firebaseUpload';
-import { getUserId } from '../../../utills/helper';
-const AddProduct = ({ formData, setFormData }: any) => {
-    const user: any = useAppSelector(state => state?.commonDataSlice?.user)
-    const [loading,setLoaading]=useState<any>({
-        isLoading:false,
-        errorMessage:'loading'
+import { getUserId } from '../../../App/Service/Service';
 
+const AddProduct = ({ formData, setFormData }: any) => {
+    const [loading, setLoaading] = useState<any>({
+        isLoading: false,
+        errorMessage: 'loading'
     })
 
-    const handleChange =async (e: any) => {
+    const handleChange = async (e: any) => {
         const name = e.target?.name
         const value = e.target?.value ? e.target?.value : ''
         const files = e.target?.files
-        
-     
-         if (name === 'img' && files && files.length > 0) {
+
+
+        if (name === 'img' && files && files.length > 0) {
             const filesImg: any = files[0];
-            setLoaading((pre:any)=>({
+            setLoaading((pre: any) => ({
                 ...pre,
-                isLoading:true
+                isLoading: true
             }))
-            const imgurl:any = await uploadFile(filesImg)
-            if(imgurl){
+            const imgurl: any = await uploadFile(filesImg)
+            if (imgurl) {
                 await setFormData((prevFormData: any) => ({
                     ...prevFormData,
                     img: imgurl,
-                    userId:getUserId()
+                    userId: getUserId()
                 }));
-                await setLoaading((pre:any)=>({
+                await setLoaading((pre: any) => ({
                     ...pre,
-                    isLoading:false,
-                    errorMessage:'image uploaded'
+                    isLoading: false,
+                    errorMessage: 'image uploaded'
                 }))
-            
-            }else{
-                await  setLoaading((pre:any)=>({
+
+            } else {
+                await setLoaading((pre: any) => ({
                     ...pre,
-                    isLoading:false,
-                    errorMessage:'image not uploaded'
+                    isLoading: false,
+                    errorMessage: 'image not uploaded'
                 }))
             }
-           
-          }
-          else if (name === 'available' ) {
+
+        }
+        else if (name === 'available') {
             setFormData((prevFormData: any) => ({
                 ...prevFormData,
                 available: e.target.checked
             }));
-          }
-        
+        }
+
         else {
             setFormData((prevFormData: any) => ({
                 ...prevFormData,
@@ -105,14 +103,14 @@ const AddProduct = ({ formData, setFormData }: any) => {
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField  
+                        <TextField
                             type="file"
                             name="img"
                             label="Image"
                             // value={formData?.img?.name}
                             inputProps={{
                                 accept: 'image/*',
-                              }}
+                            }}
                             onChange={handleChange}
                             // onChange={(e) => change_image(e)}
                             required

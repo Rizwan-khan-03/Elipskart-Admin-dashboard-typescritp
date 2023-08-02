@@ -110,7 +110,6 @@ export default function CartItems({ data }: any) {
     const dispatch = useDispatch();
     const removeToCart = async (id: any) => {
         dispatch(action.removeCartRequest(id));
-        console.log("removeToCart id", id);
     }
     return (
         <>

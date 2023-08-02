@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginAdmin, setToken } from '../App/Service/Service'
+import {  setToken, setUserId } from '../App/Service/Service'
 import toast from 'react-hot-toast';
 import './Style.css';
 import { Dispatch } from "redux";
@@ -30,10 +30,12 @@ function Login() {
         setErrorMessage("Empty username/password field")
       }
       const res: any = await dispatch(loginUser({ email: userData?.username, password: userData.password }))
-      console.log('rtk res', res)
+     
       if (res?.payload?.status === 200 && res?.payload?.data?.success && res?.payload?.data?.payload?.isAdmin) {
+        console.log('token res', res?.payload?.data?.accesToken)
         setToken(res?.data?.accesToken)
         navigate('/dashboard')
+        setUserId("sss")
         toast.success(res?.payload?.data?.message);
       } else {
         toast.error('User Not Admin');

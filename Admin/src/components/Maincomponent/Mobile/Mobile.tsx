@@ -119,45 +119,10 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
     }
   }, [user])
   const handleSubmit = async () => {
-    // Check if all fields are not null
-    for (const key in formData) {
-      if (typeof formData[key] === 'object' && formData[key] !== null) {
-        for (const subKey in formData[key]) {
-          if (formData[key][subKey] === null) {
-            console.error("Missing fields");
-            return;
-          }
-        }
-      } else {
-        if (formData[key] === null) {
-          console.error("Missing fields");
-          return;
-        }
-      }
-    }
-    // Create FormData object
-    const formDataFormat = new FormData();
-    for (const key in formData) {
-      if (key === "img") {
-        formDataFormat.append(key, formData[key]);
-      } else if (key === "userId") {
-        formDataFormat.append(key, user?._id);
-      }
-      else {
-        if (typeof formData[key] === 'object' && formData[key] !== null && formData[key] !== 'img') {
-          for (const subKey in formData[key]) {
-            formDataFormat.append(`${subKey}`, formData[key][subKey]);
-          }
-        } else {
-          formDataFormat.append(key, formData[key]);
-        }
-      }
-    }
-
+    if (formData?.img == null) return;
     try {
       const id: any = (item && typeof item === "object") ? item._id : '';
       if (endPoint === "update") {
-        console.log("endpoint", endPoint);
         const res: any = await dispatch(updateProductById({ id: id, formData }))
         console.log("update", res);
         if (res?.payload?.data?.responseCode === 200) {
@@ -172,7 +137,7 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
         }
       } else {
         console.log("endpoint", endPoint);
-        const res: any = await dispatch(addProduct(formDataFormat));
+        const res: any = await dispatch(addProduct(formData));
         console.log("addProduct res", res);
         if (res?.payload?.data?.success && res?.payload?.data?.newProduct) {
           await setNewProduct(res?.payload?.data?.newProduct)

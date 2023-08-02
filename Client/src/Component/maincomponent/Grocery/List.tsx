@@ -27,14 +27,6 @@ const ImageWrapper = styled("div")({
   alignItems: "center",
   margin: "30px 30px 0 30px"
 });
-// const ImageWrapper = styled("div")({
-//   display: "flex",
-//   justifyContent: "center",
-//   alignItems: "center",
-//   height: "150px", // Adjust the desired height
-//   width: "200px", // Adjust the desired width
-//   margin: "30px 30px 0px 30px"
-// });
 
 export default function GroceriesList(data: any) {
   const navigate = useNavigate();
@@ -51,22 +43,12 @@ export default function GroceriesList(data: any) {
         <Grid container spacing={2}>
           {data?.data?.map((item: any) => (
             <Grid item xs={12} sm={6} md={3} key={item}>
-              <Card sx={cardStyles}>
-                {/* <ImageWrapper>
-                  <CardMedia
-                    component="img"
-                    alt={item?.title}
-                    image={item?.img}
-                  />
-                </ImageWrapper> */}
-                <ImageWrapper>
-                  <CardMedia
-                    component="img"
-                    alt={item?.title}
-                    image={item?.img}
-                    style={{ objectFit: "cover", width: "100%", height: "100%" }}
-                  />
-                </ImageWrapper>
+              <Card sx={{ maxWidth: 345 }}>
+                <CardMedia
+                  sx={{ height: 140 ,margin:"10px"}}
+                  image={item?.img}
+                  title={item?.title}
+                />
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="div">
                     {item?.title}

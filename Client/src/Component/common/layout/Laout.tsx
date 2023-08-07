@@ -1,8 +1,8 @@
-import  React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, Badge, MenuItem, Menu, Grid, } from '@mui/material';
 import {
-  Menu as MenuIcon, Search as SearchIcon, AccountCircle , Notifications as NotificationsIcon, MoreVert as MoreIcon,
+  Menu as MenuIcon, Search as SearchIcon, AccountCircle, Notifications as NotificationsIcon, MoreVert as MoreIcon,
 } from '@mui/icons-material';
 import Haeder from '../Haeder';
 import { routepath } from '../../../Router/RouteList';
@@ -12,12 +12,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { clearStorage } from '../../../Config/Service/Service';
 import { Link } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
-
 import SideBar from './SideBar';
-// import { mobileData ,groceryData} from "../../../Config/data";
- import { data} from "../../../Config/data";
+import { data } from "../../../Config/data";
 import { useSelector } from 'react-redux';
-
+import logo from './logo.png'
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -72,33 +70,33 @@ export default function Layout(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [sideBarData, setSideBarData] = React.useState([]);
-  const param=useParams();
+  const param = useParams();
   const url = param["*"];
   const cartItems: any = useSelector((state: any) => state?.cart);
-  
-  let newUrl:any;
-useEffect(() => {
-  for (const key in data) {
-    if (data.hasOwnProperty(key)) {
-      if (key === url) {
-        setSideBarData(data[key])
-        break;  
+
+  let newUrl: any;
+  useEffect(() => {
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (key === url) {
+          setSideBarData(data[key])
+          break;
+        }
       }
     }
-  }
- 
-  return () => {
-    
-  }
-}, [url])
+
+    return () => {
+
+    }
+  }, [url])
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
- 
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
   const drawer = (
-    <SideBar data={sideBarData}/>
+    <SideBar data={sideBarData} />
   );
   const container = window !== undefined ? () => window().document.body : undefined;
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -200,7 +198,11 @@ useEffect(() => {
       <Grid container spacing={1}>
         <Grid item xs={12} md={12} className="layoutContainer">
           <AppBar position="fixed" >
-            <Toolbar>
+            <Toolbar sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center"
+            }}>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -216,18 +218,31 @@ useEffect(() => {
                 component="div"
                 sx={{ display: { xs: 'none', sm: 'block' } }}
               >
-                MUI
+                {/* <img src={logo} style={{ height: '30px'}}/> */}
+                <p style={{
+                  fontFamily: "monospace",
+                  fontSize: "18px",
+                  margin: 0,
+                  fontWeight: 'bolder'
+
+                }}>Elipskart</p>
+                <p style={{
+                  fontFamily: "monospace",
+                  fontSize: "10px",
+                  margin: 0,
+                  fontWeight: 'bolder'
+                }}>Explore <span style={{ color: 'yellow', fontWeight: 'bolder' }}>More</span></p>
               </Typography>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
+              <Search  sx={{ width:'40%' }}>
+                <SearchIconWrapper sx={{ color:'#1976d2' }} >
+                  <SearchIcon sx={{ color:'#1976d2' }}/>
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="Search…"
                   inputProps={{ 'aria-label': 'search' }}
+                  sx={{ color:'#000',background:'#fff',width:'35ch' }}
                 />
               </Search>
-              <Box sx={{ flexGrow: 1 }}></Box>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <Link to="cart" style={{ color: "#fff" }}>
                   <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -293,7 +308,7 @@ useEffect(() => {
           {renderMenu}
         </Grid>
       </Grid>
-      <Grid  xs={12} md={12}>
+      <Grid xs={12} md={12}>
         <Box sx={{ flexGrow: 1, marginTop: '116px' }}>
           <Routes>
             {routepath.map((i: any, index: any) => {

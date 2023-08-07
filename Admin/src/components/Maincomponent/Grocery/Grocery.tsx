@@ -75,39 +75,6 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
   const [imageUpload, setImageUpload] = useState<any>(null);
   const [imageUrls, setImageUrls] = useState<any>("");
 
-  // const uploadFile = async () => {
-  //   let imgUrl
-  //   if (formData?.img == null) return;
-  //   const imageRef = ref(storage, `grocerImage/${formData?.img?.name + v4()}`);
-  //   uploadBytes(imageRef, formData?.img).then((snapshot) => {
-  //     getDownloadURL(snapshot.ref).then((url) => {
-  //       console.log("url", url)
-  //       // setImageUrls(url);
-  //       setFormData((prevFormData: any) => ({
-  //         ...prevFormData,
-  //         img: url
-  //       }));
-  //       imgUrl = url
-
-  //     });
-  //   });
-  //   return imgUrl
-  // };
-  const uploadFile = async (img:any) => {
-    if (formData?.img == null) return;
-    try {
-      const imageRef = ref(storage, `grocerImage/${formData?.img?.name + v4()}`);
-      const snapshot = await uploadBytes(imageRef, formData?.img);
-      const url = await getDownloadURL(snapshot.ref);
-      console.log("url", url);  
-      return url;
-    } catch (error) {
-      // Handle any potential errors
-      console.error(error);
-    }
-  };
-  
-
   const handleNext = (value: any) => {
     setActiveStep(activeStep + 1);
     if (value === "Place order") {
@@ -157,7 +124,6 @@ export default function Mobile({ setTableData, tableData, setOpen }: any) {
       const id: any = (item && typeof item === "object") ? item._id : '';
       if (endPoint === "update") {
         const res: any = await dispatch(updateGroceryProductById({ id: id, formData }))
-        console.log("update", res);
         if (res?.payload?.data?.responseCode === 200) {
           let responsed: any = res?.payload?.data?.payload;
           let oldObjectIndex = tableData?.findIndex((obj: any) => obj._id === responsed?._id);

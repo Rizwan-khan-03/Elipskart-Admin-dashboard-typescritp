@@ -6,9 +6,9 @@ const ProductModal = new mongoose.Schema(
     isAdmin: {
       type: Boolean,
       default: false
-  },
-  userId: { type: String, required: true},
-    title: { type: String, required: true},
+    },
+    userId: { type: String, required: true },
+    title: { type: String, required: true },
     desc: { type: String, required: true },
     brand: { type: String, required: true },
     available: { type: Boolean, required: true },
@@ -21,4 +21,4 @@ const ProductModal = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Fashion',ProductModal);
+module.exports = mongoose.model('Fashion', ProductModal);

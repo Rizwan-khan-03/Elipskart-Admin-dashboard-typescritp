@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { uploadFile } from '../../../utills/firebaseUpload';
-import { getUserId } from '../../../utills/helper';
+import { getUserId } from '../../../App/Service/Service';
 const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: any) => {
     const [loading, setLoaading] = useState<any>({
         isLoading: false,
@@ -15,8 +15,7 @@ const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: an
         const name = e.target?.name
         const value = e.target?.value ? e.target?.value : ''
         const files = e.target?.files
-        console.log('value', e.target.checked, value, name);
-
+        
         if (name.startsWith('features.')) {
             const featureField = name.split('.')[1];
             setFormData((prevFormData: any) => ({
@@ -27,34 +26,34 @@ const AddProduct = ({ formData, setFormData, selectedFile, setSelectedFile }: an
                 },
             }));
         }
-        else  if (name === 'img' && files && files.length > 0) {
+        else if (name === 'img' && files && files.length > 0) {
             const filesImg: any = files[0];
-            setLoaading((pre:any)=>({
+            setLoaading((pre: any) => ({
                 ...pre,
-                isLoading:true
+                isLoading: true
             }))
-            const imgurl:any = await uploadFile(filesImg)
-            if(imgurl){
+            const imgurl: any = await uploadFile(filesImg)
+            if (imgurl) {
                 await setFormData((prevFormData: any) => ({
                     ...prevFormData,
                     img: imgurl,
-                    userId:getUserId()
+                    userId: getUserId()
                 }));
-                await setLoaading((pre:any)=>({
+                await setLoaading((pre: any) => ({
                     ...pre,
-                    isLoading:false,
-                    errorMessage:'image uploaded'
+                    isLoading: false,
+                    errorMessage: 'image uploaded'
                 }))
-            
-            }else{
-                await  setLoaading((pre:any)=>({
+
+            } else {
+                await setLoaading((pre: any) => ({
                     ...pre,
-                    isLoading:false,
-                    errorMessage:'image not uploaded'
+                    isLoading: false,
+                    errorMessage: 'image not uploaded'
                 }))
             }
-           
-          }
+
+        }
         else if (name === 'available') {
             setFormData((prevFormData: any) => ({
                 ...prevFormData,

@@ -16,7 +16,7 @@ import apiEndPoints from "../apiConfig/apiEndPoints";
   export const getProductList = createAsyncThunk(
     "get product list ",
     (payload: any) => {
-      return  getRequestForData(apiEndPoints.groceryList, payload).then(
+      return  getRequestForData(apiEndPoints.GetList, payload).then(
         (response:any) => response
       );
     }

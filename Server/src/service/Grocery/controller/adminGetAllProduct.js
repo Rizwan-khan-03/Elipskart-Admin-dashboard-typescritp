@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     const { isAdmin, userId ,categories} = req.query;
       logger.info(`userId ${userId} isAdmin ${isAdmin} categories ${categories}`);
 
-    const products = await ProductModal.find({ userId: userId.trim(),isAdmin:isAdmin});
+    const products = await ProductModal.find({ userId: userId.trim(),isAdmin:isAdmin,categories:categories});
     logger.info(`products ${products}`);
     res.status(200).send({
       payload: products,

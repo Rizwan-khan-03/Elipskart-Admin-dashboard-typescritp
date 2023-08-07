@@ -3,6 +3,8 @@ import apiEndPoints from "../apiConfig/apiEndPoints";
 
 const AUTH_KEY = "jwtToken";
 const PRODUCT_KEY:string = "product";
+const USER_ID="UserID";
+
 export const setToken = (Name: any) => {
   localStorage.setItem(AUTH_KEY, Name);
 };
@@ -10,6 +12,15 @@ export const getToken = () => {
   let token = localStorage.getItem(AUTH_KEY)  
   if(token === "undefined" || token === null) return false;
   else return token
+};
+export const setUserId = (value: any) => {
+  localStorage.setItem(USER_ID, value);
+};
+// user id
+export const getUserId = () => {
+  let id = localStorage.getItem(USER_ID)  
+  if(id === "undefined" || id === null) return false;
+  else return id
 };
 export const setUpdate = (value: any) => {
   localStorage.setItem(PRODUCT_KEY, value);

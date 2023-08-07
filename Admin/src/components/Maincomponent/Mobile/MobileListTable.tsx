@@ -14,7 +14,7 @@ import { useAppDispatch } from "../../../App/Redux/hooks";
 import { deleteProduct, getProductList, updateProductById } from '../../../App/Service/service.commondata';
 import { setUpdate } from '../../../App/Service/Service';
 import ConfirmDialog from './ConfirmDialog';
-
+import { getUserId } from '../../../App/Service/Service';
 
 const TableExample = () => {
   const dispatch: Dispatch<any> = useAppDispatch();
@@ -71,7 +71,7 @@ const TableExample = () => {
   const handlGetProductList = async () => {
     try {
 
-      const res: any = await dispatch(getProductList({ userId: "6454fa649b0ffa5392ed86ba", isAdmin: true, categories: 'mobile' }))
+      const res: any = await dispatch(getProductList({ userId: getUserId(), isAdmin: true ,categories: 'mobile' }))
       if (res?.payload?.data?.responseCode === 200 && res?.payload?.data?.success) {
         await setTableData(res?.payload?.data?.payload)
       }
@@ -109,7 +109,7 @@ const TableExample = () => {
                   <TableCell>{row.productCode}</TableCell>
                   <TableCell>{row.available ? 'Available' : 'Not Available'}</TableCell>
                   <TableCell>
-                    <img src={row.image} alt="Product" width="50" height="50" />
+                    <img src={row.img} alt="Product" width="50" height="50" />
                   </TableCell>
                   <TableCell>
                     <Tooltip title="Update">

@@ -14,7 +14,8 @@ import { deleteProduct, getProductList } from '../../../App/Service/service.comm
 import { setUpdate } from '../../../App/Service/Service';
 import ConfirmDialog from './ConfirmDialog';
 import { useAppSelector } from '../../../App/Redux/hooks';
-
+import { getUserId } from '../../../App/Service/Service';
+import { getGroceryList } from '../../../App/Service/service.grocery';
 const TableExample = () => {
   const dispatch: Dispatch<any> = useAppDispatch();
   const [page, setPage] = React.useState(0);
@@ -29,11 +30,13 @@ const TableExample = () => {
     title: ""
   })
   const user: any = useAppSelector(state => state?.commonDataSlice?.user)
-  console.log('user',user);
-  
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
+
+  useEffect(() => {
+    handlGetProductList()
+  }, [])
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
@@ -65,14 +68,10 @@ const TableExample = () => {
     await setUpdate(JSON.stringify(item));
     setOpen(true)
   }
-  useEffect(() => {
-    handlGetProductList()
-  }, [])
-
   const handlGetProductList = async () => {
     try {
 
-      const res: any = await dispatch(getProductList({ userId: user?._id, isAdmin: true ,categories:'grocery'}))
+      const res: any = await dispatch(getGroceryList({ userId: getUserId(), isAdmin: true ,categories:'grocrey'}))
       if (res?.payload?.data?.responseCode === 200 && res?.payload?.data?.success) {
         await setTableData(res?.payload?.data?.payload)
       }

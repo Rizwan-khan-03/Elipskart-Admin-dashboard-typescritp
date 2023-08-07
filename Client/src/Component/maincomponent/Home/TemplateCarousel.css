@@ -4,6 +4,7 @@
     position: relative;
     margin: 30px auto; 
     height: 300px;
+    border-bottom: 2px solid rgb(231, 228, 228);
   }
   
   .prev, .next {

@@ -19,11 +19,11 @@ import CartDtails from "../Component/maincomponent/Cart/Index";
 
 //UserDetails
 export const routepath = [
-  {
-    path: "/",
-    Element: Login,
-    private: false,
-  },
+  // {
+  //   path: "/",
+  //   Element: Login,
+  //   private: false,
+  // },
   {
     path: "/home",
     Element: Home,

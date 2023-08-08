@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, Badge, MenuItem, Menu, Grid, } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, Badge, MenuItem, Menu, Grid, Button, } from '@mui/material';
 import {
   Menu as MenuIcon, Search as SearchIcon, AccountCircle, Notifications as NotificationsIcon, MoreVert as MoreIcon,
 } from '@mui/icons-material';
@@ -243,6 +243,7 @@ export default function Layout(props: Props) {
                   sx={{ color:'#000',background:'#fff',width:'35ch' }}
                 />
               </Search>
+              <Button sx={{ color:'#000',background:'#fff',width:'13ch'}}>Login</Button>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <Link to="cart" style={{ color: "#fff" }}>
                   <IconButton size="large" aria-label="show 4 new mails" color="inherit">

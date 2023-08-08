@@ -5,14 +5,41 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import TemplateCarousel from './TemplateCarousel'
-import Carousel from './CardCarousel'
+import Carousel from './CardCarousel';
+import img1 from './pexels-anna-nekrashevich-6802048.jpg';
+import img2 from './pexels-lukas-590016.jpg'
 function Home() {
   return (
     <>
       {data?.map((item, index) => (
         <TemplateCarousel templateData={item} id={index + 1} />
       ))}
-      <Carousel />
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ width: '20%' ,marginLeft:'20px'}}>
+          <div className="advertising-component">
+            <img src={img2} alt="Advertisement" style={{ width: '100%',height:'50%' }}/>
+            <div className="ad-info">
+              <h3>Check out our Amazing Product!</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et orci nec libero tristique sagittis.</p>
+              <a href="#" className="ad-link">Learn More</a>
+            </div>
+          </div>
+        </div>
+        <div style={{ width: '60%' }}>
+          <Carousel />
+        </div>
+        <div style={{ width: '20%' ,marginRight:'20px'}}>
+          <div className="advertising-component">
+            <img src={img2} alt="Advertisement" style={{ width: '100%' ,height:'50%'}}/>
+            <div className="ad-info">
+              <h3>Check out our Amazing Product!</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et orci nec libero tristique sagittis.</p>
+              <a href="#" className="ad-link">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </>
   )
 }

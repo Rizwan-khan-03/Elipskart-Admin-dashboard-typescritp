@@ -33,10 +33,10 @@
     -webkit-user-select: none;
     user-select: none;
     top: 50%;
-    left: 17%;
+    left:0;
     margin: 10px;
-    /* border: 2px solid rgb(0 0 0 / 20%); */
     box-shadow: 0 3px 10px rgb(0 0 0 / 20%);
+    background: #fff;
   }
   .next-card{
     cursor: pointer;
@@ -49,10 +49,10 @@
     -webkit-user-select: none;
     user-select: none;
     top: 50%;
-    right:17%;
+    right:0;
     margin: 10px;
-    /* border: 2px solid #e9ecef; */
     box-shadow: 0 3px 10px rgb(0 0 0 / 20%);
+    background: #fff;
   }
     .next {
     right: 0;

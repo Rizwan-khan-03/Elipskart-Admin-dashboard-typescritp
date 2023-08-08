@@ -31,6 +31,9 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Container from '@mui/material/Container';
 import { clearStorage } from '../../../App/Service/Service';
+import AddCategory from './AddCategoryModal';
+import { categoryLinks } from '../../../Router/RouteList';
+import RemoveCategory from './RemoveCategory';
 const drawerWidth = 240;
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -112,6 +115,8 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 export default function Sidebar2() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [openRemoveModal, setOpenRemoveModal] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -131,7 +136,6 @@ export default function Sidebar2() {
   };
 
   const handleCloseNavMenu = (page:any) => {
-    console.log("page",page);
     if (page==="Logout") {
       clearStorage()
       setAnchorElNav(null);
@@ -230,7 +234,7 @@ export default function Sidebar2() {
     </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader sx={{justifyContent:'space-between'}}>
-        <Typography textAlign="start">{"Text"}</Typography>
+        <Typography textAlign="start"><Button onClick={()=>setOpenModal(true)}>{"Add Category"}</Button></Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <><ChevronRightIcon /></> : <ChevronLeftIcon />}
           </IconButton>
@@ -265,7 +269,8 @@ export default function Sidebar2() {
         </List>
         <Divider />
         <List>
-          {['All', 'Trash', 'Spam'].map((text, index) => (
+        <Button onClick={()=>setOpenRemoveModal(true)}>{"Remove Category"}</Button>
+          {categoryLinks.map((text, index) => (
             <NavLink to={text?.toLowerCase()} style={navLinkStyle}>
               <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
@@ -284,7 +289,7 @@ export default function Sidebar2() {
                   >
                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                   </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                  <ListItemText primary={text.toLocaleUpperCase()} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
               </ListItem>
             </NavLink>
@@ -313,6 +318,8 @@ export default function Sidebar2() {
           })}
         </Routes>
       </Box>
+      <AddCategory openModal={openModal} setOpenModal={setOpenModal}/>
+      <RemoveCategory open ={openRemoveModal}setOpen={setOpenRemoveModal}/>
     </Box>
   );
 }

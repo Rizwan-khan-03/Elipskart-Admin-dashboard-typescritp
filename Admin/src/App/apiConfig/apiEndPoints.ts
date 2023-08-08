@@ -11,45 +11,50 @@ const apiEndPoints = {
   Login: "user/login",
 
   /// product
-  Product:'product',
+  Product: 'product',
   GetList: "product/adminList",
   updateProduct: "product/update",
-  addProduct:'product/addproduct',
+  addProduct: 'product/addproduct',
   //
-   /// grocery
-   grocery:"grocery",
-   groceryList: "grocery/adminList",
-   updateGroceryProduct: "grocery/update",
-   addGroceryProduct:'grocery/addproduct',
+  /// grocery
+  grocery: "grocery",
+  groceryList: "grocery/adminList",
+  updateGroceryProduct: "grocery/update",
+  addGroceryProduct: 'grocery/addproduct',
 
-     /// order
-     order:"order",
+  /// order
+  order: "order",
 
   // fasoin
-  fashion:"fashion",
-  fashionList:"fashion/adminList",
-  updateFashoinProduct:"fashion/update",
-  addFashoinProduct:"fashion/addproduct",
+  fashion: "fashion",
+  fashionList: "fashion/adminList",
+  updateFashoinProduct: "fashion/update",
+  addFashoinProduct: "fashion/addproduct",
 
   //buety
-  buety:"buety",
-  buetyList:"buety/adminList",
-  updateBuetyProduct:"buety/update",
-  addbuetyProduct:"buety/addproduct",
+  buety: "buety",
+  buetyList: "buety/adminList",
+  updateBuetyProduct: "buety/update",
+  addbuetyProduct: "buety/addproduct",
 
   // electronics
-  electronics:"electronics",
-  electronicsList:"electronics/adminList",
-  updateElectronicsProduct:"electronics/update",
-  addElectronicsProduct:"electronics/addproduct",
+  electronics: "electronics",
+  electronicsList: "electronics/adminList",
+  updateElectronicsProduct: "electronics/update",
+  addElectronicsProduct: "electronics/addproduct",
 
 
   // appliances
-  appliances:"appliances",
-  appliancesList:"appliances/adminList",
-  updateAppliancesProduct:"appliances/update",
-  addAppliancesProduct:"appliances/addproduct",
-    
+  appliances: "appliances",
+  appliancesList: "appliances/adminList",
+  updateAppliancesProduct: "appliances/update",
+  addAppliancesProduct: "appliances/addproduct",
+
+  /// grocery
+  category: "category",
+  categoryList: "category/adminList",
+  addcategoryProduct: 'category/addproduct',
+  updatecategoryProduct: "category/update",
 
 };
 

@@ -89,7 +89,7 @@ export default function Carousel() {
                 {visibleItems.map((item) => (
                     <Card key={item.id} sx={{
                         maxWidth: 245,
-                        margin: '0 8px', // Add margin to create space between cards
+                        margin: '0 8px', 
                     }}>
                         <CardActionArea>
                             <CardMedia component="img" height="240" image={item.image} alt="green iguana" />

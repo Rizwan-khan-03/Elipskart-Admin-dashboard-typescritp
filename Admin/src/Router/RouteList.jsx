@@ -17,11 +17,6 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import LoginNew from "../Pages/LoginNew";
 
 export const routepath = [
-  // {
-  //   path: "/",
-  //   Element: Login,
-  //   private: false,
-  // },
   {
     path: "/",
     Element: LoginNew,
@@ -101,4 +96,6 @@ export const routLinks = [
   },
 
 ];
-
+export const categoryLinks=[
+  "A"
+]

@@ -9,5 +9,6 @@ module.exports = {
 	electronicsRoutes:require('./Electronincs/routes'),
 	appliancesRoutes:require('./Appliances/routes'),
 	paymentRoutes:require("./Payment/routes"),
-	categoryRoues:require("./Category/routes")
+	categoryRoues:require("./Category/routes"),
+	categoryListRoues:require("./CategoryList/routes"),
 };

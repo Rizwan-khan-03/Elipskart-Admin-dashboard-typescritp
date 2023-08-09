@@ -50,11 +50,16 @@ const apiEndPoints = {
   updateAppliancesProduct: "appliances/update",
   addAppliancesProduct: "appliances/addproduct",
 
-  /// grocery
+  /// category
   category: "category",
   categoryList: "category/adminList",
   addcategoryProduct: 'category/addproduct',
   updatecategoryProduct: "category/update",
+
+  /// categorylist
+  categorieslist: "categorylist/",
+  addcategorieslist: 'categorylist/addproduct',
+  updatecategorieslist: "categorylist/update",
 
 };
 

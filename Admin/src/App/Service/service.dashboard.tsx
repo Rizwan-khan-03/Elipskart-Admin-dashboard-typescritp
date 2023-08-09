@@ -13,4 +13,13 @@ import apiEndPoints from "../apiConfig/apiEndPoints";
       );
     }
   );
+  // get product list  
+  export const getCategoriesList = createAsyncThunk(
+    "get product list ",
+    (payload: any) => {
+      return  getRequest(`${apiEndPoints.categorieslist}${payload}`).then(
+        (response:any) => response
+      );
+    }
+  );
   

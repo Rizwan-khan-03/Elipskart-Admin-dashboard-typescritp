@@ -2,6 +2,6 @@ module.exports = {
 	addCategory: require("./addCategory"),
 	getCategoryList:require("./getCategoryList"),
 	getCategoryByUserId:require("./getCategoryByUserId"),
-	updateProduct:require("./updateProduct"),
+	updateCategoryList:require("./updateCategoryList"),
 	deleteCategory:require("./deleteCategory"),
 };

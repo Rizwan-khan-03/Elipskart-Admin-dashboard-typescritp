@@ -8,16 +8,25 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { categoryLinks, routepath } from '../../../Router/RouteList';
 import Category from '../../Maincomponent/Category';
+import { addCategoriesList } from '../../../App/Service/service.dashboard';
+import { Dispatch } from "redux";
+import { useAppDispatch } from "../../../App/Redux/hooks";
+import { getUserId } from '../../../App/Service/Service';
+export default function AddCategory({ openModal, setOpenModal,categoryLinks,setCategoryLinks }: any) {
 
-export default function AddCategory({ openModal, setOpenModal }: any) {
     const [val, setVal] = React.useState('');
-    const handleClose = () => {
+    const dispatch: Dispatch<any> = useAppDispatch();
+    const handleClose = async () => {
         let vals = val.trim().replace(/\s+/g, '').toLowerCase();
+        const reslist: any = await dispatch(addCategoriesList({ isAdmin: true, userId: getUserId(), newCategory: vals }))
+        if (reslist?.payload?.data?.success) {
+            setCategoryLinks(reslist?.payload?.data?.updatedProduct)
+        }
         categoryLinks.push(vals)
         routepath.push({
             path: `/${vals.trim()}`,
             Element: () => <Category comp={vals} />,
-            private: true,  
+            private: true,
         });
         setOpenModal(false);
         setVal('')

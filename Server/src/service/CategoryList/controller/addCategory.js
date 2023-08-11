@@ -1,21 +1,30 @@
 const { ProductModal } = require("../models/index");
 const logger = require("../../../utils/logger");
 const fs = require("fs");
-
+const removeNullandDuplicate = (arr) => {
+	const categorylist = [];
+	arr?.forEach((item) => {
+		if (item !== null) {
+			const index = categorylist.indexOf(item);
+			if (index === -1) {
+				categorylist.push(item);
+			}
+		}
+	});
+	return categorylist
+}
 module.exports = async (req, res) => {
 	try {
-		const { userId, newCategory } = req.body; // Assuming newCategory is the new category value
-		// Find the existing document by user ID
+		const { userId, newCategory } = req.body;
 		const existingProduct = await ProductModal.findOne({ userId });
-		if (!newCategory) throw new Error(`Provided Category is(${newCategory})  `);
+		if (!newCategory) throw new Error(`Provided Category is(${newCategory}) `);
 		if (existingProduct) {
 			existingProduct.categories.push(newCategory);
 			const updatedProduct = await existingProduct.save();
-
 			res.status(200).send({
 				success: true,
-				updatedProduct,
-				message: "Category added successfully",
+				updatedProduct: removeNullandDuplicate(updatedProduct.categories),
+				message: "Category added successfully !",
 			});
 		} else {
 			const newProduct = await new ProductModal({
@@ -23,10 +32,9 @@ module.exports = async (req, res) => {
 				userId,
 				categories: [newCategory]
 			}).save();
-
 			res.status(200).send({
 				success: true,
-				newProduct,
+				updatedProduct: removeNullandDuplicate(newProduct.categories),
 				message: "Category added successfully",
 			});
 		}
@@ -36,5 +44,5 @@ module.exports = async (req, res) => {
 			error: error.toString(),
 		});
 	}
-	
+
 };

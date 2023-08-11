@@ -4,7 +4,10 @@ module.exports = async (req, res) => {
 	const userId = req.params.id
 	try {
 		let product = await ProductModal.find({ userId });
-		const categorylist = product[0].categories.filter((item) => item !== null)
+		const categorylist = product[0].categories.filter((item, index, arr) => {
+			return item !== null && arr.indexOf(item) === index;
+		});
+
 		product[0].categories = categorylist
 		console.log("product", product)
 		if (product.length > 0) {

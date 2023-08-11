@@ -12,7 +12,6 @@ module.exports = async (req, res) => {
       })
     ));
     
-    logger.info(`categorylist ${categorylist}`)
     res.status(200).send({
       payload: categorylist,
       success: true,

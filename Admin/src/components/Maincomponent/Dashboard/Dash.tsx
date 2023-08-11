@@ -13,7 +13,7 @@ import Deposits from './Deposits';
 import Orders from './Orders';
 import { Dispatch } from "redux";
 import { useAppDispatch, useAppSelector } from "../../../App/Redux/hooks";
-import { getOrderList,getCategoriesList } from '../../../App/Service/service.dashboard';
+import { getOrderList } from '../../../App/Service/service.dashboard';
 import FireBase from './FireBase';
 
 function Copyright(props: any) {
@@ -84,7 +84,6 @@ const defaultTheme = createTheme();
 
 export default function Dashboard() {
   const orderList: any = useAppSelector((state: any) => state?.commonDataSlice?.order);
-  const user: any = useAppSelector(state => state?.commonDataSlice?.user)
   const [amount, setAmount] = React.useState({ amount: 0 });
   const dispatch: Dispatch<any> = useAppDispatch();
  

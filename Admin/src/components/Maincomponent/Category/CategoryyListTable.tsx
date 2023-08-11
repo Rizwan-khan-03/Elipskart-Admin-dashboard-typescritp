@@ -18,7 +18,6 @@ import { getUserId } from '../../../App/Service/Service';
 import { getGroceryList } from '../../../App/Service/service.grocery';
 import { deleteCategoryProduct, getCategoryList } from '../../../App/Service/service.category';
 const TableExample = ({comp}:any) => {
-  console.log('comp',comp);
   
   const dispatch: Dispatch<any> = useAppDispatch();
   const [page, setPage] = React.useState(0);

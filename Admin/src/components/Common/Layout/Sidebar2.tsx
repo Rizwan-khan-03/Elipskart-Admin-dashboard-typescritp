@@ -36,7 +36,7 @@ import AddCategory from './AddCategoryModal';
 import RemoveCategory from './RemoveCategory';
 import { Dispatch } from "redux";
 import { useAppDispatch, useAppSelector } from "../../../App/Redux/hooks";
-import { getOrderList, getCategoriesList } from '../../../App/Service/service.dashboard';
+import { getCategoriesList } from '../../../App/Service/service.dashboard';
 import Category from '../../Maincomponent/Category';
 const drawerWidth = 240;
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -152,7 +152,6 @@ export default function Sidebar2() {
       if (reslist?.payload?.data?.success) {
         setCategoryLinks(reslist?.payload?.data?.payload[0]?.categories)
       }
-      console.log('reslist', reslist?.payload?.data?.payload[0]?.categories);
     } catch (error) {
       console.log('error', error);
     }
@@ -355,8 +354,8 @@ export default function Sidebar2() {
           })}
         </Routes>
       </Box>
-      <AddCategory openModal={openModal} setOpenModal={setOpenModal} />
-      <RemoveCategory open={openRemoveModal} setOpen={setOpenRemoveModal} />
+      <AddCategory openModal={openModal} setOpenModal={setOpenModal} categoryLinks={categoryLinks} setCategoryLinks={setCategoryLinks}/>
+      <RemoveCategory open={openRemoveModal} setOpen={setOpenRemoveModal} categoryLinks={categoryLinks} setCategoryLinks={setCategoryLinks}/>
     </Box>
   );
 }

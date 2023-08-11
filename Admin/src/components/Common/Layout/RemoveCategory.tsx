@@ -12,24 +12,10 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { categoryLinks } from '../../../Router/RouteList';
-
-const options = [
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Oberon',
-    'Phobos',
-    'Pyxis',
-    'Sedna',
-    'Titania',
-    'Triton',
-    'Umbriel',
-];
-
+import { deleteCategory } from '../../../App/Service/service.dashboard';
+import { useAppDispatch } from "../../../App/Redux/hooks";
+import { Dispatch } from "redux";
+import { getUserId } from '../../../App/Service/Service';
 export interface ConfirmationDialogRawProps {
     id: string;
     keepMounted: boolean;
@@ -106,20 +92,25 @@ function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
     );
 }
 
-export default function RemoveCategory({ open, setOpen }: any) {
+export default function RemoveCategory({ open, setOpen ,categoryLinks,setCategoryLinks}: any) {
+    
     const [value, setValue] = React.useState('Dione');
-
+    const dispatch: Dispatch<any> = useAppDispatch();
     const handleClickListItem = () => {
         setOpen(true);
     };
 
-    const handleClose = (newValue?: string) => {
+    const handleClose = async(newValue?: string) => {
         setOpen(false);
         if (newValue) {
             setValue(newValue);
             const index = categoryLinks.indexOf(newValue);
             if (index > -1) { // only splice array when item is found
                 categoryLinks.splice(index, 1); // 2nd parameter means remove one item only
+            }
+            const reslist: any = await dispatch(deleteCategory({ id: getUserId(), category: newValue }))
+            if (reslist?.payload?.data?.success) {
+                setCategoryLinks(reslist?.payload?.data?.updatedProduct)
             }
         }
         console.log('handleClose value', value);

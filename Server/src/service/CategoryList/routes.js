@@ -7,7 +7,7 @@ const {
   getCategoryList,
   deleteCategory,
   getCategoryByUserId,
-  updateProduct,
+  updateCategoryList,
 } = require("./controller/index");
 
 const storage = multer.diskStorage({
@@ -26,11 +26,10 @@ Router.post("/addproduct", verifyTokenAndAdmin, upload.single("img"), addCategor
 // get product
 Router.get("/:id", verifyToken, getCategoryByUserId);
 //update product
-Router.put("/update", verifyTokenAndAdmin, updateProduct);
-// get all product for user
+Router.put("/update", verifyTokenAndAdmin, updateCategoryList);
+// get all getCategoryList for user
 Router.get("/", verifyToken, getCategoryList);
-// get all product for admin
-// get  product by dates filter
+// get  delete Category by dates filter
 Router.delete("/:id", verifyTokenAndAdmin, deleteCategory);
 
 

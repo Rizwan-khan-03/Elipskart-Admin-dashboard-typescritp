@@ -14,7 +14,7 @@ const ProductModal = new mongoose.Schema(
     available: { type: Boolean, required: true },
     img: { type: String, required: true },
     categories: { type: String, required: true },
-    weight: { type: String, required: false },
+    weight: { type: String, required: true },
     price: { type: Number, required: true },
     discountPercentage: { type: Number, required: true },
     productCode: { type: Number, required: true },
@@ -22,4 +22,4 @@ const ProductModal = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Grocey',ProductModal);
+module.exports = mongoose.model('category',ProductModal);

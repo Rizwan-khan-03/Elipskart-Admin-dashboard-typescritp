@@ -22,15 +22,15 @@ const theme = createTheme({
 });
 
 export default function MobileImg({ imgSrc }: any) {
-  const navigate =useNavigate()
-  const cartUrl:any=useParams()
+  const navigate = useNavigate()
+  const cartUrl: any = useParams()
   const dispatch = useDispatch();
-  const gotToCart=async()=>{
+  const gotToCart = async () => {
     navigate('/cart')
     console.log("gotToCart");
     dispatch(action.adCartRequest(cartUrl?.id));
   }
-  
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -51,17 +51,23 @@ export default function MobileImg({ imgSrc }: any) {
         }}
       >
         <ImageListItem>
-          <img
-            src={`${imgSrc}?w=248&fit=crop&auto=format`}
-            srcSet={`${imgSrc}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt={"img"}
-            loading="lazy"
-          />
+          <Box
+           
+          >
+            <img
+              // src={`${imgSrc}?w=248&fit=crop&auto=format`}
+              src={imgSrc}
+              // srcSet={`${imgSrc}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              alt={"img"}
+              loading="lazy"
+            />
+          </Box>
+
         </ImageListItem>
 
       </Box>
       <Box sx={{ display: 'flex', justifyContent: "space-around", marginTop: '5px' }}>
-        <Button onClick={()=>gotToCart()}  size="large" sx={{
+        <Button onClick={() => gotToCart()} size="large" sx={{
           backgroundColor: "#ff9f00",
           color: "#fff",
           width: "50%",
@@ -69,10 +75,10 @@ export default function MobileImg({ imgSrc }: any) {
           '&:hover': {
             backgroundColor: "#fff",
             color: "#ff9f00",
-            border:'1px solid #ff9f00'
+            border: '1px solid #ff9f00'
           }
         }}>Add To Cart</Button>
-        <Button onClick={()=>gotToCart()} size="large" sx={{
+        <Button onClick={() => gotToCart()} size="large" sx={{
           backgroundColor: "#fb641b",
           color: "#fff",
           width: "50%",
@@ -80,7 +86,7 @@ export default function MobileImg({ imgSrc }: any) {
           '&:hover': {
             backgroundColor: "#fff",
             color: "#fb641b",
-            border:'1px solid #fb641b'
+            border: '1px solid #fb641b'
           }
         }}>Buy Now</Button>
       </Box>

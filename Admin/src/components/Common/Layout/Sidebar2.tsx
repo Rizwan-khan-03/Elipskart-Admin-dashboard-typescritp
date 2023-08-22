@@ -31,6 +31,13 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Container from '@mui/material/Container';
 import { clearStorage } from '../../../App/Service/Service';
+import AddCategory from './AddCategoryModal';
+// import { categoryLinks } from '../../../Router/RouteList';
+import RemoveCategory from './RemoveCategory';
+import { Dispatch } from "redux";
+import { useAppDispatch, useAppSelector } from "../../../App/Redux/hooks";
+import { getCategoriesList } from '../../../App/Service/service.dashboard';
+import Category from '../../Maincomponent/Category';
 const drawerWidth = 240;
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -100,21 +107,55 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
- const navLinkStyle= {
-    // Add your custom styles here
-    textDecoration: 'none',
-    color: '#00000f',
-    fontWeight: 'bold',
-  }
+const navLinkStyle = {
+  // Add your custom styles here
+  textDecoration: 'none',
+  color: '#00000f',
+  fontWeight: 'bold',
+}
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 export default function Sidebar2() {
+  const dispatch: Dispatch<any> = useAppDispatch();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [openRemoveModal, setOpenRemoveModal] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [categoryLinks, setCategoryLinks] = React.useState<any>([]);
+  const user: any = useAppSelector(state => state?.commonDataSlice?.user)
+  React.useEffect(() => {
+    handlGetCategoryList()
+    handleSetRoutes()
+  }, [])
 
+  const handleSetRoutes = async () => {
+    categoryLinks?.forEach((item:any) => {
+      if (item !== null) {
+        let vals = item.trim().replace(/\s+/g, '').toLowerCase();
+        routepath.push({
+          path: `/${vals.trim()}`,
+          Element: () => <Category comp={vals} />,
+          private: true,  
+      });
+      }
+    })
+
+  }
+
+
+  const handlGetCategoryList = async () => {
+    try {
+      const reslist: any = await dispatch(getCategoriesList(user._id))
+      if (reslist?.payload?.data?.success) {
+        setCategoryLinks(reslist?.payload?.data?.payload[0]?.categories)
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -130,15 +171,14 @@ export default function Sidebar2() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = (page:any) => {
-    console.log("page",page);
-    if (page==="Logout") {
+  const handleCloseNavMenu = (page: any) => {
+    if (page === "Logout") {
       clearStorage()
       setAnchorElNav(null);
     } else {
       setAnchorElNav(null);
     }
-    
+
   };
 
   const handleCloseUserMenu = () => {
@@ -147,10 +187,10 @@ export default function Sidebar2() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar  position="fixed" open={open}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Box>
+      <AppBar position="fixed" open={open}>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Box>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -164,73 +204,73 @@ export default function Sidebar2() {
                 <MenuIcon />
               </IconButton>
             </Box>
-         
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={()=>handleCloseNavMenu(page)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              href=""
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={()=>handleCloseNavMenu(setting)}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+              LOGO
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              {pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={() => handleCloseNavMenu(page)}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
               ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+            </Box>
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={() => handleCloseNavMenu(setting)}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader sx={{justifyContent:'space-between'}}>
-        <Typography textAlign="start">{"Text"}</Typography>
+        <DrawerHeader sx={{ justifyContent: 'space-between' }}>
+          <Typography textAlign="start"><Button onClick={() => setOpenModal(true)}>{"Add Category"}</Button></Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <><ChevronRightIcon /></> : <ChevronLeftIcon />}
           </IconButton>
@@ -239,7 +279,7 @@ export default function Sidebar2() {
         <List>
           {routLinks?.map((item, index) => (
             <ListItem key={item?.link} disablePadding sx={{ display: 'block' }}>
-                <NavLink to={item?.link?.toLowerCase()} style={navLinkStyle}>
+              <NavLink to={item?.link?.toLowerCase()} style={navLinkStyle}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -258,15 +298,16 @@ export default function Sidebar2() {
                   </ListItemIcon>
                   <ListItemText primary={item?.link} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
-            </NavLink>
-              </ListItem>
+              </NavLink>
+            </ListItem>
 
           ))}
         </List>
         <Divider />
         <List>
-          {['All', 'Trash', 'Spam'].map((text, index) => (
-            <NavLink to={text?.toLowerCase()} style={navLinkStyle}>
+          <Button onClick={() => setOpenRemoveModal(true)}>{"Remove Category"}</Button>
+          {categoryLinks?.map((text: any, index: number) => (
+            <NavLink to={text} style={navLinkStyle}>
               <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
                   sx={{
@@ -313,6 +354,8 @@ export default function Sidebar2() {
           })}
         </Routes>
       </Box>
+      <AddCategory openModal={openModal} setOpenModal={setOpenModal} categoryLinks={categoryLinks} setCategoryLinks={setCategoryLinks}/>
+      <RemoveCategory open={openRemoveModal} setOpen={setOpenRemoveModal} categoryLinks={categoryLinks} setCategoryLinks={setCategoryLinks}/>
     </Box>
   );
 }

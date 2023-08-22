@@ -317,31 +317,11 @@ export default function LandingPage(props: Props) {
 
                         </Drawer>
                     </Box>
-                    {/* {renderMobileMenu} */}
-                    {/* {renderMenu} */}
                 </Grid>
             </Grid>
             <Grid xs={12} md={12}>
                 <Box sx={{ flexGrow: 1, marginTop: '116px' }}>
                     <Home />
-                    {/* <Routes>
-            {routepath.map((i: any, index: any) => {
-              if (i.private) {
-                return (
-                  <Route
-                    key={`routes_${index}`}
-                    path={i.path}
-                    element={<PrivateRoute Component={i.Element} />}
-
-                  />
-                );
-              } else {
-                return (
-                  <Route key={`routes_${index}`} path="*" element={<h6>notfound</h6>} />
-                );
-              }
-            })}
-          </Routes> */}
                 </Box>
             </Grid>
         </Box >

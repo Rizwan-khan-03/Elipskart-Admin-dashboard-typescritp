@@ -15,6 +15,7 @@ import { Dispatch } from "redux";
 import { useAppDispatch, useAppSelector } from "../../../App/Redux/hooks";
 import { getOrderList } from '../../../App/Service/service.dashboard';
 import FireBase from './FireBase';
+
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -94,6 +95,7 @@ export default function Dashboard() {
   const handlGetProductList = async () => {
     try {
       const res: any = await dispatch(getOrderList())
+    
     } catch (error) {
       console.log('error', error);
     }

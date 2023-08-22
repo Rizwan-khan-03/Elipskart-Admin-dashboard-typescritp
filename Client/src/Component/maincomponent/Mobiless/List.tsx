@@ -103,7 +103,7 @@ export default function MobileList({ data ,}: any) {
                         <Grid container spacing={2}>
                             <Grid item xs={12} md={3}>
                                 <Item>
-                                    <img src={data?.img || 'fallback-image-url'} alt="mobile" />
+                                    <img src={data?.img || 'fallback-image-url'} alt="mobile" style={{width:'250px', height: '200px'}}/>
                                 </Item>
                             </Grid>
                             <Grid item xs={12} md={6}>

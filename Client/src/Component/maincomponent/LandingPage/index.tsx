@@ -317,8 +317,6 @@ export default function LandingPage(props: Props) {
 
                         </Drawer>
                     </Box>
-                    {/* {renderMobileMenu} */}
-                    {/* {renderMenu} */}
                 </Grid>
             </Grid>
             <Grid xs={12} md={12}>

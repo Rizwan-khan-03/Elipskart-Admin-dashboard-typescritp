@@ -5,12 +5,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { uploadFile } from '../../../utills/firebaseUpload';
 import { getUserId } from '../../../App/Service/Service';
+import Loader from '../Helper/Loader';
 
 const AddProduct = ({ formData, setFormData }: any) => {
-    const [loading, setLoaading] = useState<any>({
-        isLoading: false,
-        errorMessage: 'loading'
-    })
+    const [loading, setLoaading] = useState<boolean>(false)
 
     const handleChange = async (e: any) => {
         const name = e.target?.name
@@ -20,29 +18,18 @@ const AddProduct = ({ formData, setFormData }: any) => {
 
         if (name === 'img' && files && files.length > 0) {
             const filesImg: any = files[0];
-            setLoaading((pre: any) => ({
-                ...pre,
-                isLoading: true
-            }))
-            const imgurl: any = await uploadFile(filesImg)
+            await setLoaading(true)
+            const imgurl: any = await uploadFile(filesImg,"groceryImages")
             if (imgurl) {
                 await setFormData((prevFormData: any) => ({
                     ...prevFormData,
                     img: imgurl,
                     userId: getUserId()
                 }));
-                await setLoaading((pre: any) => ({
-                    ...pre,
-                    isLoading: false,
-                    errorMessage: 'image uploaded'
-                }))
+                await setLoaading(false)
 
             } else {
-                await setLoaading((pre: any) => ({
-                    ...pre,
-                    isLoading: false,
-                    errorMessage: 'image not uploaded'
-                }))
+                await setLoaading(false)
             }
 
         }
@@ -63,7 +50,8 @@ const AddProduct = ({ formData, setFormData }: any) => {
 
     return (
         <React.Fragment>
-            <form>
+             {loading ? <Loader show={loading}/> : null}
+              <form>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
                         <TextField
@@ -117,7 +105,6 @@ const AddProduct = ({ formData, setFormData }: any) => {
                             variant="standard"
                         />
                     </Grid>
-                    {loading?.isLoading && loading?.errorMessage}
                     <Grid item xs={12} sm={6}>
                         <TextField
                             name="categories"
@@ -170,6 +157,7 @@ const AddProduct = ({ formData, setFormData }: any) => {
                     </Grid>
                 </Grid>
             </form>
+           
         </React.Fragment>
     );
 };

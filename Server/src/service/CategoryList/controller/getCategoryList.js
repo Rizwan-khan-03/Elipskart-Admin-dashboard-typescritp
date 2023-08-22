@@ -1,5 +1,4 @@
 const { ProductModal } = require("../models");
-const logger = require("../../../utils/logger");
 module.exports = async (req, res) => {
   try {
     const products = await ProductModal.find();

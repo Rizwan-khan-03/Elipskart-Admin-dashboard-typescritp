@@ -2,15 +2,19 @@ const Router = require("express").Router();
 const multer = require("multer");
 const path = require("path");
 const { verifyTokenAndAdmin ,verifyTokenAndAuthorization,verifyToken } = require("../Auth/AuthMiddlewares");
-
+// addGrocery: require("./addGrocery"),
+// getAllGrocery:require("./getAllGrocery"),
+// getGrocery:require("./getGrocery"),
+// updateGrocery:require("./updateGrocery"),
+// deleteGrocery:require("./deleteGrocery"),
+// adminGetAllGrocery:require('./adminGetAllGrocery')
 const {
-    addProduct,
-    getAllProducts,
-    getProduct,
-    productByFilters,
-    updateProduct,
-    deleteProduct,
-    adminGetAllProduct
+  addGrocery,
+    getAllGrocery,
+    getGrocery,
+    updateGrocery,
+    deleteGrocery,
+    adminGetAllGrocery
 } = require("./controller/index");
 
 
@@ -27,18 +31,17 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage });
 // add product 
-Router.post("/addproduct", verifyTokenAndAdmin, upload.single("img"), addProduct);
-Router.get("/adminList", verifyTokenAndAdmin,adminGetAllProduct);
+Router.post("/addproduct", verifyTokenAndAdmin, upload.single("img"), addGrocery);
+Router.get("/adminList", verifyTokenAndAdmin,adminGetAllGrocery);
 // get product
-Router.get("/:id", verifyToken,getProduct);
+Router.get("/:id", verifyToken,getGrocery);
 //update product
-Router.put("/update", verifyTokenAndAdmin,updateProduct);
+Router.put("/update", verifyTokenAndAdmin,updateGrocery);
 // get all product for user
-Router.get("/", verifyToken,getAllProducts);
+Router.get("/", verifyToken,getAllGrocery);
 // get all product for admin
 // get  product by dates filter
-Router.get("/filter", verifyToken,productByFilters);
-Router.delete("/:id", verifyTokenAndAdmin,deleteProduct);
+Router.delete("/:id", verifyTokenAndAdmin,deleteGrocery);
 
 
 

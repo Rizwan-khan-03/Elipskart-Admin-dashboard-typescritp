@@ -106,24 +106,11 @@ type CustomButtonProps = {
 };
 export default function MobileDetails({ mobileData }: any) {
     const bankOffer = [1, 2, 3, 4, 5, 6]
-    // const [mobileData, setMobileData] = useState<any>([])
-    const dispatch = useDispatch();
-    const mobileId = useParams()
     const [postalCode, setPostalCode] = useState('');
     const handlePostalCodeChange = (event: any) => {
         setPostalCode(event.target.value);
     };
-    // React.useEffect(() => {
-    //     dispatch(action.getMobileDetailsRequest(mobileId?.id, getMobileDetails));
-    // }, [])
-    // const getMobileDetails = async (callbackdata: any) => {
-    //     try {
-
-    //         setMobileData(callbackdata?.payload)
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+  
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>

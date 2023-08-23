@@ -1,9 +1,8 @@
 module.exports = {
-	addProduct: require("./addProduct"),
-	getAllProducts:require("./getAllProducts"),
-	getProduct:require("./getProduct"),
-	updateProduct:require("./updateProduct"),
-	productByFilters:require('./productByFilters'),
-	deleteProduct:require("./deleteProduct"),
-	adminGetAllProduct:require('./adminGetAllProduct')
+	addGrocery: require("./addGrocery"),
+	getAllGrocery:require("./getAllGrocery"),
+	getGrocery:require("./getGrocery"),
+	updateGrocery:require("./updateGrocery"),
+	deleteGrocery:require("./deleteGrocery"),
+	adminGetAllGrocery:require('./adminGetAllGrocery')
 };

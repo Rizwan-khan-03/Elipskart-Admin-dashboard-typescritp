@@ -9,15 +9,16 @@ export interface GetLoginAction extends Action<unknown> {
   payload: unknown;
   callback: (result: any) => void;
 }
-export const  getMobileListRequest = (callback:any)=> {
+export const  getMobileListRequest = (payload:any)=> {
   return {
     type: action_type.MOBILELIST_REQUEST,
-    callback,
+    payload,
     
   };
 };
 // call inside mobilesaga 
 export const mobileListSuccess = (payload:any): Action<undefined> => {
+ 
   return {
     type: action_type.MOBILELIST_SUCCESS,
     payload: payload,

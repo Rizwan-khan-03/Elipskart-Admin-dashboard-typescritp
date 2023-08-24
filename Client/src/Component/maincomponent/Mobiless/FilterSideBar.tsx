@@ -1,5 +1,3 @@
-
-
 import * as React from "react";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
@@ -7,30 +5,65 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
-import SendIcon from "@mui/icons-material/Send";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Checkbox from "@mui/material/Checkbox";
 import Typography from '@mui/material/Typography';
 import { siedbarData } from "./data";
-
+import { useDispatch } from 'react-redux';
+import * as action from './Reduxx/MobileAction';
 export default function FilterSideBar() {
-    
     const [sections, setSections] = React.useState([...siedbarData]);
+    const [filterData, setFilterData] = React.useState<any>({
+        available: "",
+        brand: "",
+        categories: "",
+        overallRating: "",
+        discount: "",
+        ram: "",
+        internalstorage: "",
+        batterycapacity: "",
+        screensize: "",
+        primarycamera: "",
+        secondrycamera: ""
+    });
 
-    const handleClick = (sectionId: any) => {
+    const dispatch = useDispatch();
+    // React.useEffect(() => {
+    //     
+    // }, [])
+
+    const handleClick = (sections: any) => {
         setSections((prevSections) =>
             prevSections.map((section) =>
-                section.id === sectionId ? { ...section, open: !section.open } : section
+                section.id === sections?.id ? { ...section, open: !section.open } : section
             )
         );
     };
- 
+    const handleFilter = async (item: any, section: any) => {
+        const key = section?.title?.toLowerCase().replace(/\s+/g, '');
+
+        setFilterData((prev: any) => {
+            if (prev.hasOwnProperty(key)) {
+                return {
+                    ...prev,
+                    [key]: item?.text,
+                };
+            }
+            return prev;
+        });
+
+        // Now, outside of the state update callback, you can use the updated filterData.
+        if (filterData[key]) {
+            console.log('filterData', filterData);
+            dispatch(action.getMobileListRequest({ data: filterData, url: "product/search" }));
+        }
+    };
+
+    console.log('filterData outside', filterData);
     return (
         <List
-            sx={{ width: "100%",  bgcolor: "background.paper", textAlign: "initial", paddingLeft: 0 , height: '100%'}}
+            sx={{ width: "100%", bgcolor: "background.paper", textAlign: "initial", paddingLeft: 0, height: '100%' }}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
@@ -41,7 +74,7 @@ export default function FilterSideBar() {
         >
             {sections.map((section) => (
                 <React.Fragment key={section.id}>
-                    <ListItemButton onClick={() => handleClick(section.id)}>
+                    <ListItemButton onClick={() => handleClick(section)}>
                         <ListItemText
                             primary={
                                 <Typography
@@ -63,7 +96,7 @@ export default function FilterSideBar() {
                     <Collapse in={section.open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding >
                             {section.items.map((item) => (
-                                <ListItemButton key={item.id} sx={{ pl: 1 }}>
+                                <ListItemButton key={item.id} sx={{ pl: 1 }} onClick={() => handleFilter(item, section)}>
                                     <ListItemIcon sx={{ minWidth: "unset", width: "auto" }}>
                                         <Checkbox size="small" sx={{ fontSize: "small" }} />
                                     </ListItemIcon>

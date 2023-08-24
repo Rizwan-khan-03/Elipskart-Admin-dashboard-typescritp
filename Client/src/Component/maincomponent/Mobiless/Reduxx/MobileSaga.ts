@@ -5,12 +5,13 @@ import { getMobileDetails, getAllMobileList } from '../../../../Config/Service/m
 
 export function* mobileListSaga(payload: any): Generator<any, any, any> {
   try {
-    const result = yield getAllMobileList(); // Assuming getAllMobileList returns a promise
+   
+    const result = yield getAllMobileList(payload); // Assuming getAllMobileList returns a promise
     // Access the value returned by getAllMobileList
     if(result?.data?.success){
-      payload.callback(result?.data)
+      // payload.callback(result?.data)
       // Dispatch login success action
-      yield put({ type: action_type.MOBILELIST_SUCCESS ,data:result?.data});
+      yield put({ type: action_type.MOBILELIST_SUCCESS ,data:result?.data?.payload});
       return result; // Return the result
     }else{
       console.log(result?.message)

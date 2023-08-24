@@ -16,7 +16,8 @@ module.exports = async (req, res) => {
 			payload: {},
 			message: "some thing is wrong get product by id",
 			responseCode: 400,
-			success:false
+			success:false,
+			err:err.toString()
 		});
 	}
 }

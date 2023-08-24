@@ -3,8 +3,7 @@ const { ProductModal } = require("../models");
 module.exports = async (req, res) => {
   const startDate = req.body.start_date;
   const endDate = req.body.end_date;
-  console.log("startDate",startDate);
-  console.log("endDate",endDate);
+  
   
   // Check if both start and end dates are provided
   if (!startDate || !endDate) {

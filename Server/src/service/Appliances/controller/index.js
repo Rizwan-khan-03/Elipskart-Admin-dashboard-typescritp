@@ -1,9 +1,9 @@
 module.exports = {
-	addProduct: require("./addProduct"),
-	getAllProducts:require("./getAllProducts"),
-	getProduct:require("./getProduct"),
-	updateProduct:require("./updateProduct"),
+	addAppliances: require("./addAppliances"),
+	getAllAppliances:require("./getAllAppliances"),
+	getAppliances:require("./getAppliances"),
+	updateAppliances:require("./updateAppliances"),
 	productByFilters:require('./productByFilters'),
-	deleteProduct:require("./deleteProduct"),
-	adminGetAllProduct:require('./adminGetAllProduct')
+	deleteAppliances:require("./deleteAppliances"),
+	adminGetAllAppliances:require('./adminGetAllAppliances')
 };

@@ -4,13 +4,13 @@ const path = require("path");
 const { verifyTokenAndAdmin ,verifyTokenAndAuthorization,verifyToken } = require("../Auth/AuthMiddlewares");
 
 const {
-    addProduct,
-    getAllProducts,
-    getProduct,
+    addAppliances,
+    getAllAppliances,
+    getAppliances,
     productByFilters,
-    updateProduct,
-    deleteProduct,
-    adminGetAllProduct
+    updateAppliances,
+    deleteAppliances,
+    adminGetAllAppliances
 } = require("./controller/index");
 
 
@@ -27,18 +27,18 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage });
 // add product 
-Router.post("/addproduct", verifyTokenAndAdmin, upload.single("img"), addProduct);
-Router.get("/adminList", verifyTokenAndAdmin,adminGetAllProduct);
+Router.post("/addproduct", verifyTokenAndAdmin, upload.single("img"), addAppliances);
+Router.get("/adminList", verifyTokenAndAdmin,adminGetAllAppliances);
 // get product
-Router.get("/:id", verifyToken,getProduct);
+Router.get("/:id", verifyToken,getAppliances);
 //update product
-Router.put("/update", verifyTokenAndAdmin,updateProduct);
+Router.put("/update", verifyTokenAndAdmin,updateAppliances);
 // get all product for user
-Router.get("/", verifyToken,getAllProducts);
+Router.get("/", verifyToken,getAllAppliances);
 // get all product for admin
 // get  product by dates filter
 Router.get("/filter", verifyToken,productByFilters);
-Router.delete("/:id", verifyTokenAndAdmin,deleteProduct);
+Router.delete("/:id", verifyTokenAndAdmin,deleteAppliances);
 
 
 

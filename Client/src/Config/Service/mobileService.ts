@@ -1,8 +1,8 @@
 import { getRequest } from "./axios/axios";
 
-export const getAllMobileList = async () => {
+export const getAllMobileList = async (payload:any) => {
     try {
-        const response = await getRequest("product");
+        const response = await getRequest(payload);
      if (response) {    
       return response;
      } else {

@@ -37,12 +37,14 @@ const CenteredLoader = styled(Box)({
 
 export default function Moblie() {
   const [mobileList, setMobileList] = useState<any>([])
-  const dispatch = useDispatch();
   const store: any = useSelector((state: any) => state?.mobileList);
   const loading: boolean = store?.loading
+  const dispatch = useDispatch();
   React.useEffect(() => {
-    setMobileList(store?.data?.payload)
-    dispatch(action.getMobileListRequest(getListOfAllMobile));
+    setMobileList(store?.data)
+  }, [])
+  React.useEffect(() => {
+    dispatch(action.getMobileListRequest({calback:getListOfAllMobile,url:"product"}));
   }, [])
   const getListOfAllMobile = (callbackData: any) => {
     try {
@@ -51,7 +53,7 @@ export default function Moblie() {
         const imageSrc = `data:image/png;base64,${base64Image}`;
         return { ...product, img: imageSrc };
       });
-      setMobileList(transformedProducts)
+      // setMobileList(transformedProducts)
     } catch (error) {
       console.log(error);
     }

@@ -5,5 +5,6 @@ module.exports = {
 	updateProduct:require("./updateProduct"),
 	productByFilters:require('./productByFilters'),
 	deleteProduct:require("./deleteProduct"),
-	adminGetAllProduct:require('./adminGetAllProduct')
+	adminGetAllProduct:require('./adminGetAllProduct'),
+	search:require('./searchProduct')
 };

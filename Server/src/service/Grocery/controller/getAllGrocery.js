@@ -38,16 +38,16 @@ function arrayBufferToBase64(buffer) {
   return binary;
 }
 module.exports = async (req, res) => {
-  const query = req.query.id;
+  // const query = req.query.id;
 
   try {
-    let products;
+    // let products;
 
-    if (query) {
-      products = await ProductModal.find().sort({ _id: -1 }).limit(5);
-    } else {
-      products = await ProductModal.find();
-    }
+    // if (query) {
+    //   products = await ProductModal.find().sort({ _id: -1 }).limit(5);
+    // } else {
+    // }
+   const  products = await ProductModal.find();
     res.status(200).json({
       payload: products,
       success: true,

@@ -37,16 +37,20 @@ axiosClient.interceptors.response.use(
 //   return axiosClient.get(url, options).then((response: any) => response);
 // }
 
-export function getRequest(payload: any) {
-  if (!AppConfig?.baseURL || !payload?.payload?.url){
-    throw new Error("Base URL or URL in payload is missing.");
-  }
-  const url = `${AppConfig?.baseURL}${payload?.payload?.url}`;
-  const queryParams = new URLSearchParams(payload?.payload);
-  const urlWithParams = `${url}?${queryParams?.toString()}`;
-  return axiosClient.get(urlWithParams, AUTH_HEADERS()).then((response: any) => response);
+export function getRequest(url: any) {
+  // if (!AppConfig?.baseURL || !payload?.payload?.url){
+  //   throw new Error("Base URL or URL in payload is missing.");
+  // }
+  const URL = `${AppConfig?.baseURL}${url}`;
+  // const queryParams = new URLSearchParams(payload?.payload);
+  // const urlWithParams = `${url}?${queryParams?.toString()}`;
+  return axiosClient.get(URL, AUTH_HEADERS()).then((response: any) => response);
 }
-
+export function getRequestByID(URL:string) {
+  return axiosClient
+    .get(`${AppConfig?.baseURL}${URL}`, AUTH_HEADERS())
+    .then((response:any) => response);  
+}
 
 export function postRequest(URL:string, payload:{}) {
   return axiosClient

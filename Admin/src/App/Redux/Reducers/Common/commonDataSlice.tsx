@@ -43,6 +43,7 @@ const commonDataSlice = createSlice({
         state.status = "loading";
       })
       .addCase(loginUser.fulfilled, (state, action) => {
+        console.log('action',action);
         state.status = "idle";
         state.user = action?.payload?.data.payload;
       })

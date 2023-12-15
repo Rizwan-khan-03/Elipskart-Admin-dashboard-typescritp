@@ -35,7 +35,7 @@ export default function MobileImg({ imgSrc }: any) {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          height: 450,
+          height: 410,
           backgroundColor: "pink",
           display: "grid",
           gridTemplateColumns: {
@@ -60,6 +60,7 @@ export default function MobileImg({ imgSrc }: any) {
               // srcSet={`${imgSrc}?w=248&fit=crop&auto=format&dpr=2 2x`}
               alt={"img"}
               loading="lazy"
+              className="mobiledetails_img"
             />
           </Box>
 

@@ -55,12 +55,10 @@ export default function FilterSideBar() {
 
         // Now, outside of the state update callback, you can use the updated filterData.
         if (filterData[key]) {
-            console.log('filterData', filterData);
             dispatch(action.getMobileListRequest({ data: filterData, url: "product/search" }));
         }
     };
 
-    console.log('filterData outside', filterData);
     return (
         <List
             sx={{ width: "100%", bgcolor: "background.paper", textAlign: "initial", paddingLeft: 0, height: '100%' }}

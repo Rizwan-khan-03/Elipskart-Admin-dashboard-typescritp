@@ -42,7 +42,7 @@ export default function Moblie() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     setMobileList(store?.data)
-  }, [])
+  }, [store?.data])
   React.useEffect(() => {
     dispatch(action.getMobileListRequest({calback:getListOfAllMobile,url:"product"}));
   }, [])

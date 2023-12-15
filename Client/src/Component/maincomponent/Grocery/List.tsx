@@ -38,14 +38,14 @@ export default function GroceriesList(data: any) {
   }
   console.log("data", data)
   return (
-    <Link to={''} style={{ textDecoration: 'none', }}>
-      <Box sx={{ width: "100%" }}>
-        <Grid container spacing={2}>
-          {data?.data?.map((item: any) => (
-            <Grid item xs={12} sm={6} md={3} key={item}>
+    <Box sx={{ width: "100%" }}>
+      <Grid container spacing={2}>
+        {data?.data?.map((item: any) => (
+          <Grid item xs={12} sm={6} md={3} key={item}>
+            <Link to={`/grocery/${item?._id}`} style={{ textDecoration: 'none', }}>
               <Card sx={{ maxWidth: 345 }}>
                 <CardMedia
-                  sx={{ height: 140 ,margin:"10px"}}
+                  sx={{ height: 140, margin: "10px" }}
                   image={item?.img}
                   title={item?.title}
                 />
@@ -73,11 +73,12 @@ export default function GroceriesList(data: any) {
                   </Button>
                 </CardActions>
               </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </Link>
+            </Link>
+
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 }
 

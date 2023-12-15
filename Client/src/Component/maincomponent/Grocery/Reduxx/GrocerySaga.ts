@@ -4,7 +4,7 @@ import * as action_type from '../../../../store/Constant';
 import { getAllGroceryItemDetails, getAllGroceryList } from '../../../../Config/Service/service.grocery';
 
 export function* groceryListSaga(payload: any): Generator<any, any, any> {
-  try {
+  try {    
     const result = yield getAllGroceryList(); // Assuming getAllGroceryList returns a promise
     // Access the value returned by getAllGroceryList
     if(result?.data?.success){

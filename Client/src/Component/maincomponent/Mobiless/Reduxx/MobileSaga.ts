@@ -6,7 +6,7 @@ import { getMobileDetails, getAllMobileList } from '../../../../Config/Service/m
 export function* mobileListSaga(payload: any): Generator<any, any, any> {
   try {
    
-    const result = yield getAllMobileList(payload); // Assuming getAllMobileList returns a promise
+    const result = yield getAllMobileList(payload.payload.url); // Assuming getAllMobileList returns a promise
     // Access the value returned by getAllMobileList
   
     if(result?.data?.success){

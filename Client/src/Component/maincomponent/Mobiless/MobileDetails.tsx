@@ -151,7 +151,7 @@ export default function MobileDetails({ mobileData }: any) {
                                 {
                                     bankOffer?.map((item, ind) => (
                                         <Box key={`offer${ind + 1}`} display="flex" alignItems="center" gap={1} sx={{ marginBottom: "14px" }}>
-                                            <img width={18} src={"https://rukminim1.flixcart.com/www/36/36/promos/06/09/2016/c22c9fc4-0555-4460-8401-bf5c28d7ba29.png?q=90"} alt="Bank Offer" />
+                                            <img width={10} src={"https://rukminim1.flixcart.com/www/36/36/promos/06/09/2016/c22c9fc4-0555-4460-8401-bf5c28d7ba29.png?q=90"} alt="Bank Offer" />
                                             <Typography variant="body1" sx={{ fontSize: "14px" }}>
                                                 <strong>Bank Offer</strong>: Flat ₹1250 Discount on HDFC Bank Credit Card EMI Transactions on orders of ₹15,000 and above.
                                                 <Typography variant="body2" color="textSecondary" component="span" >

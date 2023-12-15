@@ -8,6 +8,7 @@ export function* mobileListSaga(payload: any): Generator<any, any, any> {
    
     const result = yield getAllMobileList(payload); // Assuming getAllMobileList returns a promise
     // Access the value returned by getAllMobileList
+  
     if(result?.data?.success){
       // payload.callback(result?.data)
       // Dispatch login success action
@@ -25,7 +26,7 @@ export function* mobileDetailsSaga(payload: any): Generator<any, any, any> {
   try {
     const result = yield getMobileDetails(payload?.id); // Assuming getAllMobileList returns a promise
     // Access the value returned by getAllMobileList
-    
+    console.log("payload",payload)
     if(result?.data?.success){
       payload.callback(result?.data)
       // Dispatch login success action

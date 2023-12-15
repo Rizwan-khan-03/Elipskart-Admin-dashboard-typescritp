@@ -45,7 +45,7 @@ Router.get("/filter", verifyToken, productByFilters);
 Router.get("/search", verifyToken, search);
 
 // Get a specific product by productId
-Router.get("/:productId", verifyToken, getProduct);
+Router.get("/:id", verifyToken, getProduct);
 
 // Delete a product by productId
 Router.delete("/:id", verifyTokenAndAdmin, deleteProduct);

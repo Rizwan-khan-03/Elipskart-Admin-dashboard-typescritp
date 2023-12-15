@@ -1,4 +1,4 @@
-import { getRequest } from "./axios/axios";
+import { getRequest, getRequestByID } from "./axios/axios";
 
 export const getAllMobileList = async (payload:any) => {
     try {
@@ -14,7 +14,7 @@ export const getAllMobileList = async (payload:any) => {
  }
  export const getMobileDetails = async (url:any) => {
   try {
-      const response = await getRequest(`product/${url}`);
+      const response = await getRequestByID(`product/${url}`);
    if (response) {    
     return response;
    } else {

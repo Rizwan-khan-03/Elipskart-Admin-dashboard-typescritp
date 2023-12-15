@@ -46,7 +46,11 @@ export function getRequest(payload: any) {
   const urlWithParams = `${url}?${queryParams?.toString()}`;
   return axiosClient.get(urlWithParams, AUTH_HEADERS()).then((response: any) => response);
 }
-
+export function getRequestByID(URL:string) {
+  return axiosClient
+    .get(`${AppConfig?.baseURL}${URL}`, AUTH_HEADERS())
+    .then((response:any) => response);
+}
 
 export function postRequest(URL:string, payload:{}) {
   return axiosClient

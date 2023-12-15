@@ -4,14 +4,15 @@ import apiEndPoints from "../apiConfig/apiEndPoints";
 
 
 // login  
-  export const loginUser = createAsyncThunk(
-    "use login ",
-    (payload: any) => {
-      return  commonPostRequest(apiEndPoints.Login, payload).then(
-        (response:any) => response
-      );
-    }
-  );
+export const loginUser = createAsyncThunk(
+  "user/login",
+  async (payload: any) => {
+    const user = await commonPostRequest(apiEndPoints.Login, payload);
+    console.log('user',user);
+    
+    return user;
+  }
+);
   // get product list  
   export const getProductList = createAsyncThunk(
     "get product list ",

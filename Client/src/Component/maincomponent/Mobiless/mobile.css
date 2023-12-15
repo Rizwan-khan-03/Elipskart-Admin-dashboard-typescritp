@@ -32,3 +32,6 @@ input[type="number"]::-webkit-outer-spin-button {
   justify-content: center;
   align-items: center;
 }
+.mobiledetails_img{
+  width: 100%;
+}

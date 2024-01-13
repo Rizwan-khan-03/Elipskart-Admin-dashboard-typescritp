@@ -11,7 +11,7 @@
       title: { type: String, required: true },
       desc: { type: String, required: true },
       brand: { type: String, required: true },
-      available: { type: Boolean, required: true },
+      available: { type: Boolean, required: true ,default: false,},
       img: { type: String, required: true },
       categories: { type: String, required: true },
       features: {

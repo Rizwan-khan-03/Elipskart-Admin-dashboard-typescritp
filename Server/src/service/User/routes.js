@@ -7,6 +7,7 @@ const {
     updateUser,
     getAllUsers,
     userByFilters,
+    googleLogin,
 } = require("./controller/index");
 
 
@@ -15,6 +16,8 @@ const {
 Router.post("/register", createAUser);
 // login user
 Router.post("/login", loginUser);
+// google login
+Router.post("/googleLogin", googleLogin);
 // get user
 Router.get("/find/:id", verifyTokenAndAdmin,getUsers);
 //update user
@@ -23,6 +26,7 @@ Router.put("/update", verifyTokenAndAuthorization,updateUser);
 Router.get("/", verifyTokenAndAdmin,getAllUsers);
 // get  user by dates filter
 Router.get("/filter", verifyTokenAndAdmin,userByFilters);
+
 
 
 

@@ -32,14 +32,14 @@ const FilterContainer = styled(Box)({
 });
 
 export default function Grocery() {
-  const [mobileList, setMobileList] = useState([])
+  const [groceryList, setGroceryList] = useState([])
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(action.getGroceryListRequest(getListOfAllMobile));
   }, [])
   const getListOfAllMobile = async (callbackdata: any) => {
     try {
-      setMobileList(callbackdata?.payload)
+      setGroceryList(callbackdata?.payload)
     } catch (error) {
       console.log(error);
     }
@@ -63,7 +63,7 @@ export default function Grocery() {
         </Grid>
         <Grid item  xs={12} sm={12} md={10}>
           <FilterContainer>
-            <GroceriesList data={mobileList} />
+            <GroceriesList data={groceryList} />
           </FilterContainer>
         </Grid>
       </Grid>

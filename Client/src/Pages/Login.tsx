@@ -15,6 +15,7 @@ import { loginUser, setToken } from '../Config/Service/Service';
 import { useNavigate, Link } from 'react-router-dom';
 import * as action from '../store/Auth/AuthAction';
 import { useSelector, useDispatch } from 'react-redux'
+import SignUpWithGoogle from './GoogleLogin';
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -72,6 +73,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          <SignUpWithGoogle />
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"

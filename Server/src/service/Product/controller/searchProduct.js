@@ -3,47 +3,42 @@ const logger = require("../../../utils/logger");
 
 module.exports = async (req, res) => {
   const query = {};
-  const { 
+  const {
     available,
-  brand,
-  categories,
-  overallRating,
-  discount,
-  ram,
-  internalstorage,
-  batterycapacity,
-  screensize,
-  primarycamera,
-  secondrycamera
-}  = req?.query.data;
-console.log('data', available,
-brand,
-categories,
-overallRating,
-discount,
-ram,
-internalstorage,
-batterycapacity,
-screensize,
-primarycamera,
-secondrycamera);
+    brand,
+    categories,
+    overallRating,
+    discount,
+    ram,
+    internalstorage,
+    batterycapacity,
+    screensize,
+    primarycamera,
+    secondrycamera,
+  } = req?.query;
+
   if (available !== undefined) {
     query.available = available;
   }
+
   if (categories) {
-    query.categories = categories;
+    query.categories = { $regex: new RegExp(categories, 'i') };
   }
+
   if (overallRating) {
-    query["ratings.overallRating"] = { $eq: overallRating };
+    query["ratings.overallRating"] = { $eq: parseFloat(overallRating) };
   }
 
   if (discount) {
-    query.discountPercentage = { $gte: discount };
+    query.discountPercentage = { $gte: parseFloat(discount) };
   }
 
- 
+  if (brand) {
+    query.brand = brand
+  }
 
   try {
+    console.log('query',query)
     const products = await ProductModal.find(query);
     res.status(200).send({
       payload: products,
@@ -65,33 +60,8 @@ secondrycamera);
 // const logger = require("../../../utils/logger");
 
 // module.exports = async (req, res) => {
-//   const { data } = req.query;
-//   const query = {};
+//   const query = { brand: 'samsung' }; // Set the brand condition here
 
-//   if (data) {
-//     // Use a regular expression for partial string matching
-//     const regex = new RegExp(data, "i"); // "i" for case-insensitive matching
-
-//     // Define fields where you want to search for the partial string
-//     const fieldsToSearch = [
-//       "title",
-//       "desc",
-//       "brand",
-//       "categories",
-//       "features.ram",
-//       "features.rom",
-//       "features.screenSize",
-//       "features.secondaryCamera",
-//       "features.primaryCamera",
-//       "features.batteryCapacity",
-//     ];
-    
-//     // Construct the query to search in multiple fields
-//     query["$or"] = fieldsToSearch.map((field) => ({
-//       [field]: regex,
-//     }));
-//   }
-// console.log('query',query)
 //   try {
 //     const products = await ProductModal.find(query);
 //     res.status(200).send({

@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import store from './store/Store';
+import store, { persistor } from './store/Store';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { PersistGate } from "redux-persist/integration/react";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 const theme = createTheme({
   breakpoints: {
     values: {
@@ -27,7 +29,11 @@ root.render(
       {/* <ProSidebarProvider> */}
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <App /> {/* Replace App with your root component */}
+          <PersistGate loading={null} persistor={persistor}>
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_AUTH_KEY || ""}>
+              <App />
+            </GoogleOAuthProvider>
+          </PersistGate>
         </ThemeProvider>
       </Provider>
       {/* <Toaster /> */}

@@ -15,7 +15,6 @@ import * as action from './Reduxx/MobileAction';
 export default function FilterSideBar() {
     const [sections, setSections] = React.useState([...siedbarData]);
     const [filterData, setFilterData] = React.useState<any>({
-        available: "",
         brand: "",
         categories: "",
         overallRating: "",
@@ -42,12 +41,13 @@ export default function FilterSideBar() {
     };
     const handleFilter = async (item: any, section: any) => {
         const key = section?.title?.toLowerCase().replace(/\s+/g, '');
+        console.log('item', item, 'section', section,'key',key);
 
         setFilterData((prev: any) => {
             if (prev.hasOwnProperty(key)) {
                 return {
                     ...prev,
-                    [key]: item?.text,
+                    [key]: item?.text.toLowerCase(),
                 };
             }
             return prev;

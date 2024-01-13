@@ -4,5 +4,6 @@ module.exports = {
 	createAUser: require("./createAUser"),
 	loginUser:require("./loginUser"),
 	updateUser:require("./updateUser"),
-	userByFilters:require('./userByFilters')
+	userByFilters:require('./userByFilters'),
+	googleLogin:require('./googleLogin')
 };

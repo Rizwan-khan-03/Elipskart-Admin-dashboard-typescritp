@@ -36,7 +36,7 @@ export default function GroceriesList(data: any) {
     dispatch(action.adCartRequest(id));
     navigate('/cart')
   }
-  console.log("data", data)
+
   return (
     <Box sx={{ width: "100%" }}>
       <Grid container spacing={2}>

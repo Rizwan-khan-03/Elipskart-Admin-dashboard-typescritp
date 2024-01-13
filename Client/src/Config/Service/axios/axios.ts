@@ -46,6 +46,17 @@ export function getRequest(url: any) {
   // const urlWithParams = `${url}?${queryParams?.toString()}`;
   return axiosClient.get(URL, AUTH_HEADERS()).then((response: any) => response);
 }
+export function getRequestByQuery(payload: any) {
+  if (!AppConfig || !payload?.payload?.url) {
+    throw new Error("Base URL or URL in payload is missing.");
+  }
+
+  const queryParams = new URLSearchParams(payload.payload.data);  // Removed optional chaining here
+  const urlWithParams = `${AppConfig?.baseURL}${payload.payload.url}?${queryParams.toString()}`;
+  
+  return axiosClient.get(urlWithParams, AUTH_HEADERS()).then((response: any) => response);
+}
+
 export function getRequestByID(URL:string) {
   return axiosClient
     .get(`${AppConfig?.baseURL}${URL}`, AUTH_HEADERS())

@@ -243,7 +243,7 @@ export default function Layout(props: Props) {
                   sx={{ color:'#000',background:'#fff',width:'35ch' }}
                 />
               </Search>
-              <Button sx={{ color:'#000',background:'#fff',width:'13ch'}}>Login</Button>
+              {/* <Button sx={{ color:'#000',background:'#fff',width:'13ch'}}>Login</Button> */}
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <Link to="cart" style={{ color: "#fff" }}>
                   <IconButton size="large" aria-label="show 4 new mails" color="inherit">

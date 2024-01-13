@@ -16,6 +16,8 @@ import Fashion from "../Component/maincomponent/Fashion/Fashion";
 import Electronics from "../Component/maincomponent/Electronics/Electronics";
 import SelectedMobileDetails from "../Component/maincomponent/Mobiless/SelectedMobileDetails";
 import CartDtails from "../Component/maincomponent/Cart/Index";
+import GroceryDetails from "../Component/maincomponent/Grocery/GroceryDetails";
+import SelectedGroceryDetails from "../Component/maincomponent/Grocery/SelectedGroceryDetails";
 
 //UserDetails
 export const routepath = [
@@ -32,6 +34,11 @@ export const routepath = [
   {
     path: "/grocery",
     Element: Groceriess,
+    private: true,
+  },
+  {
+    path: "/grocery/:id",
+    Element: SelectedGroceryDetails,
     private: true,
   },
   

@@ -1,4 +1,4 @@
-import  React,{useEffect,useState} from 'react';
+import  React,{useEffect} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -48,6 +48,7 @@ export default function SignIn() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log('data',data);
     const payload: any = {
       email: data.get('email'),
       password: data.get('password'),

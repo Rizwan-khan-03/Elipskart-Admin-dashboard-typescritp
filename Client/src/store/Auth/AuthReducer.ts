@@ -35,6 +35,23 @@ export  const authenticationReducer = (
         loading: false,
         error: action.error,
       };
+      case action_type.REGISTER_REQUEST:
+        return {
+          ...state,
+          loading: true,
+        };
+      case action_type.REGISTER_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          data: action.data,
+        };
+      case action_type.REGISTER_FAILURE:
+        return {
+          ...state,
+          loading: false,
+          error: action.error,
+        };
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React,{useEffect} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,6 +13,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate, Link } from 'react-router-dom';
 import { RegisterUser, setToken } from '../Config/Service/Service';
+import { useSelector, useDispatch } from 'react-redux';
+import * as action from '../store/Auth/AuthAction';
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -30,6 +32,17 @@ const theme = createTheme();
 
 export default function SignUp() {
     const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const loginSuccess=useSelector((state:any)=>state?.authentication)
+    // Wait for the loginSuccess state to update
+    useEffect(() => {
+      if (loginSuccess?.data?.success) {
+        setToken(loginSuccess?.data?.accesToken);
+        navigate("/home");
+      } else {
+        console.log("Register Success", loginSuccess?.data?.message);
+      }
+    }, [loginSuccess]);
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -40,14 +53,10 @@ export default function SignUp() {
             lastName: data.get('lastName'),
             isAdmin: false,
         }
-        const res: any = await RegisterUser(payload);
-        console.log('res',res);
-        if (res?.success) {
-            setToken(res?.accesToken)
-            navigate("/h2")
-        } else {
-            console.log("res", res?.message);
-        }
+        console.log('data',data);
+        
+        dispatch(action.getRegister(payload));
+     
     };
 
     return (

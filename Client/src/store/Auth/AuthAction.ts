@@ -15,6 +15,14 @@ export const getLogin = (payload: unknown): Action<unknown> => {
     payload
   };
 };
+export const getRegister = (payload: unknown): Action<unknown> => {
+  console.log('payload',payload);
+  
+  return {
+    type: action_type.REGISTER_REQUEST,
+    payload
+  };
+};
 
 
 // call inside loginsaga 

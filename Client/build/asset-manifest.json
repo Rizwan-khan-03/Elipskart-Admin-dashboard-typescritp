@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ab5ead1b.css",
+    "main.js": "/static/js/main.cfeacd89.js",
+    "static/media/elec.jpg": "/static/media/elec.a1c2fe063008606c5ca4.jpg",
+    "static/media/pexels-lukas-590016.jpg": "/static/media/pexels-lukas-590016.d6cd2aac981302e5efa7.jpg",
+    "static/media/moblies.jpg": "/static/media/moblies.fd31b25ceef34d59c896.jpg",
+    "static/media/fashion.jpg": "/static/media/fashion.216a9e8c818af06b2adc.jpg",
+    "static/media/Groceriess.jpg": "/static/media/Groceriess.1729ed7210af218e19a7.jpg",
+    "static/media/beauty.jpg": "/static/media/beauty.8ab676880a824ce76d7b.jpg",
+    "static/media/furniture.jpg": "/static/media/furniture.7650b0726d1d559eb014.jpg",
+    "static/media/home.jpg": "/static/media/home.c496c003855756d09cb3.jpg",
+    "index.html": "/index.html",
+    "main.ab5ead1b.css.map": "/static/css/main.ab5ead1b.css.map",
+    "main.cfeacd89.js.map": "/static/js/main.cfeacd89.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ab5ead1b.css",
+    "static/js/main.cfeacd89.js"
+  ]
+}

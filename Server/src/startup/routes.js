@@ -12,6 +12,7 @@ const {
   categoryRoues,
   categoryListRoues
 } = require("../service/routesIndex");
+const loginUser=require('../service/User/controller/loginUser')
 const path = require("path");
 const getBasePath = require("../../getBasePath");
 const express = require('express');
@@ -30,6 +31,7 @@ const deploymentCheck = async (req, res) => {
 };
 
 router.get("/", deploymentCheck);
+router.post("/login", loginUser);
 
 module.exports = async (app) => {
   app.use("/", router);

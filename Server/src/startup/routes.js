@@ -16,10 +16,10 @@ const path = require("path");
 const getBasePath = require("../../getBasePath");
 const express = require('express');
 const cors = require("cors");
-
+const app = express();
 
 module.exports = async (app) => {
-  app.use(cors());
+
   app.use("/api/user", userRoutes);
   app.use("/api/cart", CartRoutes);
   app.use("/api/order", orderRoutes);

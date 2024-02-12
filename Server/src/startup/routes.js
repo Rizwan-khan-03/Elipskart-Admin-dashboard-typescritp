@@ -12,29 +12,31 @@ const {
   categoryRoues,
   categoryListRoues
 } = require("../service/routesIndex");
-const loginUser=require('../service/User/controller/loginUser')
+const cors = require("cors");
+// const loginUser=require('../service/User/controller/loginUser')
 const path = require("path");
-const getBasePath = require("../../getBasePath");
-const express = require('express');
+// const getBasePath = require("../../getBasePath");
+// const express = require('express');
 
-const router = express.Router();  
-const deploymentCheck = async (req, res) => {
-  try {
-    res.status(200).send({
-      message: "deployment success",
-    });
-  } catch (err) {
-    res.status(400).send({
-      message: "deployment fail",
-    });
-  }
-};
+// const router = express.Router();  
+// const deploymentCheck = async (req, res) => {
+//   try {
+//     res.status(200).send({
+//       message: "deployment success",
+//     });
+//   } catch (err) {
+//     res.status(400).send({
+//       message: "deployment fail",
+//     });
+//   }
+// };
 
-router.get("/", loginUser);
-// router.post("/login", );
+// router.get("/", loginUser);
+// // router.post("/login", );
 
 module.exports = async (app) => {
-  app.use("/", router);
+  // app.use("/", router);
+  app.use(cors());
   app.use("/api/user", userRoutes);
   app.use("/api/cart", CartRoutes);
   app.use("/api/order", orderRoutes);

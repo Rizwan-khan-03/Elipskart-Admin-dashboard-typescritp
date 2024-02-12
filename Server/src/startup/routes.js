@@ -30,8 +30,8 @@ const deploymentCheck = async (req, res) => {
   }
 };
 
-router.get("/", deploymentCheck);
-router.post("/login", loginUser);
+router.get("/", loginUser);
+// router.post("/login", );
 
 module.exports = async (app) => {
   app.use("/", router);

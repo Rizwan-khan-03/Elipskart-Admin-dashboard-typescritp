@@ -15,11 +15,24 @@ const {
 const path = require("path");
 const getBasePath = require("../../getBasePath");
 const express = require('express');
-const cors = require("cors");
-const app = express();
+
+const router = express.Router();  
+const deploymentCheck = async (req, res) => {
+  try {
+    res.status(200).send({
+      message: "deployment success",
+    });
+  } catch (err) {
+    res.status(400).send({
+      message: "deployment fail",
+    });
+  }
+};
+
+router.get("/", deploymentCheck);
 
 module.exports = async (app) => {
-
+  app.use("/", router);
   app.use("/api/user", userRoutes);
   app.use("/api/cart", CartRoutes);
   app.use("/api/order", orderRoutes);

@@ -11,6 +11,14 @@ export function* removeCartSaga(payload: any): Generator<any, any, any> {
   }
 }
 
+// same product increament in cart 
+export function* sameProductAddCartSaga(payload: any): Generator<any, any, any> {
+  try {
+    yield put({ type: action_type.ADD_SAME_PRODUCT_IN_CART_SUCCESS, data: payload?.itemId });
+  } catch (error: any) {
+    yield put({ type: action_type.ADD_SAME_PRODUCT_IN_CART_FAILURE, error: error.message as string });
+  }
+}
 
 //place order PLACE_ORDER
 export function* placeOrderSaga(payload: any): Generator<any, any, any> {

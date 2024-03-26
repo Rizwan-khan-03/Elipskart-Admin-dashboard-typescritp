@@ -13,7 +13,14 @@ export const  removeCartRequest = (itemId:any)=> {
     
   };
 };
-
+// same product increament in cart 
+export const  sameProductAddCartRequest = (itemId:any)=> {
+  return {
+    type: action_type.ADD_SAME_PRODUCT_IN_CART_REQUEST,
+    itemId,
+    
+  };
+};
 
 // call inside mobilesaga 
 export const removeCartSuccess = (payload:any): Action<undefined> => {

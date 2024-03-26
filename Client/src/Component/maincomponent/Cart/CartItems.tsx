@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import CounterComponent from "./IncDec";
 import * as action from './Reduxx/cartActions';
 import { useDispatch } from 'react-redux';
+
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -154,7 +155,7 @@ export default function CartItems({ data }: any) {
                     </Grid>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: "space-between", }}>
-                    <CounterComponent />
+                    <CounterComponent id={data?._id}/>
                     <Button size="small" sx={{
                         backgroundColor: "#e2232e",
                         color: "#fff",

@@ -3,8 +3,8 @@ import apiEndPoints from "./apiEndPoints";
 
 
 export const AppConfig = {
-  // baseURL: "http://localhost:5000/api/",
-  baseURL: "https://elipskart-admin-dashboard-typescritp.vercel.app/api/",
+  baseURL: "http://localhost:5000/api/",
+  // baseURL: "https://elipskart.vercel.app/",
   headers: {
     "Content-Type": "application/json; charset=utf-8",
     Accept: "application/json",
